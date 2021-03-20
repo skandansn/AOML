@@ -1,4 +1,5 @@
 import 'package:aumsodmll/models/user.dart';
+import 'package:aumsodmll/screens/forgot_password.dart';
 import 'package:aumsodmll/wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -14,6 +15,10 @@ class MyApp extends StatelessWidget {
     return StreamProvider<User>.value(
       value: AuthService().user,
       child: MaterialApp(
+        initialRoute: '/',
+        routes: {
+          '/forgotPass': (context) => ForgotPassword(),
+        },
         home: Wrapper(),
       ),
     );

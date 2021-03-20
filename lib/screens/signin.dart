@@ -1,6 +1,8 @@
 import 'package:aumsodmll/services/auth.dart';
+import 'package:aumsodmll/services/database.dart';
 import 'package:aumsodmll/shared/constants.dart';
 import 'package:aumsodmll/shared/loading.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class SignIn extends StatefulWidget {
@@ -12,6 +14,8 @@ class _SignInState extends State<SignIn> {
   final AuthService _auth = AuthService();
   String email = "";
   String pass = "";
+  final DatabaseService _db = DatabaseService();
+
   final _formkey = GlobalKey<FormState>();
   String error = "";
   bool loading = false;
@@ -21,9 +25,9 @@ class _SignInState extends State<SignIn> {
     return loading
         ? Loading()
         : Scaffold(
-            backgroundColor: Colors.white,
+            backgroundColor: Colors.grey[200],
             appBar: AppBar(
-              backgroundColor: Colors.blue[400],
+              backgroundColor: Colors.lightBlueAccent,
               title: Text("Sign in to AOML"),
             ),
             body: Container(
@@ -65,11 +69,7 @@ class _SignInState extends State<SignIn> {
                       ),
                       ElevatedButton(
                           onPressed: () async {
-                            print(email);
-                            print(pass);
                             if (_formkey.currentState.validate()) {
-                              print(email);
-                              print(pass);
                               setState(() {
                                 loading = true;
                               });
@@ -96,7 +96,11 @@ class _SignInState extends State<SignIn> {
                         style: TextStyle(color: Colors.red, fontSize: 14),
                       ),
                       OutlineButton(
-                          child: Text("Forgot password?"), onPressed: () {})
+                        child: Text("Forgot password?"),
+                        onPressed: () {
+                          Navigator.pushNamed(context, "/forgotPass");
+                        },
+                      )
                     ],
                   ),
                 )),
