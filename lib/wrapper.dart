@@ -3,6 +3,7 @@ import 'package:aumsodmll/screens/authenticate.dart';
 import 'package:aumsodmll/screens/homeFaculty.dart';
 import 'package:aumsodmll/screens/homeStudent.dart';
 import 'package:aumsodmll/services/database.dart';
+import 'package:aumsodmll/shared/loading.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -45,7 +46,7 @@ class _WrapperState extends State<Wrapper> {
         }
 
         return Center(
-          child: CircularProgressIndicator(),
+          child: Loading(),
         );
       },
       future: _db.fun(),
