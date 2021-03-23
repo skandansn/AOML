@@ -6,6 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class HomeFaculty extends StatelessWidget {
+  String name = "";
+  HomeFaculty(String names) {
+    this.name = names;
+  }
   final AuthService _auth = AuthService();
   @override
   final DatabaseService _db = DatabaseService();
@@ -16,7 +20,7 @@ class HomeFaculty extends StatelessWidget {
         backgroundColor: Colors.grey[200],
         appBar: AppBar(
           backgroundColor: Colors.lightBlueAccent,
-          title: (Text("AOML Faculty Portal")),
+          title: (Text("Welcome $name")),
           actions: [
             FlatButton.icon(
                 onPressed: () async {

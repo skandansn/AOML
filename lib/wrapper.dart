@@ -37,10 +37,10 @@ class _WrapperState extends State<Wrapper> {
             );
           } else if (snapshot.hasData) {
             final data = snapshot.data;
-            if (data == true) {
-              return HomeStudent();
+            if (data[0] == true) {
+              return HomeStudent(data[1]);
             } else {
-              return HomeFaculty();
+              return HomeFaculty(data[1]);
             }
           }
         }

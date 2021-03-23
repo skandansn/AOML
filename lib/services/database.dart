@@ -5,18 +5,23 @@ import 'package:firebase_auth/firebase_auth.dart';
 class DatabaseService {
   // final CollectionReference brewCollection =
   //     Firestore.instance.collection('brews');
+
   final String uid;
   DatabaseService({this.uid});
-  final CollectionReference userList = Firestore.instance.collection("users");
+  CollectionReference userList = Firestore.instance.collection("users");
 
-  Future<bool> typefun(useridx) async {
+  Future<List> typefun(useridx) async {
     QuerySnapshot res =
         await userList.where("userid", isEqualTo: useridx).snapshots().first;
-    return (res.documents.first.data["userType"]);
+    print((res.documents.first.data));
+    return [
+      (res.documents.first.data["userType"]),
+      (res.documents.first.data["name"])
+    ];
     // print(res.documents[0]["userType"]);
   }
 
-  Future<bool> fun() async {
+  Future<List> fun() async {
     var userid = await FirebaseAuth.instance.currentUser();
     var res = await typefun(userid.uid);
     return res;
