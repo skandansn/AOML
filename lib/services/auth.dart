@@ -13,17 +13,6 @@ class AuthService {
     return _auth.onAuthStateChanged.map(_userFromFirebaseUser);
   }
 
-  // Future signInAnon() async {
-  //   try {
-  //     AuthResult result = await _auth.signInAnonymously();
-  //     FirebaseUser user = result.user;
-  //     return _userFromFirebaseUser(user);
-  //   } catch (e) {
-  //     print(e.toString());
-  //     return null;
-  //   }
-  // }
-
   Future signOut() async {
     try {
       return await _auth.signOut();
@@ -53,6 +42,7 @@ class AuthService {
       AuthResult result =
           await _auth.signInWithEmailAndPassword(email: email, password: pass);
       FirebaseUser user = result.user;
+      print(user.uid);
       return _userFromFirebaseUser(user);
     } catch (e) {
       print(e.toString());
