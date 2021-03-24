@@ -25,6 +25,7 @@ class _SignInState extends State<SignIn> {
     return loading
         ? Loading()
         : Scaffold(
+          resizeToAvoidBottomInset: false,
             backgroundColor: Colors.grey[200],
             appBar: AppBar(
               backgroundColor: Colors.lightBlueAccent,

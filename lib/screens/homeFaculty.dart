@@ -52,7 +52,7 @@ class _HomeFacultyState extends State<HomeFaculty> {
                   onPressed: () async {
                     await _auth.signOut();
                   },
-                  icon: Icon(Icons.person),
+                  icon: Icon(Icons.logout),
                   label: Text("Logout"))
             ],
           ),

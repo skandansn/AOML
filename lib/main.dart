@@ -9,9 +9,17 @@ import 'package:aumsodmll/wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:aumsodmll/services/auth.dart';
-
+import 'package:flutter/services.dart';
+// void main() {
+//   runApp(MyApp());
+// }
 void main() {
-  runApp(MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+    .then((_) {
+      runApp(new MyApp());
+    });
+  // runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {

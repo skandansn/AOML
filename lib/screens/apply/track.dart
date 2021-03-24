@@ -51,7 +51,7 @@ class _TrackState extends State<Track> {
                     await _auth.signOut();
                     Navigator.pop(context);
                   },
-                  icon: Icon(Icons.person),
+                  icon: Icon(Icons.logout),
                   label: Text("Logout"))
             ],
           ),

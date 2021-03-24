@@ -16,6 +16,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
     final emailcontr = TextEditingController();
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         backgroundColor: Colors.lightBlueAccent,
         title: Text("Forgot password"),
