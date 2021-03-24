@@ -9,6 +9,7 @@ class OD {
   final String stuname;
   final int steps;
   final String formid;
+  final String type;
   OD({
     this.advisor,
     this.date,
@@ -20,5 +21,35 @@ class OD {
     this.stuname,
     this.steps,
     this.formid,
+    this.type,
   });
+}
+
+class GroupOD extends OD {
+  final String head;
+  final List stuNos;
+  final List stuids;
+  final List stunames;
+
+  GroupOD(
+      {advisor,
+      date,
+      time,
+      faculty,
+      description,
+      steps,
+      formid,
+      type,
+      this.head,
+      this.stuNos,
+      this.stuids,
+      this.stunames})
+      : super(
+            advisor: advisor,
+            date: date,
+            time: time,
+            faculty: faculty,
+            description: description,
+            steps: steps,
+            formid: formid);
 }

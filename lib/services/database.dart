@@ -5,6 +5,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class DatabaseService {
   final CollectionReference odcollection = Firestore.instance.collection('ods');
+  final CollectionReference groupodcollection =
+      Firestore.instance.collection('groupods');
 
   final String uid;
   DatabaseService({this.uid});
@@ -51,29 +53,76 @@ class DatabaseService {
           stuNo: doc.data['stuNo'],
           stuid: doc.data['stuid'],
           stuname: doc.data['stuname'],
+          type: doc.data['type'],
+          formid: doc.documentID);
+    }).toList();
+  }
+
+  Stream<List<GroupOD>> get groupods {
+    return groupodcollection.snapshots().map(_groupodsfromsnapshot);
+  }
+
+  List<GroupOD> _groupodsfromsnapshot(QuerySnapshot snapshot) {
+    return snapshot.documents.map((doc) {
+      return GroupOD(
+          advisor: doc.data['advisor'],
+          date: doc.data['date'],
+          time: doc.data['time'],
+          description: doc.data['description'],
+          faculty: doc.data['faculty'],
+          steps: doc.data['steps'],
+          stuNos: doc.data['stuNos'],
+          stuids: doc.data['stuids'],
+          stunames: doc.data['stunames'],
+          head: doc.data['head'],
           formid: doc.documentID);
     }).toList();
   }
 
   Future updateOd(String person, String id, int steps, bool val) async {
-    print(person);
+    int flag = 1;
     var x = await odcollection.document(id).get();
+    if (x.data == null) {
+      flag = 2;
+      x = await groupodcollection.document(id).get();
+    }
     var f = (x.data["faculty"]);
-
-    if (val == true) {
-      if (f == person) {
-        odcollection.document(id).updateData({"faculty": "Approved"});
+    if (flag == 1) {
+      if (val == true) {
+        if (f == person) {
+          odcollection.document(id).updateData({"faculty": "Approved"});
+        } else {
+          odcollection.document(id).updateData({"advisor": "Approved"});
+        }
+        odcollection.document(id).updateData({"steps": steps - 1});
       } else {
-        odcollection.document(id).updateData({"advisor": "Approved"});
+        if (f == person) {
+          odcollection.document(id).updateData({"faculty": "Denied"});
+        } else {
+          odcollection.document(id).updateData({"advisor": "Denied"});
+        }
+        odcollection.document(id).updateData({"steps": -1});
       }
-      odcollection.document(id).updateData({"steps": steps - 1});
     } else {
-      if (f == person) {
-        odcollection.document(id).updateData({"faculty": "Denied"});
+      var h = (x.data["head"]);
+      if (val == true) {
+        print("todo accept group");
+        //   if (f == person) {
+        //     odcollection.document(id).updateData({"faculty": "Approved"});
+        //   } else {
+        //     odcollection.document(id).updateData({"advisor": "Approved"});
+        //   }
+        //   odcollection.document(id).updateData({"steps": steps - 1});
       } else {
-        odcollection.document(id).updateData({"advisor": "Denied"});
+        if (f == person) {
+          groupodcollection.document(id).updateData({"faculty": "Denied"});
+        } else if (h == person) {
+          groupodcollection.document(id).updateData({"head": "Denied"});
+        } else {
+          groupodcollection.document(id).updateData({"advisor": "Denied"});
+        }
+        groupodcollection.document(id).updateData({"steps": -1});
       }
-      odcollection.document(id).updateData({"steps": -1});
     }
   }
 }

@@ -7,12 +7,12 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
 
-class ODList extends StatefulWidget {
+class GroupODList extends StatefulWidget {
   @override
-  _ODListState createState() => _ODListState();
+  _GroupODListState createState() => _GroupODListState();
 }
 
-class _ODListState extends State<ODList> {
+class _GroupODListState extends State<GroupODList> {
   @override
   Widget build(BuildContext context) {
     DatabaseService _db = DatabaseService();
@@ -27,12 +27,13 @@ class _ODListState extends State<ODList> {
             if (snapshot.hasError)
               return Text('Error: ${snapshot.error}');
             else {
-              final ods = Provider.of<List<OD>>(context);
+              final ods = Provider.of<List<GroupOD>>(context);
               var userid = "${snapshot.data.characters}";
               var arr = [];
               ods.forEach((element) {
-                if (((element.faculty == userid.toString()) ||
-                        (element.advisor == userid.toString())) &&
+                if ((element.head == userid.toString() ||
+                        element.faculty == userid.toString() ||
+                        element.advisor == userid.toString()) &&
                     element.steps > 0) {
                   arr.add(element);
                 }
