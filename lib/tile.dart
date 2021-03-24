@@ -27,7 +27,7 @@ class Tile extends StatelessWidget {
       showModalBottomSheet(
           context: context,
           builder: (context) {
-            return Container(
+            return SingleChildScrollView(
               padding: EdgeInsets.symmetric(vertical: 20, horizontal: 60),
               child: FormVal(od: appl),
             );

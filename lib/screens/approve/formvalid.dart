@@ -49,11 +49,38 @@ class _FormValState extends State<FormVal> {
                 return Container(
                   child: Column(
                     children: [
-                      Text("Student Name: ${obj.stunames}"),
+                      Text("Student Names:"),
+                      for (var item in obj.stunames) Text(item),
                       SizedBox(
                         height: 20,
                       ),
-                      Text("Student Roll No: ${obj.stuNos}"),
+                      Text("Student Roll Nos:"),
+                      for (var item in obj.stuNos)
+                        Row(
+                          children: [
+                            Text(item),
+                            IconButton(
+                              icon: const Icon(
+                                Icons.check,
+                                color: Colors.green,
+                              ),
+                              onPressed: () {
+                                _db.updateOd(
+                                    snapshot.data, obj.formid, obj.steps, true);
+                              },
+                            ),
+                            IconButton(
+                              icon: const Icon(
+                                Icons.do_not_disturb_alt,
+                                color: Colors.red,
+                              ),
+                              onPressed: () {
+                                _db.updateOd(snapshot.data, obj.formid,
+                                    obj.steps, false);
+                              },
+                            ),
+                          ],
+                        ),
                       SizedBox(
                         height: 20,
                       ),
@@ -70,28 +97,10 @@ class _FormValState extends State<FormVal> {
                         height: 40,
                       ),
                       ElevatedButton(
-                          style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.all<Color>(
-                                  Colors.lightBlueAccent)),
                           onPressed: () {
-                            _db.updateOd(
-                                snapshot.data, obj.formid, obj.steps, true);
                             Navigator.pop(context);
                           },
-                          child: Text("Approve the Request")),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      ElevatedButton(
-                          style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.all<Color>(
-                                  Colors.lightBlueAccent)),
-                          onPressed: () {
-                            _db.updateOd(
-                                snapshot.data, obj.formid, obj.steps, false);
-                            Navigator.pop(context);
-                          },
-                          child: Text("Deny the request "))
+                          child: Text("Confirm the approvals/denials"))
                     ],
                   ),
                 );
@@ -137,29 +146,32 @@ class _FormValState extends State<FormVal> {
                       SizedBox(
                         height: 40,
                       ),
-                      ElevatedButton(
-                          style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.all<Color>(
-                                  Colors.lightBlueAccent)),
-                          onPressed: () {
-                            _db.updateOd(
-                                snapshot.data, obj.formid, obj.steps, true);
-                            Navigator.pop(context);
-                          },
-                          child: Text("Approve the Request")),
-                      SizedBox(
-                        height: 20,
+                      Row(
+                        children: [
+                          IconButton(
+                            icon: const Icon(
+                              Icons.check,
+                              color: Colors.green,
+                            ),
+                            onPressed: () {
+                              _db.updateOd(
+                                  snapshot.data, obj.formid, obj.steps, true);
+                              Navigator.pop(context);
+                            },
+                          ),
+                          IconButton(
+                            icon: const Icon(
+                              Icons.do_not_disturb_alt,
+                              color: Colors.red,
+                            ),
+                            onPressed: () {
+                              _db.updateOd(
+                                  snapshot.data, obj.formid, obj.steps, false);
+                              Navigator.pop(context);
+                            },
+                          ),
+                        ],
                       ),
-                      ElevatedButton(
-                          style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.all<Color>(
-                                  Colors.lightBlueAccent)),
-                          onPressed: () {
-                            _db.updateOd(
-                                snapshot.data, obj.formid, obj.steps, false);
-                            Navigator.pop(context);
-                          },
-                          child: Text("Deny the request "))
                     ],
                   ),
                 );
