@@ -8,16 +8,18 @@ import 'package:flutter/material.dart';
 
 class FormVal extends StatefulWidget {
   final dynamic od;
-  FormVal({Key key, @required this.od}) : super(key: key);
+  final bool flagType;
+  FormVal({Key key, @required this.od,@required this.flagType}) : super(key: key);
   @override
-  _FormValState createState() => new _FormValState(od: od);
+  _FormValState createState() => new _FormValState(od: od,flagType:flagType);
 }
 
 class _FormValState extends State<FormVal> {
   DatabaseService _db = DatabaseService();
   Object od;
+  bool flagType;
   // GroupOD god;
-  _FormValState({this.od});
+  _FormValState({this.od,this.flagType});
   @override
   Widget build(BuildContext context) {
     GroupOD applobjgrp;
@@ -59,6 +61,7 @@ class _FormValState extends State<FormVal> {
                         Row(
                           children: [
                             Text(item),
+                            flagType ? 
                             IconButton(
                               icon: const Icon(
                                 Icons.check,
@@ -68,7 +71,8 @@ class _FormValState extends State<FormVal> {
                                 _db.updateOd(
                                     snapshot.data, obj.formid, obj.steps, true);
                               },
-                            ),
+                            ):Container(),
+                            flagType ? 
                             IconButton(
                               icon: const Icon(
                                 Icons.do_not_disturb_alt,
@@ -78,7 +82,7 @@ class _FormValState extends State<FormVal> {
                                 _db.updateOd(snapshot.data, obj.formid,
                                     obj.steps, false);
                               },
-                            ),
+                            ):Container(),
                           ],
                         ),
                       SizedBox(
@@ -96,12 +100,13 @@ class _FormValState extends State<FormVal> {
                       SizedBox(
                         height: 40,
                       ),
+                      flagType?
                       ElevatedButton(
                           onPressed: () {
                             Navigator.pop(context);
                           },
-                          child: Text("Confirm the approvals/denials"))
-                    ],
+                          child: Text("Confirm the approvals/denials")):Container(),
+                    ]
                   ),
                 );
               }
@@ -148,6 +153,7 @@ class _FormValState extends State<FormVal> {
                       ),
                       Row(
                         children: [
+                          flagType ?
                           IconButton(
                             icon: const Icon(
                               Icons.check,
@@ -158,7 +164,8 @@ class _FormValState extends State<FormVal> {
                                   snapshot.data, obj.formid, obj.steps, true);
                               Navigator.pop(context);
                             },
-                          ),
+                          ):  Container(),
+                          flagType ?
                           IconButton(
                             icon: const Icon(
                               Icons.do_not_disturb_alt,
@@ -169,7 +176,7 @@ class _FormValState extends State<FormVal> {
                                   snapshot.data, obj.formid, obj.steps, false);
                               Navigator.pop(context);
                             },
-                          ),
+                          ): Container(),
                         ],
                       ),
                     ],

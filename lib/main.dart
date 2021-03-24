@@ -3,6 +3,7 @@ import 'package:aumsodmll/screens/apply/daypass.dart';
 import 'package:aumsodmll/screens/apply/homepass.dart';
 import 'package:aumsodmll/screens/apply/ml.dart';
 import 'package:aumsodmll/screens/apply/od.dart';
+import 'package:aumsodmll/screens/apply/track.dart';
 import 'package:aumsodmll/screens/forgot_password.dart';
 import 'package:aumsodmll/wrapper.dart';
 import 'package:flutter/material.dart';
@@ -26,6 +27,7 @@ class MyApp extends StatelessWidget {
           '/homepass': (context) => Homepass(),
           '/od': (context) => OD(),
           '/ml': (context) => ML(),
+          '/track':(context) => Track(),
         },
         home: Wrapper(),
       ),

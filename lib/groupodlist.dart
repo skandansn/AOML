@@ -8,12 +8,16 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
 
 class GroupODList extends StatefulWidget {
+  final bool flag;
+  GroupODList({Key key, @required this.flag}) : super(key: key);
   @override
-  _GroupODListState createState() => _GroupODListState();
+  _GroupODListState createState() => new _GroupODListState(flag: flag);
 }
 
 class _GroupODListState extends State<GroupODList> {
   @override
+  bool flag = true;
+  _GroupODListState({this.flag});
   Widget build(BuildContext context) {
     DatabaseService _db = DatabaseService();
 
@@ -31,18 +35,27 @@ class _GroupODListState extends State<GroupODList> {
               var userid = "${snapshot.data.characters}";
               var arr = [];
               ods.forEach((element) {
-                if ((element.head == userid.toString() ||
+                if(flag == true){
+                  if ((element.head == userid.toString() ||
                         element.faculty == userid.toString() ||
                         element.advisor == userid.toString()) &&
                     element.steps > 0) {
                   arr.add(element);
                 }
+                }
+                else{
+                  for (var item in element.stuids)
+                  if (item == userid.toString()) {
+                  arr.add(element);
+                }
+                }
               });
 
               return ListView.builder(
+                shrinkWrap: true,
                 itemCount: arr.length,
                 itemBuilder: (context, index) {
-                  return Tile(appl: arr[index]);
+                  return Tile(appl: arr[index],flagType:flag);
                 },
               );
             }

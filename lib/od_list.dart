@@ -8,12 +8,16 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
 
 class ODList extends StatefulWidget {
+  final bool flag;
+  ODList({Key key, @required this.flag}) : super(key: key);
   @override
-  _ODListState createState() => _ODListState();
+  _ODListState createState() => new _ODListState(flag: flag);
 }
 
 class _ODListState extends State<ODList> {
   @override
+  bool flag = true;
+  _ODListState({this.flag});
   Widget build(BuildContext context) {
     DatabaseService _db = DatabaseService();
 
@@ -31,17 +35,24 @@ class _ODListState extends State<ODList> {
               var userid = "${snapshot.data.characters}";
               var arr = [];
               ods.forEach((element) {
-                if (((element.faculty == userid.toString()) ||
+                if(flag == true){
+                  if (((element.faculty == userid.toString()) ||
                         (element.advisor == userid.toString())) &&
                     element.steps > 0) {
                   arr.add(element);
+                }
+                }
+                else{
+                  if (element.stuid == userid.toString()) {
+                  arr.add(element);
+                }
                 }
               });
 
               return ListView.builder(
                 itemCount: arr.length,
                 itemBuilder: (context, index) {
-                  return Tile(appl: arr[index]);
+                  return Tile(appl: arr[index],flagType: flag);
                 },
               );
             }

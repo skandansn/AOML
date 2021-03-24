@@ -9,17 +9,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 
-class HomeFaculty extends StatefulWidget {
-  String name = "";
-  HomeFaculty(String names) {
-    this.name = names;
-  }
 
+class Track extends StatefulWidget {
   @override
-  _HomeFacultyState createState() => _HomeFacultyState();
+  _TrackState createState() => _TrackState();
 }
 
-class _HomeFacultyState extends State<HomeFaculty> {
+class _TrackState extends State<Track> {
+
   final AuthService _auth = AuthService();
 
   @override
@@ -28,12 +25,13 @@ class _HomeFacultyState extends State<HomeFaculty> {
   final FirebaseAuth auth = FirebaseAuth.instance;
 
   Widget build(BuildContext context) {
+
     groupodfun() {
-      return GroupODList(flag:true);
+      return GroupODList(flag: false);
     }
 
     odfun() {
-      return ODList(flag:true);
+      return ODList(flag: false);
     }
 
     return MultiProvider(
@@ -46,11 +44,12 @@ class _HomeFacultyState extends State<HomeFaculty> {
           backgroundColor: Colors.grey[200],
           appBar: AppBar(
             backgroundColor: Colors.lightBlueAccent,
-            title: (Text("Welcome ${widget.name}")),
+            title: (Text("Track Status")),
             actions: [
               FlatButton.icon(
                   onPressed: () async {
                     await _auth.signOut();
+                    Navigator.pop(context);
                   },
                   icon: Icon(Icons.person),
                   label: Text("Logout"))
@@ -60,7 +59,7 @@ class _HomeFacultyState extends State<HomeFaculty> {
             SizedBox(
               height: 15,
             ),
-            Text("Individual Applications"),
+            Text("Your Applications"),
             SizedBox(
               height: 5,
             ),

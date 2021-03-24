@@ -74,7 +74,9 @@ class HomeStudent extends StatelessWidget {
             child: ListTile(
               leading: Icon(Icons.home),
               title: Text('Track status'),
-              onTap: () {},
+              onTap: () {
+                 Navigator.pushNamed(context, "/track");
+              },
             ),
           ),
         ],
