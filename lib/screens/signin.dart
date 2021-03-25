@@ -25,10 +25,10 @@ class _SignInState extends State<SignIn> {
     return loading
         ? Loading()
         : Scaffold(
-          resizeToAvoidBottomInset: false,
-            backgroundColor: Colors.grey[200],
+            resizeToAvoidBottomInset: false,
+            // backgroundColor: Colors.grey[200],
             appBar: AppBar(
-              backgroundColor: Colors.lightBlueAccent,
+              // backgroundColor: Colors.lightBlueAccent,
               title: Text("Sign in to AOML"),
             ),
             body: Container(
@@ -37,7 +37,7 @@ class _SignInState extends State<SignIn> {
                   key: _formkey,
                   child: Column(
                     children: [
-                      Image.network('https://i.imgur.com/pBHz39v.jpg'),
+                      Image.network('https://i.imgur.com/pQR0s45.jpg'),
                       SizedBox(height: 20),
                       TextFormField(
                         decoration:
@@ -87,7 +87,7 @@ class _SignInState extends State<SignIn> {
                           },
                           child: Text(
                             "Sign in",
-                            style: TextStyle(color: Colors.white),
+                            // style: TextStyle(color: Colors.white),
                           )),
                       SizedBox(
                         height: 12,

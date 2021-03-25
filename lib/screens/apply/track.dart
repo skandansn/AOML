@@ -9,14 +9,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 
-
 class Track extends StatefulWidget {
   @override
   _TrackState createState() => _TrackState();
 }
 
 class _TrackState extends State<Track> {
-
   final AuthService _auth = AuthService();
 
   @override
@@ -25,7 +23,6 @@ class _TrackState extends State<Track> {
   final FirebaseAuth auth = FirebaseAuth.instance;
 
   Widget build(BuildContext context) {
-
     groupodfun() {
       return GroupODList(flag: false);
     }
@@ -41,9 +38,9 @@ class _TrackState extends State<Track> {
               value: DatabaseService().groupods),
         ],
         child: Scaffold(
-          backgroundColor: Colors.grey[200],
+          // backgroundColor: Colors.grey[200],
           appBar: AppBar(
-            backgroundColor: Colors.lightBlueAccent,
+            // backgroundColor: Colors.lightBlueAccent,
             title: (Text("Track Status")),
             actions: [
               FlatButton.icon(

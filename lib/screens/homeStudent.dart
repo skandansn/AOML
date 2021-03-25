@@ -19,9 +19,9 @@ class HomeStudent extends StatelessWidget {
 
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[200],
+      // backgroundColor: Colors.grey[200],
       appBar: AppBar(
-        backgroundColor: Colors.lightBlueAccent,
+        // backgroundColor: Colors.lightBlueAccent,
         title: (Text("Welcome $name")),
         actions: [
           FlatButton.icon(
@@ -75,7 +75,7 @@ class HomeStudent extends StatelessWidget {
               leading: Icon(Icons.home),
               title: Text('Track status'),
               onTap: () {
-                 Navigator.pushNamed(context, "/track");
+                Navigator.pushNamed(context, "/track");
               },
             ),
           ),

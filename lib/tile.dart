@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 class Tile extends StatelessWidget {
   Object appl;
   bool flagType;
-  Tile({this.appl,this.flagType});
+  Tile({this.appl, this.flagType});
 
   @override
   Widget build(BuildContext context) {
@@ -25,13 +25,11 @@ class Tile extends StatelessWidget {
       obj = applobjgrp;
     }
     dynamic colour = obj.steps;
-    if(colour == -1){
+    if (colour == -1) {
       colour = Colors.redAccent;
-    }
-    else if(colour == 0){
+    } else if (colour == 0) {
       colour = Colors.greenAccent;
-    }
-    else{
+    } else {
       colour = Colors.yellowAccent;
     }
     void _showSettingsPanel(bool flagType) {
@@ -40,21 +38,26 @@ class Tile extends StatelessWidget {
           builder: (context) {
             return SingleChildScrollView(
               padding: EdgeInsets.symmetric(vertical: 20, horizontal: 60),
-              child: FormVal(od: appl,flagType:flagType),
+              child: FormVal(od: appl, flagType: flagType),
             );
           });
     }
 
     if (flag == 2) {
       return Padding(
-        
         padding: EdgeInsets.only(top: 8),
         child: Card(
           margin: EdgeInsets.fromLTRB(20, 6, 20, 0),
           child: ListTile(
               tileColor: colour,
-              title: Text(obj.stuNos.toString()),
-              subtitle: Text('Date: ${obj.date}. Time:  ${obj.time} '),
+              title: Text(
+                obj.stuNos.toString(),
+                style: TextStyle(color: Colors.black),
+              ),
+              subtitle: Text(
+                'Date: ${obj.date}. Time:  ${obj.time} ',
+                style: TextStyle(color: Colors.black),
+              ),
               onTap: () {
                 _showSettingsPanel(flagType);
               }),
@@ -67,8 +70,12 @@ class Tile extends StatelessWidget {
           margin: EdgeInsets.fromLTRB(20, 6, 20, 0),
           child: ListTile(
               tileColor: colour,
-              title: Text(obj.stuNo.toString()),
-              subtitle: Text('Date: ${obj.date}. Time:  ${obj.time} '),
+              title: Text(obj.stuNo.toString(),
+                  style: TextStyle(color: Colors.black)),
+              subtitle: Text(
+                'Date: ${obj.date}. Time:  ${obj.time} ',
+                style: TextStyle(color: Colors.black),
+              ),
               onTap: () {
                 _showSettingsPanel(flagType);
               }),

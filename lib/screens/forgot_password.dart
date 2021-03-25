@@ -18,16 +18,16 @@ class _ForgotPasswordState extends State<ForgotPassword> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        backgroundColor: Colors.lightBlueAccent,
+        // backgroundColor: Colors.lightBlueAccent,
         title: Text("Forgot password"),
       ),
-      backgroundColor: Colors.grey[200],
+      // backgroundColor: Colors.grey[200],
       body: Form(
         child: Padding(
           padding: EdgeInsets.symmetric(vertical: 20, horizontal: 50),
           child: Column(
             children: [
-              Image.network('https://i.imgur.com/pBHz39v.jpg'),
+              Image.network('https://i.imgur.com/pQR0s45.jpg'),
               SizedBox(height: 20),
               Text(
                 'Enter Your Email',

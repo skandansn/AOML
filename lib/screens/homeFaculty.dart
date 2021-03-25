@@ -29,11 +29,11 @@ class _HomeFacultyState extends State<HomeFaculty> {
 
   Widget build(BuildContext context) {
     groupodfun() {
-      return GroupODList(flag:true);
+      return GroupODList(flag: true);
     }
 
     odfun() {
-      return ODList(flag:true);
+      return ODList(flag: true);
     }
 
     return MultiProvider(
@@ -43,9 +43,9 @@ class _HomeFacultyState extends State<HomeFaculty> {
               value: DatabaseService().groupods),
         ],
         child: Scaffold(
-          backgroundColor: Colors.grey[200],
+          // backgroundColor: Colors.grey[200],
           appBar: AppBar(
-            backgroundColor: Colors.lightBlueAccent,
+            // backgroundColor: Colors.lightBlueAccent,
             title: (Text("Welcome ${widget.name}")),
             actions: [
               FlatButton.icon(

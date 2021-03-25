@@ -10,15 +10,16 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:aumsodmll/services/auth.dart';
 import 'package:flutter/services.dart';
+
 // void main() {
 //   runApp(MyApp());
 // }
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
-    .then((_) {
-      runApp(new MyApp());
-    });
+      .then((_) {
+    runApp(new MyApp());
+  });
   // runApp(MyApp());
 }
 
@@ -28,6 +29,11 @@ class MyApp extends StatelessWidget {
     return StreamProvider<User>.value(
       value: AuthService().user,
       child: MaterialApp(
+        theme:
+            ThemeData(primarySwatch: Colors.blue, brightness: Brightness.light),
+        themeMode: ThemeMode.dark,
+        darkTheme: ThemeData(brightness: Brightness.dark),
+        debugShowCheckedModeBanner: false,
         initialRoute: '/',
         routes: {
           '/forgotPass': (context) => ForgotPassword(),
@@ -35,9 +41,9 @@ class MyApp extends StatelessWidget {
           '/homepass': (context) => Homepass(),
           '/od': (context) => OD(),
           '/ml': (context) => ML(),
-          '/track':(context) => Track(),
+          '/track': (context) => Track(),
         },
-        home: Wrapper(),
+        home: SafeArea(child: Wrapper()),
       ),
     );
   }
