@@ -1,4 +1,5 @@
 import 'package:aumsodmll/models/user.dart';
+import 'package:aumsodmll/route_generator.dart';
 import 'package:aumsodmll/screens/apply/daypass.dart';
 import 'package:aumsodmll/screens/apply/homepass.dart';
 import 'package:aumsodmll/screens/apply/ml.dart';
@@ -44,6 +45,7 @@ class MyApp extends StatelessWidget {
           '/track': (context) => Track(),
         },
         home: SafeArea(child: Wrapper()),
+        onGenerateRoute: RouteGenerator.generateRoute,
       ),
     );
   }
