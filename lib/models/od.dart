@@ -10,19 +10,22 @@ class OD {
   final int steps;
   final String formid;
   final String type;
-  OD({
-    this.advisor,
-    this.date,
-    this.time,
-    this.faculty,
-    this.description,
-    this.stuNo,
-    this.stuid,
-    this.stuname,
-    this.steps,
-    this.formid,
-    this.type,
-  });
+  final String reasons;
+  final String proof;
+  OD(
+      {this.advisor,
+      this.date,
+      this.time,
+      this.faculty,
+      this.description,
+      this.stuNo,
+      this.stuid,
+      this.stuname,
+      this.steps,
+      this.formid,
+      this.type,
+      this.reasons,
+      this.proof});
 }
 
 class GroupOD extends OD {
@@ -40,11 +43,15 @@ class GroupOD extends OD {
       steps,
       formid,
       type,
+      reasons,
+      proof,
       this.head,
       this.stuNos,
       this.stuids,
       this.stunames})
       : super(
+            reasons: reasons,
+            proof: proof,
             advisor: advisor,
             date: date,
             time: time,

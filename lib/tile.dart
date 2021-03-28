@@ -6,7 +6,6 @@ class Tile extends StatelessWidget {
   Object appl;
   bool flagType;
   Tile({this.appl, this.flagType});
-
   @override
   Widget build(BuildContext context) {
     GroupOD applobjgrp;

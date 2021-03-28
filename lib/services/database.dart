@@ -54,6 +54,8 @@ class DatabaseService {
           stuid: doc.data['stuid'],
           stuname: doc.data['stuname'],
           type: doc.data['type'],
+          proof: doc.data['proof'],
+          reasons: doc.data['reasons'],
           formid: doc.documentID);
     }).toList();
   }
@@ -75,11 +77,29 @@ class DatabaseService {
           stuids: doc.data['stuids'],
           stunames: doc.data['stunames'],
           head: doc.data['head'],
+          proof: doc.data['proof'],
+          reasons: doc.data['reasons'],
           formid: doc.documentID);
     }).toList();
   }
 
-  Future updateOd(String person, String id, int steps, bool val) async {
+  Future reasonsandproof(String person, String id, String details) async {
+    int flag = 1;
+    print(details);
+    var x = await odcollection.document(id).get();
+    if (x.data == null) {
+      flag = 2;
+      x = await groupodcollection.document(id).get();
+    }
+    if (flag == 1) {
+      odcollection.document(id).updateData({"proof": details});
+    } else {
+      groupodcollection.document(id).updateData({"proof": details});
+    }
+  }
+
+  Future updateOd(
+      String person, String id, int steps, bool val, String reasons) async {
     int flag = 1;
     var x = await odcollection.document(id).get();
     if (x.data == null) {
@@ -103,6 +123,7 @@ class DatabaseService {
         }
         odcollection.document(id).updateData({"steps": -1});
       }
+      odcollection.document(id).updateData({"reasons": reasons});
     } else {
       var h = (x.data["head"]);
       if (val == true) {
@@ -123,6 +144,7 @@ class DatabaseService {
         }
         groupodcollection.document(id).updateData({"steps": -1});
       }
+      groupodcollection.document(id).updateData({"reasons": reasons});
     }
   }
 }
