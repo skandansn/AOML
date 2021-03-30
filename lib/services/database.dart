@@ -21,19 +21,56 @@ class DatabaseService {
 
   CollectionReference userList = Firestore.instance.collection("users");
 
+  Future<List> facultyList() async {
+    currentuserid = await FirebaseAuth.instance.currentUser();
+    currentuserid = currentuserid.uid;
+    var list = [];
+    var type;
+    var typefunout = await typefun(currentuserid);
+    list.add(currentuserid);
+    list.add(typefunout[1]);
+    list.add(typefunout[2]);
+    var r = await userList.getDocuments();
+    for (int i = 0; i < r.documents.length; i++) {
+      type = r.documents.elementAt(i).data["userType"];
+      if (type == false) {
+        list.add(r.documents.elementAt(i).data);
+      }
+    }
+    return list;
+  }
+
+  // return snapshot.documents.map((doc) {
+  //   print()
+  //   return OD(
+  //       advisor: doc.data['advisor'],
+  //       date: doc.data['date'],
+  //       time: doc.data['time'],
+  //       description: doc.data['description'],
+  //       faculty: doc.data['faculty'],
+  //       steps: doc.data['steps'],
+  //       stuNo: doc.data['stuNo'],
+  //       stuid: doc.data['stuid'],
+  //       stuname: doc.data['stuname'],
+  //       type: doc.data['type'],
+  //       proof: doc.data['proof'],
+  //       reasons: doc.data['reasons'],
+  //       formid: doc.documentID);
+  // }).toList();
+
   Future<List> typefun(useridx) async {
     QuerySnapshot res =
         await userList.where("userid", isEqualTo: useridx).snapshots().first;
     return [
       (res.documents.first.data["userType"]),
-      (res.documents.first.data["name"])
+      (res.documents.first.data["name"]),
+      (res.documents.first.data["stuNo"]),
     ];
   }
 
   Future<List> fun() async {
     var userid = await FirebaseAuth.instance.currentUser();
     var res = await typefun(userid.uid);
-
     return res;
   }
 
@@ -96,6 +133,34 @@ class DatabaseService {
     } else {
       groupodcollection.document(id).updateData({"proof": details});
     }
+  }
+
+  Future applyod(
+      String stuid,
+      String stuname,
+      String stuNo,
+      String faculty,
+      String advisor,
+      String date,
+      String time,
+      String description,
+      String type,
+      String proof) async {
+    var data = {
+      "advisor": advisor,
+      "date": date,
+      "description": description,
+      "faculty": faculty,
+      "proof": proof,
+      "stuNo": stuNo,
+      "stuid": stuid,
+      "stuname": stuname,
+      "time": time,
+      "type": type,
+      "steps": 2
+    };
+
+    odcollection.add(data);
   }
 
   Future updateOd(

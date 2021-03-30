@@ -106,7 +106,8 @@ class _FormValState extends State<FormVal> {
                                     Icons.check,
                                     color: Colors.green,
                                   ),
-                                  onPressed: () {
+                                  onPressed: () async {
+                                    await _addreasonsbox(context);
                                     _db.updateOd(snapshot.data, obj.formid,
                                         obj.steps, true, reasons);
                                   },
@@ -118,7 +119,8 @@ class _FormValState extends State<FormVal> {
                                     Icons.do_not_disturb_alt,
                                     color: Colors.red,
                                   ),
-                                  onPressed: () {
+                                  onPressed: () async {
+                                    await _addreasonsbox(context);
                                     _db.updateOd(snapshot.data, obj.formid,
                                         obj.steps, false, reasons);
                                   },
@@ -130,7 +132,8 @@ class _FormValState extends State<FormVal> {
                                     Icons.send,
                                     color: Colors.white,
                                   ),
-                                  onPressed: () {
+                                  onPressed: () async {
+                                    await _getproofbox(context);
                                     _db.reasonsandproof(
                                         snapshot.data, obj.formid, proof);
                                     Navigator.pop(context);
@@ -168,20 +171,6 @@ class _FormValState extends State<FormVal> {
                     SizedBox(
                       height: 20,
                     ),
-                    flagType
-                        ? ElevatedButton(
-                            onPressed: () {
-                              _getproofbox(context);
-                            },
-                            child: Text("Request proof"))
-                        : Container(),
-                    flagType
-                        ? ElevatedButton(
-                            onPressed: () {
-                              _addreasonsbox(context);
-                            },
-                            child: Text("Add reasons"))
-                        : Container(),
                     flagType
                         ? ElevatedButton(
                             onPressed: () {
@@ -247,20 +236,6 @@ class _FormValState extends State<FormVal> {
                       SizedBox(
                         height: 40,
                       ),
-                      flagType
-                          ? ElevatedButton(
-                              onPressed: () {
-                                _getproofbox(context);
-                              },
-                              child: Text("Request proof"))
-                          : Container(),
-                      flagType
-                          ? ElevatedButton(
-                              onPressed: () {
-                                _addreasonsbox(context);
-                              },
-                              child: Text("Add reasons"))
-                          : Container(),
                       Row(
                         children: [
                           flagType
@@ -269,7 +244,8 @@ class _FormValState extends State<FormVal> {
                                     Icons.check,
                                     color: Colors.green,
                                   ),
-                                  onPressed: () {
+                                  onPressed: () async {
+                                    await _addreasonsbox(context);
                                     _db.updateOd(snapshot.data, obj.formid,
                                         obj.steps, true, reasons);
                                     Navigator.pop(context);
@@ -282,7 +258,8 @@ class _FormValState extends State<FormVal> {
                                     Icons.do_not_disturb_alt,
                                     color: Colors.red,
                                   ),
-                                  onPressed: () {
+                                  onPressed: () async {
+                                    await _addreasonsbox(context);
                                     _db.updateOd(snapshot.data, obj.formid,
                                         obj.steps, false, reasons);
                                     Navigator.pop(context);
@@ -295,8 +272,8 @@ class _FormValState extends State<FormVal> {
                                     Icons.send,
                                     color: Colors.white,
                                   ),
-                                  onPressed: () {
-                                    print(proof);
+                                  onPressed: () async {
+                                    await _getproofbox(context);
                                     _db.reasonsandproof(
                                         snapshot.data, obj.formid, proof);
                                     Navigator.pop(context);

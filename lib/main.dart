@@ -1,9 +1,6 @@
 import 'package:aumsodmll/models/user.dart';
-import 'package:aumsodmll/route_generator.dart';
-import 'package:aumsodmll/screens/apply/daypass.dart';
-import 'package:aumsodmll/screens/apply/homepass.dart';
-import 'package:aumsodmll/screens/apply/ml.dart';
-import 'package:aumsodmll/screens/apply/od.dart';
+// import 'package:aumsodmll/route_generator.dart';
+import 'package:aumsodmll/screens/apply/odApply.dart';
 import 'package:aumsodmll/screens/apply/track.dart';
 import 'package:aumsodmll/screens/forgot_password.dart';
 import 'package:aumsodmll/wrapper.dart';
@@ -38,14 +35,11 @@ class MyApp extends StatelessWidget {
         initialRoute: '/',
         routes: {
           '/forgotPass': (context) => ForgotPassword(),
-          '/daypass': (context) => Daypass(),
-          '/homepass': (context) => Homepass(),
           '/od': (context) => OD(),
-          '/ml': (context) => ML(),
           '/track': (context) => Track(),
         },
         home: SafeArea(child: Wrapper()),
-        onGenerateRoute: RouteGenerator.generateRoute,
+        // onGenerateRoute: RouteGenerator.generateRoute,
       ),
     );
   }

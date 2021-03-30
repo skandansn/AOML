@@ -37,36 +37,9 @@ class HomeStudent extends StatelessWidget {
           Card(
             child: ListTile(
               leading: Icon(Icons.work),
-              title: Text('Apply for an OD'),
+              title: Text('Apply for an OD/ML/Daypass/Homepass'),
               onTap: () {
                 Navigator.pushNamed(context, "/od");
-              },
-            ),
-          ),
-          Card(
-            child: ListTile(
-              leading: Icon(Icons.medical_services_sharp),
-              title: Text('Apply for a ML'),
-              onTap: () {
-                Navigator.pushNamed(context, "/ml");
-              },
-            ),
-          ),
-          Card(
-            child: ListTile(
-              leading: Icon(Icons.wb_sunny),
-              title: Text('Apply for a day pass'),
-              onTap: () {
-                Navigator.pushNamed(context, "/daypass");
-              },
-            ),
-          ),
-          Card(
-            child: ListTile(
-              leading: Icon(Icons.home),
-              title: Text('Apply for a home pass'),
-              onTap: () {
-                Navigator.pushNamed(context, "/homepass");
               },
             ),
           ),
