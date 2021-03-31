@@ -5,6 +5,7 @@ import 'package:aumsodmll/services/database.dart';
 import 'package:aumsodmll/shared/loading.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class FormVal extends StatefulWidget {
   final dynamic od;
@@ -37,6 +38,10 @@ class _FormValState extends State<FormVal> {
         });
   }
 
+  String _url;
+  // void _launchURL() async => await canLaunch(_url)
+  //     ? await launch(_url)
+  //     : throw 'Could not launch $_url';
   Future<void> _getproofbox(BuildContext context) async {
     return showDialog(
         context: context,
@@ -159,8 +164,22 @@ class _FormValState extends State<FormVal> {
                     ),
                     flagType
                         ? Container()
-                        : Text(
-                            "Requested proofs from the faculties: \n${obj.proof}"),
+                        : FlatButton(
+                            child: Text(
+                              "View proof",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            onPressed: () async {
+                              if ("${obj.proof}" != "" &&
+                                  "${obj.proof}" != null) {
+                                _url = "${obj.proof}";
+                                if (await canLaunch(_url))
+                                  await launch(_url);
+                                else
+                                  throw "Could not launch $_url";
+                              }
+                            },
+                          ),
                     SizedBox(
                       height: 20,
                     ),
@@ -168,6 +187,13 @@ class _FormValState extends State<FormVal> {
                         ? Container()
                         : Text(
                             "Reasons given by the faculty: \n${obj.reasons}"),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    flagType
+                        ? Container()
+                        : Text(
+                            "Proof requested by the faculty: \n${obj.proofreq}"),
                     SizedBox(
                       height: 20,
                     ),
@@ -222,10 +248,21 @@ class _FormValState extends State<FormVal> {
                       SizedBox(
                         height: 20,
                       ),
-                      flagType
-                          ? Container()
-                          : Text(
-                              "Requested proofs from the faculties: \n${obj.proof}"),
+                      "${obj.proof}" != "null" && "${obj.proof}" != ""
+                          ? FlatButton(
+                              child: Text(
+                                "View proof",
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              onPressed: () async {
+                                _url = "${obj.proof}";
+                                if (await canLaunch(_url))
+                                  await launch(_url);
+                                else
+                                  throw "Could not launch $_url";
+                              },
+                            )
+                          : Container(),
                       SizedBox(
                         height: 20,
                       ),
@@ -233,6 +270,13 @@ class _FormValState extends State<FormVal> {
                           ? Container()
                           : Text(
                               "Reasons given by the faculty: \n${obj.reasons}"),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      flagType
+                          ? Container()
+                          : Text(
+                              "Proof requested by the faculty: \n${obj.proofreq}"),
                       SizedBox(
                         height: 40,
                       ),

@@ -12,6 +12,7 @@ class OD {
   final String type;
   final String reasons;
   final String proof;
+  final String proofreq;
   OD(
       {this.advisor,
       this.date,
@@ -25,7 +26,8 @@ class OD {
       this.formid,
       this.type,
       this.reasons,
-      this.proof});
+      this.proof,
+      this.proofreq});
 }
 
 class GroupOD extends OD {
@@ -45,11 +47,13 @@ class GroupOD extends OD {
       type,
       reasons,
       proof,
+      proofreq,
       this.head,
       this.stuNos,
       this.stuids,
       this.stunames})
       : super(
+            proofreq: proofreq,
             reasons: reasons,
             proof: proof,
             advisor: advisor,

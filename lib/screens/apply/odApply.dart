@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:aumsodmll/services/database.dart';
 import 'package:aumsodmll/shared/constants.dart';
 import 'package:aumsodmll/shared/loading.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class OD extends StatefulWidget {
   @override
@@ -15,11 +18,22 @@ class _ODState extends State<OD> {
   TextEditingController timecont = new TextEditingController();
   TextEditingController descriptioncont = new TextEditingController();
   TextEditingController typecont = new TextEditingController();
-  TextEditingController proofcont = new TextEditingController();
+  // TextEditingController proofcont = new TextEditingController();
   var advisordropname = "Select your advisor";
   var facultydropname = "Select your faculty";
   var clickedidad = "";
   var clickedidfac = "";
+  PickedFile _image;
+  File _imagefinal;
+  Future<void> getImage() async {
+    PickedFile image =
+        (await ImagePicker.platform.pickImage(source: ImageSource.gallery));
+    setState(() {
+      _image = image;
+      _imagefinal = File(_image.path);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List>(
@@ -83,7 +97,6 @@ class _ODState extends State<OD> {
                           onTap: () {
                             setState(() {
                               clickedidfac = idlist[namelist.indexOf(value)];
-                              print(clickedidad);
                               facultydropname = value;
                             });
                           },
@@ -111,11 +124,16 @@ class _ODState extends State<OD> {
                       decoration:
                           textInputDecoration.copyWith(hintText: "Type"),
                     ),
-                    TextFormField(
-                      controller: proofcont,
-                      decoration:
-                          textInputDecoration.copyWith(hintText: "Proof"),
-                    ),
+                    ElevatedButton(
+                        onPressed: () {
+                          getImage();
+                        },
+                        child: Text("Add proof")),
+                    // TextFormField(
+                    //   controller: proofcont,
+                    //   decoration:
+                    //       textInputDecoration.copyWith(hintText: "Proof"),
+                    // ),
                     ElevatedButton(
                         onPressed: () {
                           _db.applyod(
@@ -128,7 +146,7 @@ class _ODState extends State<OD> {
                               timecont.text,
                               descriptioncont.text,
                               typecont.text,
-                              proofcont.text);
+                              _imagefinal);
                           Navigator.pop(context);
                         },
                         child: Text("Submit "))

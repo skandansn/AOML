@@ -1,7 +1,11 @@
+import 'dart:io';
+
 import 'package:aumsodmll/models/od.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:aumsodmll/models/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class DatabaseService {
   final CollectionReference odcollection = Firestore.instance.collection('ods');
@@ -92,6 +96,7 @@ class DatabaseService {
           stuname: doc.data['stuname'],
           type: doc.data['type'],
           proof: doc.data['proof'],
+          proofreq: doc.data['proofreq'],
           reasons: doc.data['reasons'],
           formid: doc.documentID);
     }).toList();
@@ -114,6 +119,7 @@ class DatabaseService {
           stuids: doc.data['stuids'],
           stunames: doc.data['stunames'],
           head: doc.data['head'],
+          proofreq: doc.data['proofreq'],
           proof: doc.data['proof'],
           reasons: doc.data['reasons'],
           formid: doc.documentID);
@@ -122,16 +128,15 @@ class DatabaseService {
 
   Future reasonsandproof(String person, String id, String details) async {
     int flag = 1;
-    print(details);
     var x = await odcollection.document(id).get();
     if (x.data == null) {
       flag = 2;
       x = await groupodcollection.document(id).get();
     }
     if (flag == 1) {
-      odcollection.document(id).updateData({"proof": details});
+      odcollection.document(id).updateData({"proofreq": details});
     } else {
-      groupodcollection.document(id).updateData({"proof": details});
+      groupodcollection.document(id).updateData({"proofreq": details});
     }
   }
 
@@ -145,21 +150,35 @@ class DatabaseService {
       String time,
       String description,
       String type,
-      String proof) async {
+      File proof) async {
+    String url = "";
+    String proofreq;
+    int steps = 1;
+    if (faculty != "" && advisor != "" && faculty != advisor) {
+      steps = 2;
+    }
+    if (proof != null) {
+      var hash = proof.hashCode.toString();
+      FirebaseStorage storage = FirebaseStorage.instance;
+      StorageReference reference = storage.ref().child('proofs/$hash');
+      StorageUploadTask uploadTask = reference.putFile(proof);
+      StorageTaskSnapshot taskSnapshot = await uploadTask.onComplete;
+      url = await taskSnapshot.ref.getDownloadURL();
+    }
     var data = {
       "advisor": advisor,
       "date": date,
       "description": description,
       "faculty": faculty,
-      "proof": proof,
+      "proof": url,
+      "proofreq": proofreq,
       "stuNo": stuNo,
       "stuid": stuid,
       "stuname": stuname,
       "time": time,
       "type": type,
-      "steps": 2
+      "steps": steps
     };
-
     odcollection.add(data);
   }
 
