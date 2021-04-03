@@ -1,8 +1,8 @@
 import 'package:aumsodmll/models/user.dart';
 import 'package:aumsodmll/screens/apply/odApply.dart';
 import 'package:aumsodmll/screens/apply/track.dart';
-import 'package:aumsodmll/screens/forgot_password.dart';
-import 'package:aumsodmll/wrapper.dart';
+import 'package:aumsodmll/screens/login/forgot_password.dart';
+import 'package:aumsodmll/helpers/wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:aumsodmll/services/auth.dart';
