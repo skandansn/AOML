@@ -2,7 +2,6 @@ import 'package:aumsodmll/services/auth.dart';
 import 'package:aumsodmll/services/database.dart';
 import 'package:aumsodmll/shared/constants.dart';
 import 'package:aumsodmll/shared/loading.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class SignIn extends StatefulWidget {
@@ -14,7 +13,6 @@ class _SignInState extends State<SignIn> {
   final AuthService _auth = AuthService();
   String email = "";
   String pass = "";
-  final DatabaseService _db = DatabaseService();
 
   final _formkey = GlobalKey<FormState>();
   String error = "";
@@ -87,7 +85,6 @@ class _SignInState extends State<SignIn> {
                           },
                           child: Text(
                             "Sign in",
-                            // style: TextStyle(color: Colors.white),
                           )),
                       SizedBox(
                         height: 12,

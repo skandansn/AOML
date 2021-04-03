@@ -1,32 +1,27 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:aumsodmll/services/auth.dart';
-import 'package:aumsodmll/services/database.dart';
+import 'package:aumsodmll/shared/functions.dart';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class HomeStudent extends StatelessWidget {
   String name = "";
   HomeStudent(String names) {
-    print(names);
     this.name = names;
   }
 
-  final AuthService _auth = AuthService();
-  @override
-  final DatabaseService _db = DatabaseService();
   final FirebaseAuth auth = FirebaseAuth.instance;
-
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       // backgroundColor: Colors.grey[200],
       appBar: AppBar(
         // backgroundColor: Colors.lightBlueAccent,
-        title: (Text("Welcome $name")),
+        title: SingleChildScrollView(child: (Text("Welcome $name"))),
+
         actions: [
           FlatButton.icon(
               onPressed: () async {
-                await _auth.signOut();
+                confirmLogoutBox(context);
               },
               icon: Icon(Icons.logout),
               label: Text("Logout"))

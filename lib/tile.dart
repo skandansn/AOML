@@ -31,7 +31,7 @@ class Tile extends StatelessWidget {
     } else {
       colour = Colors.yellowAccent;
     }
-    void _showSettingsPanel(bool flagType) {
+    void _showFormVal(bool flagType) {
       showModalBottomSheet(
           context: context,
           builder: (context) {
@@ -58,7 +58,7 @@ class Tile extends StatelessWidget {
                 style: TextStyle(color: Colors.black),
               ),
               onTap: () {
-                _showSettingsPanel(flagType);
+                _showFormVal(flagType);
               }),
         ),
       );
@@ -76,7 +76,7 @@ class Tile extends StatelessWidget {
                 style: TextStyle(color: Colors.black),
               ),
               onTap: () {
-                _showSettingsPanel(flagType);
+                _showFormVal(flagType);
               }),
         ),
       );

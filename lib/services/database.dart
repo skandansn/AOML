@@ -1,10 +1,7 @@
 import 'dart:io';
-
 import 'package:aumsodmll/models/od.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:aumsodmll/models/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 class DatabaseService {
@@ -43,24 +40,6 @@ class DatabaseService {
     }
     return list;
   }
-
-  // return snapshot.documents.map((doc) {
-  //   print()
-  //   return OD(
-  //       advisor: doc.data['advisor'],
-  //       date: doc.data['date'],
-  //       time: doc.data['time'],
-  //       description: doc.data['description'],
-  //       faculty: doc.data['faculty'],
-  //       steps: doc.data['steps'],
-  //       stuNo: doc.data['stuNo'],
-  //       stuid: doc.data['stuid'],
-  //       stuname: doc.data['stuname'],
-  //       type: doc.data['type'],
-  //       proof: doc.data['proof'],
-  //       reasons: doc.data['reasons'],
-  //       formid: doc.documentID);
-  // }).toList();
 
   Future<List> typefun(useridx) async {
     QuerySnapshot res =
@@ -133,6 +112,7 @@ class DatabaseService {
       flag = 2;
       x = await groupodcollection.document(id).get();
     }
+
     if (flag == 1) {
       odcollection.document(id).updateData({"proofreq": details});
     } else {
@@ -232,23 +212,3 @@ class DatabaseService {
     }
   }
 }
-  // Future updateUserData(String sugars, String name, int strength) async {
-  //   return await brewCollection
-  //       .document(uid)
-  //       .setData({'sugars': sugars, 'name': name, 'strength': strength});
-  // }
-
-  // Stream<UserData> get userData {
-  //   return brewCollection.document(uid).snapshots().map(_userDataFromSnapshot);
-  // }
-
-  // UserData _userDataFromSnapshot(DocumentSnapshot snapshot) {
-  //   return UserData(
-  //     uid: uid,
-  //     name: snapshot.data['name'],
-  //     sugars: snapshot.data['sugars'],
-  //     strength: snapshot.data['strength'],
-  //   );
-  // }
-
-

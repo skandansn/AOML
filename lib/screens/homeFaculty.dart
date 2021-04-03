@@ -1,12 +1,11 @@
 import 'package:aumsodmll/groupodlist.dart';
 import 'package:aumsodmll/models/od.dart';
 import 'package:aumsodmll/od_list.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:aumsodmll/shared/functions.dart';
 import 'package:aumsodmll/services/auth.dart';
 import 'package:aumsodmll/services/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 
 class HomeFaculty extends StatefulWidget {
@@ -20,13 +19,8 @@ class HomeFaculty extends StatefulWidget {
 }
 
 class _HomeFacultyState extends State<HomeFaculty> {
-  final AuthService _auth = AuthService();
-
-  @override
-  final DatabaseService _db = DatabaseService();
-
   final FirebaseAuth auth = FirebaseAuth.instance;
-
+  @override
   Widget build(BuildContext context) {
     groupodfun() {
       return GroupODList(flag: true);
@@ -46,11 +40,12 @@ class _HomeFacultyState extends State<HomeFaculty> {
           // backgroundColor: Colors.grey[200],
           appBar: AppBar(
             // backgroundColor: Colors.lightBlueAccent,
-            title: (Text("Welcome ${widget.name}")),
+            title:
+                SingleChildScrollView(child: (Text("Welcome ${widget.name}"))),
             actions: [
               FlatButton.icon(
                   onPressed: () async {
-                    await _auth.signOut();
+                    confirmLogoutBox(context);
                   },
                   icon: Icon(Icons.logout),
                   label: Text("Logout"))

@@ -1,9 +1,6 @@
 import 'package:aumsodmll/models/od.dart';
-import 'package:aumsodmll/models/user.dart';
-import 'package:aumsodmll/od_list.dart';
 import 'package:aumsodmll/services/database.dart';
 import 'package:aumsodmll/shared/loading.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -39,9 +36,6 @@ class _FormValState extends State<FormVal> {
   }
 
   String _url;
-  // void _launchURL() async => await canLaunch(_url)
-  //     ? await launch(_url)
-  //     : throw 'Could not launch $_url';
   Future<void> _getproofbox(BuildContext context) async {
     return showDialog(
         context: context,
@@ -95,7 +89,10 @@ class _FormValState extends State<FormVal> {
               else {
                 return Container(
                   child: Column(children: [
-                    Text("Student Names:"),
+                    Text(
+                      "Student Names:",
+                      style: TextStyle(color: Colors.redAccent),
+                    ),
                     for (var item in obj.stunames) Text(item),
                     SizedBox(
                       height: 20,
@@ -103,6 +100,7 @@ class _FormValState extends State<FormVal> {
                     Text("Student Roll Nos:"),
                     for (var item in obj.stuNos)
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(item),
                           flagType
@@ -113,6 +111,8 @@ class _FormValState extends State<FormVal> {
                                   ),
                                   onPressed: () async {
                                     await _addreasonsbox(context);
+                                    reasons =
+                                        "Faculty ID: ${snapshot.data}\nDetails:$reasons";
                                     _db.updateOd(snapshot.data, obj.formid,
                                         obj.steps, true, reasons);
                                   },
@@ -126,6 +126,8 @@ class _FormValState extends State<FormVal> {
                                   ),
                                   onPressed: () async {
                                     await _addreasonsbox(context);
+                                    reasons =
+                                        "Faculty ID: ${snapshot.data}\nDetails:$reasons";
                                     _db.updateOd(snapshot.data, obj.formid,
                                         obj.steps, false, reasons);
                                   },
@@ -139,6 +141,8 @@ class _FormValState extends State<FormVal> {
                                   ),
                                   onPressed: () async {
                                     await _getproofbox(context);
+                                    proof =
+                                        "Faculty ID: ${snapshot.data}\nDetails:$proof";
                                     _db.reasonsandproof(
                                         snapshot.data, obj.formid, proof);
                                     Navigator.pop(context);
@@ -224,32 +228,68 @@ class _FormValState extends State<FormVal> {
                 return Container(
                   child: Column(
                     children: [
-                      Text("Application Type: ${obj.type}"),
+                      RichText(
+                          text: TextSpan(children: [
+                        TextSpan(text: "Application Type:"),
+                        TextSpan(
+                            text: " ${obj.type}",
+                            style: TextStyle(color: Colors.redAccent))
+                      ])),
                       SizedBox(
                         height: 20,
                       ),
-                      Text("Student Name: ${obj.stuname}"),
+                      RichText(
+                          text: TextSpan(children: [
+                        TextSpan(text: "Student Name:"),
+                        TextSpan(
+                            text: " ${obj.stuname}",
+                            style: TextStyle(color: Colors.redAccent))
+                      ])),
                       SizedBox(
                         height: 20,
                       ),
-                      Text("Student Roll No: ${obj.stuNo}"),
+                      RichText(
+                          text: TextSpan(children: [
+                        TextSpan(text: "Student Roll No:"),
+                        TextSpan(
+                            text: " ${obj.stuNo}",
+                            style: TextStyle(color: Colors.redAccent))
+                      ])),
                       SizedBox(
                         height: 20,
                       ),
-                      Text("Date: ${obj.date}"),
+                      RichText(
+                          text: TextSpan(children: [
+                        TextSpan(text: "Date:"),
+                        TextSpan(
+                            text: " ${obj.date}",
+                            style: TextStyle(color: Colors.redAccent))
+                      ])),
                       SizedBox(
                         height: 20,
                       ),
-                      Text("Time: ${obj.time}"),
+                      RichText(
+                          text: TextSpan(children: [
+                        TextSpan(text: "Time:"),
+                        TextSpan(
+                            text: " ${obj.time}",
+                            style: TextStyle(color: Colors.redAccent))
+                      ])),
                       SizedBox(
                         height: 20,
                       ),
-                      Text("Reason for the application: \n${obj.description}"),
+                      RichText(
+                          text: TextSpan(children: [
+                        TextSpan(text: "Description:"),
+                        TextSpan(
+                            text: " ${obj.description}",
+                            style: TextStyle(color: Colors.redAccent))
+                      ])),
                       SizedBox(
                         height: 20,
                       ),
                       "${obj.proof}" != "null" && "${obj.proof}" != ""
-                          ? FlatButton(
+                          ? ElevatedButton(
                               child: Text(
                                 "View proof",
                                 style: TextStyle(color: Colors.white),
@@ -268,19 +308,30 @@ class _FormValState extends State<FormVal> {
                       ),
                       flagType
                           ? Container()
-                          : Text(
-                              "Reasons given by the faculty: \n${obj.reasons}"),
+                          : RichText(
+                              text: TextSpan(children: [
+                              TextSpan(text: "Reasons given by the faculty:"),
+                              TextSpan(
+                                  text: " ${obj.reasons}",
+                                  style: TextStyle(color: Colors.redAccent))
+                            ])),
                       SizedBox(
                         height: 20,
                       ),
                       flagType
                           ? Container()
-                          : Text(
-                              "Proof requested by the faculty: \n${obj.proofreq}"),
+                          : RichText(
+                              text: TextSpan(children: [
+                              TextSpan(text: "Proof requested by the faculty:"),
+                              TextSpan(
+                                  text: " ${obj.proofreq}",
+                                  style: TextStyle(color: Colors.redAccent))
+                            ])),
                       SizedBox(
                         height: 40,
                       ),
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           flagType
                               ? IconButton(
@@ -290,6 +341,8 @@ class _FormValState extends State<FormVal> {
                                   ),
                                   onPressed: () async {
                                     await _addreasonsbox(context);
+                                    reasons =
+                                        "Faculty ID: ${snapshot.data}\nDetails:$reasons";
                                     _db.updateOd(snapshot.data, obj.formid,
                                         obj.steps, true, reasons);
                                     Navigator.pop(context);
@@ -304,6 +357,8 @@ class _FormValState extends State<FormVal> {
                                   ),
                                   onPressed: () async {
                                     await _addreasonsbox(context);
+                                    reasons =
+                                        "Faculty ID: ${snapshot.data}\nDetails:$reasons";
                                     _db.updateOd(snapshot.data, obj.formid,
                                         obj.steps, false, reasons);
                                     Navigator.pop(context);
@@ -318,6 +373,9 @@ class _FormValState extends State<FormVal> {
                                   ),
                                   onPressed: () async {
                                     await _getproofbox(context);
+                                    proof =
+                                        "Faculty ID: ${snapshot.data}\nDetails:$proof";
+                                    print(proof);
                                     _db.reasonsandproof(
                                         snapshot.data, obj.formid, proof);
                                     Navigator.pop(context);

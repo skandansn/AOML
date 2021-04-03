@@ -18,7 +18,6 @@ class _ODState extends State<OD> {
   TextEditingController timecont = new TextEditingController();
   TextEditingController descriptioncont = new TextEditingController();
   TextEditingController typecont = new TextEditingController();
-  // TextEditingController proofcont = new TextEditingController();
   var advisordropname = "Select your advisor";
   var facultydropname = "Select your faculty";
   var clickedidad = "";
@@ -83,11 +82,6 @@ class _ODState extends State<OD> {
                       }).toList(),
                       onChanged: (_) {},
                     ),
-                    // TextFormField(
-                    //   controller: advisorcont,
-                    //   decoration:
-                    //       textInputDecoration.copyWith(hintText: "Advisor ID"),
-                    // ),
                     DropdownButton<String>(
                       hint: Text(facultydropname),
                       items: namelist.map((String value) {
@@ -129,11 +123,6 @@ class _ODState extends State<OD> {
                           getImage();
                         },
                         child: Text("Add proof")),
-                    // TextFormField(
-                    //   controller: proofcont,
-                    //   decoration:
-                    //       textInputDecoration.copyWith(hintText: "Proof"),
-                    // ),
                     ElevatedButton(
                         onPressed: () {
                           _db.applyod(
