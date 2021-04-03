@@ -15,7 +15,7 @@
     </intent>
 </queries>
    <application
-        android:label="aumsodmll"
+        android:label="AOML"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
