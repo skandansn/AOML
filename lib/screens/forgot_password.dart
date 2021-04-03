@@ -1,5 +1,7 @@
 import 'package:aumsodmll/services/auth.dart';
+import 'package:aumsodmll/shared/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:loading_gifs/loading_gifs.dart';
 
 class ForgotPassword extends StatefulWidget {
   @override
@@ -7,18 +9,17 @@ class ForgotPassword extends StatefulWidget {
 }
 
 class _ForgotPasswordState extends State<ForgotPassword> {
-  @override
   String msg = "";
   String email = "";
-
+  @override
   Widget build(BuildContext context) {
     final AuthService _auth = AuthService();
-    final emailcontr = TextEditingController();
+    TextEditingController emailcontr = new TextEditingController();
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        // backgroundColor: Colors.lightBlueAccent,
+        backgroundColor: Colors.blueGrey[600],
         title: Text("Forgot password"),
       ),
       // backgroundColor: Colors.grey[200],
@@ -27,36 +28,17 @@ class _ForgotPasswordState extends State<ForgotPassword> {
           padding: EdgeInsets.symmetric(vertical: 20, horizontal: 50),
           child: Column(
             children: [
-              Image.network('https://i.imgur.com/pQR0s45.jpg'),
+              FadeInImage.assetNetwork(
+                  placeholder: cupertinoActivityIndicatorSmall,
+                  image: 'https://i.imgur.com/pQR0s45.jpg'),
               SizedBox(height: 20),
-              Text(
-                'Enter Your Email',
-                style: TextStyle(fontSize: 30, color: Colors.lightBlueAccent),
-              ),
               TextFormField(
-                controller: emailcontr,
-                style: TextStyle(color: Colors.lightBlueAccent),
-                decoration: InputDecoration(
-                  icon: Icon(
-                    Icons.mail,
-                    color: Colors.lightBlueAccent,
-                  ),
-                  errorStyle: TextStyle(color: Colors.white),
-                  labelStyle: TextStyle(color: Colors.white),
-                  hintStyle: TextStyle(color: Colors.white),
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.white),
-                  ),
-                  enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.white),
-                  ),
-                  errorBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.white),
-                  ),
-                ),
-              ),
+                  controller: emailcontr,
+                  style: TextStyle(color: Colors.lightBlueAccent),
+                  decoration: textInputDecoration.copyWith(hintText: "Email")),
               SizedBox(height: 20),
               ElevatedButton(
+                style: buttonStyle,
                 child: Text('Send Email'),
                 onPressed: () async {
                   String result = await _auth.resetPassword(emailcontr.text);
@@ -64,14 +46,17 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                     if (result == "") {
                       msg = "Email has been sent. ";
                     } else {
-                      msg = result;
+                      msg = "Please enter a valid email address";
                     }
                   });
                 },
               ),
               SizedBox(height: 20),
               Text(msg),
-              FlatButton(
+              TextButton(
+                style: ButtonStyle(
+                    foregroundColor:
+                        MaterialStateProperty.all(Colors.blueGrey[600])),
                 child: Text("Sign in"),
                 onPressed: () {
                   Navigator.pop(context);

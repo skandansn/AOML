@@ -33,7 +33,7 @@ class _TrackState extends State<Track> {
         child: Scaffold(
           // backgroundColor: Colors.grey[200],
           appBar: AppBar(
-            // backgroundColor: Colors.lightBlueAccent,
+            backgroundColor: Colors.blueGrey[600],
             title: (Text("Track Status")),
           ),
           body: Column(children: <Widget>[
@@ -44,18 +44,19 @@ class _TrackState extends State<Track> {
             SizedBox(
               height: 5,
             ),
-            Expanded(child: odfun()),
+            Flexible(flex: 8, child: odfun()),
             Divider(
               height: 20,
               thickness: 5,
               indent: 20,
               endIndent: 20,
             ),
-            Text("Group OD Applications"),
+            Text("Your Group OD Applications"),
             SizedBox(
               height: 5,
             ),
-            Expanded(
+            Flexible(
+              flex: 2,
               child: groupodfun(),
             ),
           ]),

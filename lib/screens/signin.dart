@@ -3,6 +3,7 @@ import 'package:aumsodmll/services/database.dart';
 import 'package:aumsodmll/shared/constants.dart';
 import 'package:aumsodmll/shared/loading.dart';
 import 'package:flutter/material.dart';
+import 'package:loading_gifs/loading_gifs.dart';
 
 class SignIn extends StatefulWidget {
   @override
@@ -23,10 +24,10 @@ class _SignInState extends State<SignIn> {
     return loading
         ? Loading()
         : Scaffold(
-            resizeToAvoidBottomInset: false,
-            // backgroundColor: Colors.grey[200],
+            resizeToAvoidBottomInset: true,
+            // backgroundColor: Colors.blueGrey[600],
             appBar: AppBar(
-              // backgroundColor: Colors.lightBlueAccent,
+              backgroundColor: Colors.blueGrey[600],
               title: Text("Sign in to AOML"),
             ),
             body: Container(
@@ -35,7 +36,9 @@ class _SignInState extends State<SignIn> {
                   key: _formkey,
                   child: Column(
                     children: [
-                      Image.network('https://i.imgur.com/pQR0s45.jpg'),
+                      FadeInImage.assetNetwork(
+                          placeholder: cupertinoActivityIndicatorSmall,
+                          image: 'https://i.imgur.com/pQR0s45.jpg'),
                       SizedBox(height: 20),
                       TextFormField(
                         decoration:
@@ -54,8 +57,8 @@ class _SignInState extends State<SignIn> {
                       TextFormField(
                         decoration:
                             textInputDecoration.copyWith(hintText: "Password"),
-                        validator: (val) =>
-                            val.length < 6 ? 'Enter your password' : null,
+                        // validator: (val) =>
+                        //     val.length < 6 ? 'Enter your password' : null,
                         obscureText: true,
                         onChanged: (val) {
                           setState(() {
@@ -67,6 +70,7 @@ class _SignInState extends State<SignIn> {
                         height: 20,
                       ),
                       ElevatedButton(
+                          style: buttonStyle,
                           onPressed: () async {
                             if (_formkey.currentState.validate()) {
                               setState(() {
@@ -93,7 +97,10 @@ class _SignInState extends State<SignIn> {
                         error,
                         style: TextStyle(color: Colors.red, fontSize: 14),
                       ),
-                      OutlineButton(
+                      TextButton(
+                        style: ButtonStyle(
+                            foregroundColor: MaterialStateProperty.all<Color>(
+                                Colors.blueGrey[600])),
                         child: Text("Forgot password?"),
                         onPressed: () {
                           Navigator.pushNamed(context, "/forgotPass");

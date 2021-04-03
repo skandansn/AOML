@@ -15,11 +15,12 @@ class HomeStudent extends StatelessWidget {
     return Scaffold(
       // backgroundColor: Colors.grey[200],
       appBar: AppBar(
-        // backgroundColor: Colors.lightBlueAccent,
-        title: SingleChildScrollView(child: (Text("Welcome $name"))),
-
+        backgroundColor: Colors.blueGrey[600],
+        title: (Text("Welcome $name !")),
         actions: [
-          FlatButton.icon(
+          TextButton.icon(
+              style: ButtonStyle(
+                  foregroundColor: MaterialStateProperty.all(Colors.white)),
               onPressed: () async {
                 confirmLogoutBox(context);
               },

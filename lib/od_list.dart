@@ -20,7 +20,7 @@ class _ODListState extends State<ODList> {
   _ODListState({this.flag});
   Widget build(BuildContext context) {
     DatabaseService _db = DatabaseService();
-
+    final ScrollController _scrollcontroller = ScrollController();
     return FutureBuilder<String>(
       future: _db.getUserid(), // async work
       builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
@@ -34,26 +34,33 @@ class _ODListState extends State<ODList> {
               final ods = Provider.of<List<OD>>(context);
               var userid = "${snapshot.data.characters}";
               var arr = [];
-              ods.forEach((element) {
-                if(flag == true){
-                  if (((element.faculty == userid.toString()) ||
-                        (element.advisor == userid.toString())) &&
-                    element.steps > 0) {
-                  arr.add(element);
-                }
-                }
-                else{
-                  if (element.stuid == userid.toString()) {
-                  arr.add(element);
-                }
-                }
-              });
+              if (ods != null) {
+                ods.forEach((element) {
+                  if (flag == true) {
+                    if (((element.faculty == userid.toString()) ||
+                            (element.advisor == userid.toString())) &&
+                        element.steps > 0) {
+                      arr.add(element);
+                    }
+                  } else {
+                    if (element.stuid == userid.toString()) {
+                      arr.add(element);
+                    }
+                  }
+                });
+              }
 
-              return ListView.builder(
-                itemCount: arr.length,
-                itemBuilder: (context, index) {
-                  return Tile(appl: arr[index],flagType: flag);
-                },
+              return Scrollbar(
+                thickness: 10.0,
+                controller: _scrollcontroller,
+                isAlwaysShown: true,
+                child: ListView.builder(
+                  controller: _scrollcontroller,
+                  itemCount: arr.length,
+                  itemBuilder: (context, index) {
+                    return Tile(appl: arr[index], flagType: flag);
+                  },
+                ),
               );
             }
         }

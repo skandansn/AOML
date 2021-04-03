@@ -22,18 +22,18 @@ class MyApp extends StatelessWidget {
     return StreamProvider<User>.value(
       value: AuthService().user,
       child: MaterialApp(
-        theme:
-            ThemeData(primarySwatch: Colors.blue, brightness: Brightness.light),
-        themeMode: ThemeMode.dark,
-        darkTheme: ThemeData(brightness: Brightness.dark),
-        debugShowCheckedModeBanner: false,
+        color: Colors.blueGrey[600],
+        // theme:
+        //     ThemeData(primarySwatch: Colors.blue, brightness: Brightness.light),
+        // themeMode: ThemeMode.light,
+        // debugShowCheckedModeBanner: false,
         initialRoute: '/',
         routes: {
           '/forgotPass': (context) => ForgotPassword(),
           '/od': (context) => OD(),
           '/track': (context) => Track(),
         },
-        home: SafeArea(child: Wrapper()),
+        home: Wrapper(),
       ),
     );
   }

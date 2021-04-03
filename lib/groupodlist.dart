@@ -15,9 +15,11 @@ class GroupODList extends StatefulWidget {
 }
 
 class _GroupODListState extends State<GroupODList> {
-  @override
   bool flag = true;
+  final ScrollController _scrollcontroller = ScrollController();
+
   _GroupODListState({this.flag});
+  @override
   Widget build(BuildContext context) {
     DatabaseService _db = DatabaseService();
 
@@ -34,29 +36,36 @@ class _GroupODListState extends State<GroupODList> {
               final ods = Provider.of<List<GroupOD>>(context);
               var userid = "${snapshot.data.characters}";
               var arr = [];
-              ods.forEach((element) {
-                if(flag == true){
-                  if ((element.head == userid.toString() ||
-                        element.faculty == userid.toString() ||
-                        element.advisor == userid.toString()) &&
-                    element.steps > 0) {
-                  arr.add(element);
-                }
-                }
-                else{
-                  for (var item in element.stuids)
-                  if (item == userid.toString()) {
-                  arr.add(element);
-                }
-                }
-              });
+              if (ods != null) {
+                ods.forEach((element) {
+                  if (flag == true) {
+                    if ((element.head == userid.toString() ||
+                            element.faculty == userid.toString() ||
+                            element.advisor == userid.toString()) &&
+                        element.steps > 0) {
+                      arr.add(element);
+                    }
+                  } else {
+                    for (var item in element.stuids)
+                      if (item == userid.toString()) {
+                        arr.add(element);
+                      }
+                  }
+                });
+              }
 
-              return ListView.builder(
-                shrinkWrap: true,
-                itemCount: arr.length,
-                itemBuilder: (context, index) {
-                  return Tile(appl: arr[index],flagType:flag);
-                },
+              return Scrollbar(
+                thickness: 10.0,
+                controller: _scrollcontroller,
+                isAlwaysShown: true,
+                child: ListView.builder(
+                  controller: _scrollcontroller,
+                  shrinkWrap: true,
+                  itemCount: arr.length,
+                  itemBuilder: (context, index) {
+                    return Tile(appl: arr[index], flagType: flag);
+                  },
+                ),
               );
             }
         }
