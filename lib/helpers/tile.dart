@@ -46,7 +46,7 @@ class Tile extends StatelessWidget {
       return Padding(
         padding: EdgeInsets.only(top: 8),
         child: Card(
-          margin: EdgeInsets.fromLTRB(20, 6, 20, 0),
+          margin: EdgeInsets.fromLTRB(20, 6, 20, 6),
           child: ListTile(
               tileColor: colour,
               title: Text(
@@ -54,7 +54,7 @@ class Tile extends StatelessWidget {
                 style: TextStyle(color: Colors.black),
               ),
               subtitle: Text(
-                'Date: ${obj.date}. Time:  ${obj.time} ',
+                'Date: ${obj.date}. Type:  ${obj.type} ',
                 style: TextStyle(color: Colors.black),
               ),
               onTap: () {
@@ -66,13 +66,13 @@ class Tile extends StatelessWidget {
       return Padding(
         padding: EdgeInsets.only(top: 8),
         child: Card(
-          margin: EdgeInsets.fromLTRB(20, 6, 20, 0),
+          margin: EdgeInsets.fromLTRB(20, 6, 20, 6),
           child: ListTile(
               tileColor: colour,
               title: Text(obj.stuNo.toString(),
                   style: TextStyle(color: Colors.black)),
               subtitle: Text(
-                'Date: ${obj.date}. Time:  ${obj.time} ',
+                'Date: ${obj.date}. Type:  ${obj.type} ',
                 style: TextStyle(color: Colors.black),
               ),
               onTap: () {
