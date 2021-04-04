@@ -36,30 +36,33 @@ class _TrackState extends State<Track> {
             backgroundColor: Colors.blueGrey[600],
             title: (Text("Track Status")),
           ),
-          body: Column(children: <Widget>[
-            SizedBox(
-              height: 15,
-            ),
-            Text("Your Applications"),
-            SizedBox(
-              height: 5,
-            ),
-            Flexible(flex: 8, child: odfun()),
-            Divider(
-              height: 20,
-              thickness: 5,
-              indent: 20,
-              endIndent: 20,
-            ),
-            Text("Your Group OD Applications"),
-            SizedBox(
-              height: 5,
-            ),
-            Flexible(
-              flex: 2,
-              child: groupodfun(),
-            ),
-          ]),
+          body: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(children: <Widget>[
+              SizedBox(
+                height: 15,
+              ),
+              Text("Your Applications"),
+              SizedBox(
+                height: 5,
+              ),
+              Flexible(flex: 8, child: odfun()),
+              Divider(
+                height: 20,
+                thickness: 5,
+                indent: 20,
+                endIndent: 20,
+              ),
+              Text("Your Group OD Applications"),
+              SizedBox(
+                height: 5,
+              ),
+              Flexible(
+                flex: 2,
+                child: groupodfun(),
+              ),
+            ]),
+          ),
         ));
   }
 }

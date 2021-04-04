@@ -52,30 +52,33 @@ class _HomeFacultyState extends State<HomeFaculty> {
                   label: Text("Logout"))
             ],
           ),
-          body: Column(children: <Widget>[
-            SizedBox(
-              height: 15,
-            ),
-            Text("Individual Applications"),
-            SizedBox(
-              height: 5,
-            ),
-            Flexible(flex: 8, child: odfun()),
-            Divider(
-              height: 20,
-              thickness: 5,
-              indent: 20,
-              endIndent: 20,
-            ),
-            Text("Your Group OD Applications"),
-            SizedBox(
-              height: 5,
-            ),
-            Flexible(
-              flex: 2,
-              child: groupodfun(),
-            ),
-          ]),
+          body: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(children: <Widget>[
+              SizedBox(
+                height: 15,
+              ),
+              Text("Individual Applications"),
+              SizedBox(
+                height: 5,
+              ),
+              Flexible(flex: 8, child: odfun()),
+              Divider(
+                height: 20,
+                thickness: 5,
+                indent: 20,
+                endIndent: 20,
+              ),
+              Text("Your Group OD Applications"),
+              SizedBox(
+                height: 5,
+              ),
+              Flexible(
+                flex: 2,
+                child: groupodfun(),
+              ),
+            ]),
+          ),
         ));
   }
 }
