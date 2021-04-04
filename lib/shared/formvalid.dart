@@ -1,9 +1,15 @@
+import 'dart:io';
+
 import 'package:aumsodmll/models/od.dart';
 import 'package:aumsodmll/services/database.dart';
 import 'package:aumsodmll/shared/constants.dart';
+import 'package:aumsodmll/shared/PdfPreviewScreen.dart';
 import 'package:aumsodmll/shared/loading.dart';
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:pdf/pdf.dart';
+import 'package:pdf/widgets.dart' as pw;
 
 class FormVal extends StatefulWidget {
   final dynamic od;
@@ -86,6 +92,123 @@ class _FormValState extends State<FormVal> {
 
   _FormValState({this.od, this.flagType});
   @override
+  final pdf = pw.Document();
+
+  writeOnPdf(int flagpdf){
+    GroupOD applobjgrp;
+    int flag = 1;
+    OD applobjind;
+    if (od is GroupOD) {
+      applobjgrp = od;
+      flag = 2;
+    } else {
+      applobjind = od;
+    }
+    var objP;
+    if (flag == 1) {
+      objP = applobjind;
+    } else {
+      objP = applobjgrp;
+    }
+    pdf.addPage(
+      pw.MultiPage(
+        pageFormat: PdfPageFormat.a4,
+        margin: pw.EdgeInsets.all(32), 
+        build: (pw.Context context){
+          if (flagpdf == 1){
+          return <pw.Widget> [pw.Header(
+            level: 0,
+            child: pw.Text('Individual')
+            ),
+
+            pw.Paragraph(
+              text:"Application Type : ${objP.type}"
+            ),
+
+            pw.Paragraph(
+              text:"Student Name : ${objP.stuname}"
+            ),
+
+            pw.Paragraph(
+              text:"Student Roll Number : ${objP.stuNo}"
+            ),
+
+            pw.Paragraph(
+              text:"Date : ${objP.date}"
+            ),
+
+            pw.Paragraph(
+              text:"Student Name : ${objP.time}"
+            ),
+            
+            pw.Paragraph(
+              text:"Student Name : ${objP.description}"
+            ),
+
+            pw.Paragraph(
+              text:"Student Name : ${objP.reasons}"
+            ),
+
+            pw.Paragraph(
+              text:"Student Name : ${objP.proofreq}"
+            ),
+
+            ];
+        }
+        else{
+            return <pw.Widget> [pw.Header(
+            level: 0,
+            child: pw.Text('Group')
+            ),
+
+            pw.Paragraph(
+              text:"Student Names : "
+              
+            ),
+
+            pw.Paragraph(
+              text:"Student Name : ${objP.stuNo}"
+            ),
+
+            pw.Paragraph(
+              text:"Student Name : ${objP.date}"
+            ),
+
+            pw.Paragraph(
+              text:"Student Name : ${objP.time}"
+            ),
+            
+            pw.Paragraph(
+              text:"Student Name : ${objP.description}"
+            ),
+
+            pw.Paragraph(
+              text:"Student Name : ${objP.reasons}"
+            ),
+
+            pw.Paragraph(
+              text:"Student Name : ${objP.proofreq}"
+            ),
+
+            
+            ];
+        }
+        },
+        )
+    );
+  }
+  
+  Future SavePdf(String path) async{
+    Directory documentDirectory = await getExternalStorageDirectory();
+
+    String documentPath = documentDirectory.path;
+
+    File file = File("$documentPath/$path.pdf");
+
+    file.writeAsBytesSync(pdf.save());
+  }
+  
+  
   Widget build(BuildContext context) {
     GroupOD applobjgrp;
     int flag = 1;
@@ -245,7 +368,27 @@ class _FormValState extends State<FormVal> {
                               Navigator.pop(context);
                             },
                             child: Text("Confirm the approvals/denials"))
-                        : Container(),
+                        :IconButton(
+                                  icon: const Icon(
+                                    Icons.do_not_disturb_alt,
+                                    color: Colors.red,
+                                  ),
+                                  onPressed: () async {
+                                    writeOnPdf(flag);
+                                    await SavePdf(obj.formid);
+
+                                    Directory documentDirectory = await getExternalStorageDirectory();
+                                    String pathId = obj.formid;
+                                    String documentPath = documentDirectory.path;
+
+                                    String fullPath = "$documentPath/$pathId.pdf";
+                                  
+                                    Navigator.push(context, MaterialPageRoute(
+                                      builder: (context) => PdfPreviewScreen(path:fullPath,)
+                                    )
+                                    );
+                                  },
+                                  ),
                   ]),
                 );
               }
@@ -442,7 +585,27 @@ class _FormValState extends State<FormVal> {
                                         .showSnackBar(snackBar);
                                   },
                                 )
-                              : Container(),
+                              :IconButton(
+                                  icon: const Icon(
+                                    Icons.do_not_disturb_alt,
+                                    color: Colors.red,
+                                  ),
+                                  onPressed: () async {
+                                    writeOnPdf(flag);
+                                    await SavePdf(obj.formid);
+
+                                    Directory documentDirectory = await getExternalStorageDirectory();
+                                    String pathId = obj.formid;
+                                    String documentPath = documentDirectory.path;
+
+                                    String fullPath = "$documentPath/$pathId.pdf";
+                                  
+                                    Navigator.push(context, MaterialPageRoute(
+                                      builder: (context) => PdfPreviewScreen(path:fullPath,)
+                                    )
+                                    );
+                                  },
+                                  ),
                           flagType
                               ? IconButton(
                                   icon: Icon(
