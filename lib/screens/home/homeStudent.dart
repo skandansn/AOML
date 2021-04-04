@@ -28,27 +28,29 @@ class HomeStudent extends StatelessWidget {
               label: Text("Logout"))
         ],
       ),
-      body: ListView(
-        children: <Widget>[
-          Card(
-            child: ListTile(
-              leading: Icon(Icons.work),
-              title: Text('Apply for an OD/ML/Daypass/Homepass'),
-              onTap: () {
-                Navigator.pushNamed(context, "/od");
-              },
+      body: Scrollbar(
+        child: ListView(
+          children: <Widget>[
+            Card(
+              child: ListTile(
+                leading: Icon(Icons.work),
+                title: Text('Apply for an OD/ML/Daypass/Homepass'),
+                onTap: () {
+                  Navigator.pushNamed(context, "/od");
+                },
+              ),
             ),
-          ),
-          Card(
-            child: ListTile(
-              leading: Icon(Icons.home),
-              title: Text('Track status'),
-              onTap: () {
-                Navigator.pushNamed(context, "/track");
-              },
+            Card(
+              child: ListTile(
+                leading: Icon(Icons.home),
+                title: Text('Track status'),
+                onTap: () {
+                  Navigator.pushNamed(context, "/track");
+                },
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

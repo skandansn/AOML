@@ -3,6 +3,7 @@ import 'package:aumsodmll/services/database.dart';
 import 'package:aumsodmll/shared/constants.dart';
 import 'package:aumsodmll/shared/loading.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:loading_gifs/loading_gifs.dart';
 
 class SignIn extends StatefulWidget {
@@ -15,7 +16,7 @@ class _SignInState extends State<SignIn> {
   String email = "";
   String pass = "";
 
-  final _formkey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormBuilderState>();
   String error = "";
   bool loading = false;
 
@@ -30,21 +31,25 @@ class _SignInState extends State<SignIn> {
               backgroundColor: Colors.blueGrey[600],
               title: Text("Sign in to AOML"),
             ),
-            body: Container(
+            body: SingleChildScrollView(
                 padding: EdgeInsets.symmetric(vertical: 20, horizontal: 50),
-                child: Form(
-                  key: _formkey,
+                child: FormBuilder(
+                  key: _formKey,
+                  autovalidateMode: AutovalidateMode.disabled,
                   child: Column(
                     children: [
                       FadeInImage.assetNetwork(
                           placeholder: cupertinoActivityIndicatorSmall,
                           image: 'https://i.imgur.com/pQR0s45.jpg'),
                       SizedBox(height: 20),
-                      TextFormField(
+                      FormBuilderTextField(
+                        name: "email",
                         decoration:
-                            textInputDecoration.copyWith(hintText: "Email"),
-                        validator: (val) =>
-                            val.isEmpty ? 'Enter your username' : null,
+                            textInputDecoration.copyWith(labelText: "Email"),
+                        validator: FormBuilderValidators.compose([
+                          FormBuilderValidators.email(context),
+                          FormBuilderValidators.required(context),
+                        ]),
                         onChanged: (val) {
                           setState(() {
                             email = val;
@@ -54,9 +59,13 @@ class _SignInState extends State<SignIn> {
                       SizedBox(
                         height: 20,
                       ),
-                      TextFormField(
+                      FormBuilderTextField(
+                        name: "pass",
                         decoration:
-                            textInputDecoration.copyWith(hintText: "Password"),
+                            textInputDecoration.copyWith(labelText: "Password"),
+                        validator: FormBuilderValidators.compose([
+                          FormBuilderValidators.required(context),
+                        ]),
                         // validator: (val) =>
                         //     val.length < 6 ? 'Enter your password' : null,
                         obscureText: true,
@@ -72,7 +81,9 @@ class _SignInState extends State<SignIn> {
                       ElevatedButton(
                           style: buttonStyle,
                           onPressed: () async {
-                            if (_formkey.currentState.validate()) {
+                            _formKey.currentState.save();
+
+                            if (_formKey.currentState.validate()) {
                               setState(() {
                                 loading = true;
                               });
@@ -85,6 +96,8 @@ class _SignInState extends State<SignIn> {
                                       "SignIn failed! Verify your credentials and try again";
                                 });
                               }
+                            } else {
+                              print("val fail");
                             }
                           },
                           child: Text(

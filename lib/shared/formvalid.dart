@@ -33,7 +33,7 @@ class _FormValState extends State<FormVal> {
                   onChanged: (value) {
                     reasons = _addreasons.text;
                   },
-                  decoration: InputDecoration(hintText: "Add reasons"),
+                  decoration: InputDecoration(labelText: "Reasons"),
                 ),
                 ElevatedButton(
                     onPressed: () {
@@ -64,7 +64,7 @@ class _FormValState extends State<FormVal> {
                       proof = _getproof.text.toString();
                     }
                   },
-                  decoration: InputDecoration(hintText: "Get proof"),
+                  decoration: InputDecoration(labelText: "Proof"),
                 ),
                 ElevatedButton(
                     onPressed: () {
