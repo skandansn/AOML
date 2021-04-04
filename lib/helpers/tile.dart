@@ -29,7 +29,7 @@ class Tile extends StatelessWidget {
     } else if (colour == 0) {
       colour = Colors.greenAccent;
     } else {
-      colour = Colors.white;
+      colour = Colors.blueGrey[100];
     }
     void _showFormVal(bool flagType) {
       showModalBottomSheet(

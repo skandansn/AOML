@@ -107,16 +107,23 @@ class DatabaseService {
 
   Future reasonsandproof(String person, String id, String details) async {
     int flag = 1;
+    String oldmsg;
     var x = await odcollection.document(id).get();
     if (x.data == null) {
       flag = 2;
       x = await groupodcollection.document(id).get();
     }
-
-    if (flag == 1) {
-      odcollection.document(id).updateData({"proofreq": details});
+    oldmsg = (x.data["proofreq"]);
+    if (oldmsg != null) {
+      oldmsg = oldmsg + "\n";
+      oldmsg = oldmsg + details;
     } else {
-      groupodcollection.document(id).updateData({"proofreq": details});
+      oldmsg = details;
+    }
+    if (flag == 1) {
+      odcollection.document(id).updateData({"proofreq": oldmsg});
+    } else {
+      groupodcollection.document(id).updateData({"proofreq": oldmsg});
     }
   }
 
@@ -170,6 +177,12 @@ class DatabaseService {
       flag = 2;
       x = await groupodcollection.document(id).get();
     }
+    String msg = x.data["reasons"];
+    if (msg != null) {
+      msg = msg + "\n" + reasons;
+    } else {
+      msg = reasons;
+    }
     var f = (x.data["faculty"]);
     if (flag == 1) {
       if (val == true) {
@@ -187,7 +200,7 @@ class DatabaseService {
         }
         odcollection.document(id).updateData({"steps": -1});
       }
-      odcollection.document(id).updateData({"reasons": reasons});
+      odcollection.document(id).updateData({"reasons": msg});
     } else {
       var h = (x.data["head"]);
       if (val == true) {
@@ -208,7 +221,7 @@ class DatabaseService {
         }
         groupodcollection.document(id).updateData({"steps": -1});
       }
-      groupodcollection.document(id).updateData({"reasons": reasons});
+      groupodcollection.document(id).updateData({"reasons": msg});
     }
   }
 }
