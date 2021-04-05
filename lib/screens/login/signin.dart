@@ -1,5 +1,4 @@
 import 'package:aumsodmll/services/auth.dart';
-import 'package:aumsodmll/services/database.dart';
 import 'package:aumsodmll/shared/constants.dart';
 import 'package:aumsodmll/shared/loading.dart';
 import 'package:flutter/material.dart';
@@ -26,9 +25,10 @@ class _SignInState extends State<SignIn> {
         ? Loading()
         : Scaffold(
             resizeToAvoidBottomInset: true,
-            // backgroundColor: Colors.blueGrey[600],
+            backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
             appBar: AppBar(
-              backgroundColor: Colors.blueGrey[600],
+              backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
+              elevation: 0.1,
               title: Text("Sign in to AOML"),
             ),
             body: SingleChildScrollView(
@@ -44,8 +44,9 @@ class _SignInState extends State<SignIn> {
                       SizedBox(height: 20),
                       FormBuilderTextField(
                         name: "email",
-                        decoration:
-                            textInputDecoration.copyWith(labelText: "Email"),
+                        decoration: textInputDecoration.copyWith(
+                          labelText: "Email",
+                        ),
                         validator: FormBuilderValidators.compose([
                           FormBuilderValidators.email(context),
                           FormBuilderValidators.required(context),
