@@ -2,7 +2,6 @@ import 'package:aumsodmll/helpers/groupodlist.dart';
 import 'package:aumsodmll/models/od.dart';
 import 'package:aumsodmll/helpers/od_list.dart';
 import 'package:aumsodmll/shared/functions.dart';
-import 'package:aumsodmll/services/auth.dart';
 import 'package:aumsodmll/services/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -37,9 +36,10 @@ class _HomeFacultyState extends State<HomeFaculty> {
               value: DatabaseService().groupods),
         ],
         child: Scaffold(
-          // backgroundColor: Colors.grey[200],
+          backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
           appBar: AppBar(
-            backgroundColor: Colors.blueGrey[600],
+            elevation: 0.1,
+            backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
             title: (Text("Welcome ${widget.name} !")),
             actions: [
               TextButton.icon(
@@ -58,7 +58,11 @@ class _HomeFacultyState extends State<HomeFaculty> {
               SizedBox(
                 height: 15,
               ),
-              Text("Individual Applications"),
+              Text(
+                "Individual Applications",
+                style:
+                    TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+              ),
               SizedBox(
                 height: 5,
               ),
@@ -69,7 +73,9 @@ class _HomeFacultyState extends State<HomeFaculty> {
                 indent: 20,
                 endIndent: 20,
               ),
-              Text("Your Group OD Applications"),
+              Text("Your Group OD Applications",
+                  style: TextStyle(
+                      color: Colors.white, fontWeight: FontWeight.bold)),
               SizedBox(
                 height: 5,
               ),

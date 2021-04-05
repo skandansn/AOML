@@ -1,0 +1,6 @@
+projectKey=seproject
+serverUrl=http://localhost:9000
+serverVersion=8.8.0.42792
+dashboardUrl=http://localhost:9000/dashboard?id=seproject
+ceTaskId=AXicCReli-hbON3LZ6MV
+ceTaskUrl=http://localhost:9000/api/ce/task?id=AXicCReli-hbON3LZ6MV
