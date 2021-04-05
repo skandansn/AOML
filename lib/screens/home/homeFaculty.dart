@@ -2,7 +2,6 @@ import 'package:aumsodmll/helpers/groupodlist.dart';
 import 'package:aumsodmll/models/od.dart';
 import 'package:aumsodmll/helpers/od_list.dart';
 import 'package:aumsodmll/shared/functions.dart';
-import 'package:aumsodmll/services/auth.dart';
 import 'package:aumsodmll/services/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';

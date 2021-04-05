@@ -1,12 +1,11 @@
 import 'dart:io';
-
+import 'package:mime_type/mime_type.dart';
 import 'package:aumsodmll/services/database.dart';
 import 'package:aumsodmll/shared/constants.dart';
 import 'package:aumsodmll/shared/loading.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:file_picker/file_picker.dart';
 
 class OD extends StatefulWidget {
@@ -29,6 +28,7 @@ class _ODState extends State<OD> {
   String addproofname = "Add proof";
   bool addedimage = false;
   File _imagefinal;
+  dynamic filetype;
   Future<void> getImage() async {
     FilePickerResult result = await FilePicker.platform.pickFiles();
 
@@ -38,6 +38,13 @@ class _ODState extends State<OD> {
         addproofname = "Change proof";
         addedimage = true;
         _imagefinal = File(result.files.single.path);
+        filetype = mime(_imagefinal.path);
+        print(filetype);
+        if (filetype.contains("image")) {
+          filetype = true;
+        } else {
+          filetype = false;
+        }
       });
     }
   }
@@ -231,9 +238,17 @@ class _ODState extends State<OD> {
                                       SizedBox(
                                         height: 150,
                                         width: 150,
-                                        child: Image.file(
-                                          File(_imagefinal.path),
-                                          fit: BoxFit.contain,
+                                        child: Column(
+                                          children: [
+                                            filetype
+                                                ? Expanded(
+                                                    child: Image.file(
+                                                      File(_imagefinal.path),
+                                                      fit: BoxFit.contain,
+                                                    ),
+                                                  )
+                                                : Text(_imagefinal.path)
+                                          ],
                                         ),
                                       ),
                                   ],
@@ -269,6 +284,7 @@ class _ODState extends State<OD> {
                                   : Container(),
                             ],
                           ),
+
                           ElevatedButton(
                               style: buttonStyle,
                               onPressed: () {

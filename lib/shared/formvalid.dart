@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:ui';
 
 import 'package:aumsodmll/models/od.dart';
 import 'package:aumsodmll/services/database.dart';
@@ -94,7 +95,7 @@ class _FormValState extends State<FormVal> {
   @override
   final pdf = pw.Document();
 
-  writeOnPdf(int flagpdf){
+  writeOnPdf(int flagpdf) {
     GroupOD applobjgrp;
     int flag = 1;
     OD applobjind;
@@ -110,95 +111,39 @@ class _FormValState extends State<FormVal> {
     } else {
       objP = applobjgrp;
     }
-    pdf.addPage(
-      pw.MultiPage(
-        pageFormat: PdfPageFormat.a4,
-        margin: pw.EdgeInsets.all(32), 
-        build: (pw.Context context){
-          if (flagpdf == 1){
-          return <pw.Widget> [pw.Header(
-            level: 0,
-            child: pw.Text('Individual')
-            ),
-
-            pw.Paragraph(
-              text:"Application Type : ${objP.type}"
-            ),
-
-            pw.Paragraph(
-              text:"Student Name : ${objP.stuname}"
-            ),
-
-            pw.Paragraph(
-              text:"Student Roll Number : ${objP.stuNo}"
-            ),
-
-            pw.Paragraph(
-              text:"Date : ${objP.date}"
-            ),
-
-            pw.Paragraph(
-              text:"Student Name : ${objP.time}"
-            ),
-            
-            pw.Paragraph(
-              text:"Student Name : ${objP.description}"
-            ),
-
-            pw.Paragraph(
-              text:"Student Name : ${objP.reasons}"
-            ),
-
-            pw.Paragraph(
-              text:"Student Name : ${objP.proofreq}"
-            ),
-
-            ];
+    pdf.addPage(pw.MultiPage(
+      pageFormat: PdfPageFormat.a4,
+      margin: pw.EdgeInsets.all(32),
+      build: (pw.Context context) {
+        if (flagpdf == 1) {
+          return <pw.Widget>[
+            pw.Header(level: 0, child: pw.Text('Individual')),
+            pw.Paragraph(text: "Application Type : ${objP.type}"),
+            pw.Paragraph(text: "Student Name : ${objP.stuname}"),
+            pw.Paragraph(text: "Student Roll Number : ${objP.stuNo}"),
+            pw.Paragraph(text: "Date : ${objP.date}"),
+            pw.Paragraph(text: "Student Name : ${objP.time}"),
+            pw.Paragraph(text: "Student Name : ${objP.description}"),
+            pw.Paragraph(text: "Student Name : ${objP.reasons}"),
+            pw.Paragraph(text: "Student Name : ${objP.proofreq}"),
+          ];
+        } else {
+          return <pw.Widget>[
+            pw.Header(level: 0, child: pw.Text('Group')),
+            pw.Paragraph(text: "Student Names : "),
+            pw.Paragraph(text: "Student Name : ${objP.stuNo}"),
+            pw.Paragraph(text: "Student Name : ${objP.date}"),
+            pw.Paragraph(text: "Student Name : ${objP.time}"),
+            pw.Paragraph(text: "Student Name : ${objP.description}"),
+            pw.Paragraph(text: "Student Name : ${objP.reasons}"),
+            pw.Paragraph(text: "Student Name : ${objP.proofreq}"),
+          ];
         }
-        else{
-            return <pw.Widget> [pw.Header(
-            level: 0,
-            child: pw.Text('Group')
-            ),
-
-            pw.Paragraph(
-              text:"Student Names : "
-              
-            ),
-
-            pw.Paragraph(
-              text:"Student Name : ${objP.stuNo}"
-            ),
-
-            pw.Paragraph(
-              text:"Student Name : ${objP.date}"
-            ),
-
-            pw.Paragraph(
-              text:"Student Name : ${objP.time}"
-            ),
-            
-            pw.Paragraph(
-              text:"Student Name : ${objP.description}"
-            ),
-
-            pw.Paragraph(
-              text:"Student Name : ${objP.reasons}"
-            ),
-
-            pw.Paragraph(
-              text:"Student Name : ${objP.proofreq}"
-            ),
-
-            
-            ];
-        }
-        },
-        )
-    );
+      },
+    ));
   }
-  
-  Future SavePdf(String path) async{
+
+  Future SavePdf(String path) async {
     Directory documentDirectory = await getExternalStorageDirectory();
 
     String documentPath = documentDirectory.path;
@@ -207,8 +152,7 @@ class _FormValState extends State<FormVal> {
 
     file.writeAsBytesSync(pdf.save());
   }
-  
-  
+
   Widget build(BuildContext context) {
     GroupOD applobjgrp;
     int flag = 1;
@@ -246,18 +190,24 @@ class _FormValState extends State<FormVal> {
 
                     break;
                   default:
-                    color = Colors.amber;
+                    color = Colors.white;
                 }
                 return Container(
                   child: Column(mainAxisSize: MainAxisSize.min, children: [
                     Text(
                       "Student Names:",
+                      style: TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.bold),
                     ),
                     for (var item in obj.stunames) Text(item),
                     SizedBox(
                       height: 20,
                     ),
-                    Text("Student Roll Nos:"),
+                    Text(
+                      "Student Roll Nos:",
+                      style: TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.bold),
+                    ),
                     for (var item in obj.stuNos)
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -368,27 +318,32 @@ class _FormValState extends State<FormVal> {
                               Navigator.pop(context);
                             },
                             child: Text("Confirm the approvals/denials"))
-                        :IconButton(
-                                  icon: const Icon(
-                                    Icons.do_not_disturb_alt,
-                                    color: Colors.red,
-                                  ),
-                                  onPressed: () async {
-                                    writeOnPdf(flag);
-                                    await SavePdf(obj.formid);
+                        : IconButton(
+                            icon: const Icon(
+                              Icons.do_not_disturb_alt,
+                              color: Colors.red,
+                            ),
+                            onPressed: () async {
+                              writeOnPdf(flag);
+                              await SavePdf(obj.formid);
 
-                                    Directory documentDirectory = await getExternalStorageDirectory();
-                                    String pathId = obj.formid;
-                                    String documentPath = documentDirectory.path;
+                              Directory documentDirectory =
+                                  await getExternalStorageDirectory();
+                              String pathId = obj.formid;
+                              String documentPath = documentDirectory.path;
 
-                                    String fullPath = "$documentPath/$pathId.pdf";
-                                  
-                                    Navigator.push(context, MaterialPageRoute(
-                                      builder: (context) => PdfPreviewScreen(path:fullPath,)
-                                    )
-                                    );
-                                  },
-                                  ),
+                              String fullPath = "$documentPath/$pathId.pdf";
+                              ImageProvider imga;
+                              Image img = Image(image: imga);
+
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => PdfPreviewScreen(
+                                            path: fullPath,
+                                          )));
+                            },
+                          ),
                   ]),
                 );
               }
@@ -416,17 +371,19 @@ class _FormValState extends State<FormVal> {
 
                     break;
                   default:
-                    color = Colors.amber;
+                    color = Colors.white;
                 }
                 return Container(
                   child: Column(
-                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       RichText(
                           text: TextSpan(children: [
                         TextSpan(
-                            text: "Application Type:",
-                            style: TextStyle(color: Colors.black)),
+                          text: "Application Type:",
+                          style: TextStyle(
+                              color: Colors.white, fontWeight: FontWeight.bold),
+                        ),
                         TextSpan(
                             text: " ${obj.type}",
                             style: TextStyle(color: color))
@@ -437,8 +394,10 @@ class _FormValState extends State<FormVal> {
                       RichText(
                           text: TextSpan(children: [
                         TextSpan(
-                            text: "Student Name:",
-                            style: TextStyle(color: Colors.black)),
+                          text: "Student Name:",
+                          style: TextStyle(
+                              color: Colors.white, fontWeight: FontWeight.bold),
+                        ),
                         TextSpan(
                             text: " ${obj.stuname}",
                             style: TextStyle(color: color))
@@ -449,8 +408,10 @@ class _FormValState extends State<FormVal> {
                       RichText(
                           text: TextSpan(children: [
                         TextSpan(
-                            text: "Student Roll No:",
-                            style: TextStyle(color: Colors.black)),
+                          text: "Student Roll No:",
+                          style: TextStyle(
+                              color: Colors.white, fontWeight: FontWeight.bold),
+                        ),
                         TextSpan(
                             text: " ${obj.stuNo}",
                             style: TextStyle(color: color))
@@ -461,8 +422,10 @@ class _FormValState extends State<FormVal> {
                       RichText(
                           text: TextSpan(children: [
                         TextSpan(
-                            text: "Date:",
-                            style: TextStyle(color: Colors.black)),
+                          text: "Date:",
+                          style: TextStyle(
+                              color: Colors.white, fontWeight: FontWeight.bold),
+                        ),
                         TextSpan(
                             text: " ${obj.date}",
                             style: TextStyle(color: color))
@@ -473,8 +436,10 @@ class _FormValState extends State<FormVal> {
                       RichText(
                           text: TextSpan(children: [
                         TextSpan(
-                            text: "Time:",
-                            style: TextStyle(color: Colors.black)),
+                          text: "Time:",
+                          style: TextStyle(
+                              color: Colors.white, fontWeight: FontWeight.bold),
+                        ),
                         TextSpan(
                             text: " ${obj.time}",
                             style: TextStyle(color: color))
@@ -485,8 +450,10 @@ class _FormValState extends State<FormVal> {
                       RichText(
                           text: TextSpan(children: [
                         TextSpan(
-                            text: "Description:",
-                            style: TextStyle(color: Colors.black)),
+                          text: "Description:",
+                          style: TextStyle(
+                              color: Colors.white, fontWeight: FontWeight.bold),
+                        ),
                         TextSpan(
                             text: " ${obj.description}",
                             style: TextStyle(color: color))
@@ -499,7 +466,9 @@ class _FormValState extends State<FormVal> {
                               style: buttonStyle,
                               child: Text(
                                 "View proof",
-                                style: TextStyle(color: Colors.white),
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
                               ),
                               onPressed: () async {
                                 _url = "${obj.proof}";
@@ -518,8 +487,11 @@ class _FormValState extends State<FormVal> {
                           : RichText(
                               text: TextSpan(children: [
                               TextSpan(
-                                  text: "Reasons given by the faculty:",
-                                  style: TextStyle(color: Colors.black)),
+                                text: "Reasons given by the faculty:",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                              ),
                               TextSpan(
                                   text: " ${obj.reasons}",
                                   style: TextStyle(color: color))
@@ -532,8 +504,11 @@ class _FormValState extends State<FormVal> {
                           : RichText(
                               text: TextSpan(children: [
                               TextSpan(
-                                  text: "Proof requested by the faculty:",
-                                  style: TextStyle(color: Colors.black)),
+                                text: "Proof requested by the faculty:",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                              ),
                               TextSpan(
                                   text: " ${obj.proofreq}",
                                   style: TextStyle(color: color))
@@ -585,7 +560,7 @@ class _FormValState extends State<FormVal> {
                                         .showSnackBar(snackBar);
                                   },
                                 )
-                              :IconButton(
+                              : IconButton(
                                   icon: const Icon(
                                     Icons.do_not_disturb_alt,
                                     color: Colors.red,
@@ -594,18 +569,24 @@ class _FormValState extends State<FormVal> {
                                     writeOnPdf(flag);
                                     await SavePdf(obj.formid);
 
-                                    Directory documentDirectory = await getExternalStorageDirectory();
+                                    Directory documentDirectory =
+                                        await getExternalStorageDirectory();
                                     String pathId = obj.formid;
-                                    String documentPath = documentDirectory.path;
+                                    String documentPath =
+                                        documentDirectory.path;
 
-                                    String fullPath = "$documentPath/$pathId.pdf";
-                                  
-                                    Navigator.push(context, MaterialPageRoute(
-                                      builder: (context) => PdfPreviewScreen(path:fullPath,)
-                                    )
-                                    );
+                                    String fullPath =
+                                        "$documentPath/$pathId.pdf";
+
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                PdfPreviewScreen(
+                                                  path: fullPath,
+                                                )));
                                   },
-                                  ),
+                                ),
                           flagType
                               ? IconButton(
                                   icon: Icon(
