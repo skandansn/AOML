@@ -9,7 +9,12 @@ Future<void> confirmLogoutBox(BuildContext context) async {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Center(child: Text('Confirm logout')),
+          backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
+          title: Center(
+              child: Text(
+            'Confirm logout',
+            style: TextStyle(color: Colors.white),
+          )),
           content: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

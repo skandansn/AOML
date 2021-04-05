@@ -38,6 +38,7 @@ class Tile extends StatelessWidget {
     void _showFormVal(bool flagType) {
       showModalBottomSheet(
           backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
+          elevation: 8,
           context: context,
           builder: (context) {
             return SingleChildScrollView(
