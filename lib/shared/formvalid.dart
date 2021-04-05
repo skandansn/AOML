@@ -122,36 +122,6 @@ class _FormValState extends State<FormVal> {
             pw.Paragraph(text: "Student Name : ${objP.stuname}"),
             pw.Paragraph(text: "Student Roll Number : ${objP.stuNo}"),
             pw.Paragraph(text: "Date : ${objP.date}"),
-            pw.Paragraph(text: "Student Name : ${objP.time}"),
-            pw.Paragraph(text: "Student Name : ${objP.description}"),
-            pw.Paragraph(text: "Student Name : ${objP.reasons}"),
-            pw.Paragraph(text: "Student Name : ${objP.proofreq}"),
-          ];
-        } else {
-          return <pw.Widget>[
-            pw.Header(level: 0, child: pw.Text('Group')),
-            pw.Paragraph(text: "Student Names : "),
-            pw.Paragraph(text: "Student Name : ${objP.stuNo}"),
-            pw.Paragraph(text: "Student Name : ${objP.date}"),
-            pw.Paragraph(text: "Student Name : ${objP.time}"),
-            pw.Paragraph(text: "Student Name : ${objP.description}"),
-            pw.Paragraph(text: "Student Name : ${objP.reasons}"),
-            pw.Paragraph(text: "Student Name : ${objP.proofreq}"),
-          ];
-        }
-      },
-    ));
-    pdf.addPage(pw.MultiPage(
-      pageFormat: PdfPageFormat.a4,
-      margin: pw.EdgeInsets.all(32),
-      build: (pw.Context context) {
-        if (flagpdf == 1) {
-          return <pw.Widget>[
-            pw.Header(level: 0, child: pw.Text('Individual')),
-            pw.Paragraph(text: "Application Type : ${objP.type}"),
-            pw.Paragraph(text: "Student Name : ${objP.stuname}"),
-            pw.Paragraph(text: "Student Roll Number : ${objP.stuNo}"),
-            pw.Paragraph(text: "Date : ${objP.date}"),
             pw.Paragraph(text: "Time : ${objP.time}"),
             pw.Paragraph(text: "Description : ${objP.description}"),
             pw.Paragraph(text: "Reasons : ${objP.reasons}"),
@@ -349,8 +319,7 @@ class _FormValState extends State<FormVal> {
                             child: Text("Confirm the approvals/denials"))
                         : IconButton(
                             icon: const Icon(
-                              Icons.do_not_disturb_alt,
-                              color: Colors.red,
+                              Icons.arrow_downward,
                             ),
                             onPressed: () async {
                               writeOnPdf(flag);
@@ -362,8 +331,6 @@ class _FormValState extends State<FormVal> {
                               String documentPath = documentDirectory.path;
 
                               String fullPath = "$documentPath/$pathId.pdf";
-                              ImageProvider imga;
-                              Image img = Image(image: imga);
 
                               Navigator.push(
                                   context,
@@ -591,8 +558,7 @@ class _FormValState extends State<FormVal> {
                                 )
                               : IconButton(
                                   icon: const Icon(
-                                    Icons.do_not_disturb_alt,
-                                    color: Colors.red,
+                                    Icons.arrow_downward,
                                   ),
                                   onPressed: () async {
                                     writeOnPdf(flag);
