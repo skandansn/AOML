@@ -141,6 +141,35 @@ class _FormValState extends State<FormVal> {
         }
       },
     ));
+    pdf.addPage(pw.MultiPage(
+      pageFormat: PdfPageFormat.a4,
+      margin: pw.EdgeInsets.all(32),
+      build: (pw.Context context) {
+        if (flagpdf == 1) {
+          return <pw.Widget>[
+            pw.Header(level: 0, child: pw.Text('Individual')),
+            pw.Paragraph(text: "Application Type : ${objP.type}"),
+            pw.Paragraph(text: "Student Name : ${objP.stuname}"),
+            pw.Paragraph(text: "Student Roll Number : ${objP.stuNo}"),
+            pw.Paragraph(text: "Date : ${objP.date}"),
+            pw.Paragraph(text: "Time : ${objP.time}"),
+            pw.Paragraph(text: "Description : ${objP.description}"),
+            pw.Paragraph(text: "Reasons : ${objP.reasons}"),
+            pw.Paragraph(text: "Proof Requested : ${objP.proofreq}"),
+          ];
+        } else {
+          return <pw.Widget>[
+            pw.Header(level: 0, child: pw.Text('Group')),
+            pw.Paragraph(text: "Student Number : ${objP.stuNo}"),
+            pw.Paragraph(text: "Date : ${objP.date}"),
+            pw.Paragraph(text: "Time : ${objP.time}"),
+            pw.Paragraph(text: "Description : ${objP.description}"),
+            pw.Paragraph(text: "Reasons : ${objP.reasons}"),
+            pw.Paragraph(text: "Proof Requested : ${objP.proofreq}"),
+          ];
+        }
+      },
+    ));
   }
 
   Future SavePdf(String path) async {
