@@ -138,56 +138,51 @@ class _FormValState extends State<FormVal> {
             ),
 
             pw.Paragraph(
-              text:"Student Name : ${objP.time}"
+              text:"Time : ${objP.time}"
             ),
             
             pw.Paragraph(
-              text:"Student Name : ${objP.description}"
+              text:"Description : ${objP.description}"
             ),
 
             pw.Paragraph(
-              text:"Student Name : ${objP.reasons}"
+              text:"Reasons : ${objP.reasons}"
             ),
 
             pw.Paragraph(
-              text:"Student Name : ${objP.proofreq}"
+              text:"Proof Requested : ${objP.proofreq}"
             ),
-
             ];
         }
         else{
-            return <pw.Widget> [pw.Header(
+            return <pw.Widget> [
+            pw.Header(
             level: 0,
             child: pw.Text('Group')
             ),
 
             pw.Paragraph(
-              text:"Student Names : "
-              
+              text:"Student Number : ${objP.stuNo}"
             ),
 
             pw.Paragraph(
-              text:"Student Name : ${objP.stuNo}"
+              text:"Date : ${objP.date}"
             ),
 
             pw.Paragraph(
-              text:"Student Name : ${objP.date}"
-            ),
-
-            pw.Paragraph(
-              text:"Student Name : ${objP.time}"
+              text:"Time : ${objP.time}"
             ),
             
             pw.Paragraph(
-              text:"Student Name : ${objP.description}"
+              text:"Description : ${objP.description}"
             ),
 
             pw.Paragraph(
-              text:"Student Name : ${objP.reasons}"
+              text:"Reasons : ${objP.reasons}"
             ),
 
             pw.Paragraph(
-              text:"Student Name : ${objP.proofreq}"
+              text:"Proof Requested : ${objP.proofreq}"
             ),
 
             
