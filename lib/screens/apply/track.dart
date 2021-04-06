@@ -31,9 +31,10 @@ class _TrackState extends State<Track> {
               value: DatabaseService().groupods),
         ],
         child: Scaffold(
-          // backgroundColor: Colors.grey[200],
+          backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
           appBar: AppBar(
-            backgroundColor: Colors.blueGrey[600],
+            elevation: 0.1,
+            backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
             title: (Text("Track Status")),
           ),
           body: Padding(
@@ -42,7 +43,11 @@ class _TrackState extends State<Track> {
               SizedBox(
                 height: 15,
               ),
-              Text("Your Applications"),
+              Text(
+                "Your Applications",
+                style:
+                    TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+              ),
               SizedBox(
                 height: 5,
               ),
@@ -53,7 +58,11 @@ class _TrackState extends State<Track> {
                 indent: 20,
                 endIndent: 20,
               ),
-              Text("Your Group OD Applications"),
+              Text(
+                "Your Group OD Applications",
+                style:
+                    TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+              ),
               SizedBox(
                 height: 5,
               ),

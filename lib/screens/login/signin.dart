@@ -1,5 +1,4 @@
 import 'package:aumsodmll/services/auth.dart';
-import 'package:aumsodmll/services/database.dart';
 import 'package:aumsodmll/shared/constants.dart';
 import 'package:aumsodmll/shared/loading.dart';
 import 'package:flutter/material.dart';
@@ -26,9 +25,10 @@ class _SignInState extends State<SignIn> {
         ? Loading()
         : Scaffold(
             resizeToAvoidBottomInset: true,
-            // backgroundColor: Colors.blueGrey[600],
+            backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
             appBar: AppBar(
-              backgroundColor: Colors.blueGrey[600],
+              backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
+              elevation: 0.1,
               title: Text("Sign in to AOML"),
             ),
             body: SingleChildScrollView(
@@ -42,43 +42,78 @@ class _SignInState extends State<SignIn> {
                           placeholder: cupertinoActivityIndicatorSmall,
                           image: 'https://i.imgur.com/pQR0s45.jpg'),
                       SizedBox(height: 20),
-                      FormBuilderTextField(
-                        name: "email",
-                        decoration:
-                            textInputDecoration.copyWith(labelText: "Email"),
-                        validator: FormBuilderValidators.compose([
-                          FormBuilderValidators.email(context),
-                          FormBuilderValidators.required(context),
-                        ]),
-                        onChanged: (val) {
-                          setState(() {
-                            email = val;
-                          });
-                        },
+                      Card(
+                        margin: new EdgeInsets.symmetric(
+                            horizontal: 10.0, vertical: 6.0),
+                        elevation: 8.0,
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: Color.fromRGBO(64, 75, 96, .9)),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 20.0, vertical: 10.0),
+                          child: FormBuilderTextField(
+                            key: Key('email-field'),
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
+                            name: "email",
+                            decoration: textInputDecoration.copyWith(
+                              labelText: "Email",
+                              hoverColor: Color.fromRGBO(64, 75, 96, .9),
+                              fillColor: Color.fromRGBO(64, 75, 96, .9),
+                              focusColor: Color.fromRGBO(64, 75, 96, .9),
+                            ),
+                            validator: FormBuilderValidators.compose([
+                              FormBuilderValidators.email(context),
+                              FormBuilderValidators.required(context),
+                            ]),
+                            onChanged: (val) {
+                              setState(() {
+                                email = val;
+                              });
+                            },
+                          ),
+                        ),
                       ),
                       SizedBox(
                         height: 20,
                       ),
-                      FormBuilderTextField(
-                        name: "pass",
-                        decoration:
-                            textInputDecoration.copyWith(labelText: "Password"),
-                        validator: FormBuilderValidators.compose([
-                          FormBuilderValidators.required(context),
-                        ]),
-                        // validator: (val) =>
-                        //     val.length < 6 ? 'Enter your password' : null,
-                        obscureText: true,
-                        onChanged: (val) {
-                          setState(() {
-                            pass = val;
-                          });
-                        },
+                      Card(
+                        margin: new EdgeInsets.symmetric(
+                            horizontal: 10.0, vertical: 6.0),
+                        elevation: 8.0,
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: Color.fromRGBO(64, 75, 96, .9)),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 20.0, vertical: 10.0),
+                          child: FormBuilderTextField(
+                            key:Key('password-field'),
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
+                            name: "pass",
+                            decoration: textInputDecoration.copyWith(
+                                labelText: "Password"),
+                            validator: FormBuilderValidators.compose([
+                              FormBuilderValidators.required(context),
+                            ]),
+                            // validator: (val) =>
+                            //     val.length < 6 ? 'Enter your password' : null,
+                            obscureText: true,
+                            onChanged: (val) {
+                              setState(() {
+                                pass = val;
+                              });
+                            },
+                          ),
+                        ),
                       ),
                       SizedBox(
                         height: 20,
                       ),
                       ElevatedButton(
+                          key: Key('signin-button'),
                           style: buttonStyle,
                           onPressed: () async {
                             _formKey.currentState.save();
@@ -111,10 +146,14 @@ class _SignInState extends State<SignIn> {
                         style: TextStyle(color: Colors.red, fontSize: 14),
                       ),
                       TextButton(
+                        key: Key('forgot-password-button'),
                         style: ButtonStyle(
                             foregroundColor: MaterialStateProperty.all<Color>(
-                                Colors.blueGrey[600])),
-                        child: Text("Forgot password?"),
+                                Color.fromRGBO(64, 75, 96, .9))),
+                        child: Text(
+                          "Forgot password?",
+                          style: TextStyle(color: Colors.white),
+                        ),
                         onPressed: () {
                           Navigator.pushNamed(context, "/forgotPass");
                         },

@@ -21,10 +21,11 @@ class _ForgotPasswordState extends State<ForgotPassword> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        backgroundColor: Colors.blueGrey[600],
+        backgroundColor: Color.fromRGBO(64, 75, 96, .9),
+        elevation: 0.1,
         title: Text("Forgot password"),
       ),
-      // backgroundColor: Colors.grey[200],
+      backgroundColor: Color.fromRGBO(64, 75, 96, .9),
       body: SingleChildScrollView(
         child: FormBuilder(
           key: _formKey,
@@ -36,17 +37,36 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                     placeholder: cupertinoActivityIndicatorSmall,
                     image: 'https://i.imgur.com/pQR0s45.jpg'),
                 SizedBox(height: 20),
-                FormBuilderTextField(
-                    validator: FormBuilderValidators.compose([
-                      FormBuilderValidators.required(context),
-                    ]),
-                    name: "forgotemail",
-                    controller: emailcontr,
-                    style: TextStyle(color: Colors.lightBlueAccent),
+                Card(
+                  margin:
+                      new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
+                  elevation: 8.0,
+                  child: Container(
                     decoration:
-                        textInputDecoration.copyWith(labelText: "Email")),
+                        BoxDecoration(color: Color.fromRGBO(64, 75, 96, .9)),
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+                    child: FormBuilderTextField(
+                        key:Key('forgotemail-field'),
+                        style: TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.bold),
+                        validator: FormBuilderValidators.compose([
+                          FormBuilderValidators.required(context),
+                          FormBuilderValidators.email(context),
+                        ]),
+                        name: "forgotemail",
+                        controller: emailcontr,
+                        decoration: textInputDecoration.copyWith(
+                          labelText: "Email",
+                          hoverColor: Color.fromRGBO(64, 75, 96, .9),
+                          fillColor: Color.fromRGBO(64, 75, 96, .9),
+                          focusColor: Color.fromRGBO(64, 75, 96, .9),
+                        )),
+                  ),
+                ),
                 SizedBox(height: 20),
                 ElevatedButton(
+                  key:Key("sendemail-button"),
                   style: buttonStyle,
                   child: Text('Send Email'),
                   onPressed: () async {
@@ -70,7 +90,10 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   style: ButtonStyle(
                       foregroundColor:
                           MaterialStateProperty.all(Colors.blueGrey[600])),
-                  child: Text("Sign in"),
+                  child: Text(
+                    "Sign in",
+                    style: TextStyle(color: Colors.white),
+                  ),
                   onPressed: () {
                     Navigator.pop(context);
                   },
