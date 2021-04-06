@@ -52,6 +52,7 @@ class _SignInState extends State<SignIn> {
                           padding: EdgeInsets.symmetric(
                               horizontal: 20.0, vertical: 10.0),
                           child: FormBuilderTextField(
+                            key: Key('email-field'),
                             style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold),
@@ -87,6 +88,7 @@ class _SignInState extends State<SignIn> {
                           padding: EdgeInsets.symmetric(
                               horizontal: 20.0, vertical: 10.0),
                           child: FormBuilderTextField(
+                            key:Key('password-field'),
                             style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold),
@@ -111,6 +113,7 @@ class _SignInState extends State<SignIn> {
                         height: 20,
                       ),
                       ElevatedButton(
+                          key: Key('signin-button'),
                           style: buttonStyle,
                           onPressed: () async {
                             _formKey.currentState.save();
@@ -143,6 +146,7 @@ class _SignInState extends State<SignIn> {
                         style: TextStyle(color: Colors.red, fontSize: 14),
                       ),
                       TextButton(
+                        key: Key('forgot-password-button'),
                         style: ButtonStyle(
                             foregroundColor: MaterialStateProperty.all<Color>(
                                 Color.fromRGBO(64, 75, 96, .9))),

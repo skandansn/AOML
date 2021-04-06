@@ -20,6 +20,7 @@ class HomeStudent extends StatelessWidget {
         title: (Text("Welcome $name !")),
         actions: [
           TextButton.icon(
+              key:Key("logout-button"),
               style: ButtonStyle(
                   foregroundColor: MaterialStateProperty.all(Colors.white)),
               onPressed: () async {
@@ -44,6 +45,7 @@ class HomeStudent extends StatelessWidget {
                   decoration:
                       BoxDecoration(color: Color.fromRGBO(64, 75, 96, .9)),
                   child: ListTile(
+                    key:Key("apply-od"),
                     contentPadding:
                         EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
                     leading: Container(
@@ -76,6 +78,7 @@ class HomeStudent extends StatelessWidget {
                   decoration:
                       BoxDecoration(color: Color.fromRGBO(64, 75, 96, .9)),
                   child: ListTile(
+                    key:Key("group-od"),
                     contentPadding:
                         EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
                     leading: Container(
@@ -108,6 +111,7 @@ class HomeStudent extends StatelessWidget {
                   decoration:
                       BoxDecoration(color: Color.fromRGBO(64, 75, 96, .9)),
                   child: ListTile(
+                    key:Key("track-status"),
                     contentPadding:
                         EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
                     leading: Container(
