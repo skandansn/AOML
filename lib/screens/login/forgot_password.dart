@@ -47,10 +47,12 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                     padding:
                         EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
                     child: FormBuilderTextField(
+                        key:Key('forgotemail-field'),
                         style: TextStyle(
                             color: Colors.white, fontWeight: FontWeight.bold),
                         validator: FormBuilderValidators.compose([
                           FormBuilderValidators.required(context),
+                          FormBuilderValidators.email(context),
                         ]),
                         name: "forgotemail",
                         controller: emailcontr,
@@ -64,6 +66,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                 ),
                 SizedBox(height: 20),
                 ElevatedButton(
+                  key:Key("sendemail-button"),
                   style: buttonStyle,
                   child: Text('Send Email'),
                   onPressed: () async {
