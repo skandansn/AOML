@@ -93,7 +93,7 @@ void main() {
 
   Widget _testHomePage() {
     return TestMaterialAppWidget(
-      home: TestHomePage(),
+      home: SignIn(),
       navigatorObserver: _navObserver,
       routes: _routes(),
     );
@@ -132,9 +132,9 @@ Map<String, WidgetBuilder> _routes() {
   };
 }
 
-class TestHomePage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) => TextButton(onPressed: () {
-      Navigator.pushNamed(context, Routes.FORGOT_PASSWORD_ROUTE);
-      });
-}
+// class TestHomePage extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) => TextButton(onPressed: () {
+//       Navigator.pushNamed(context, Routes.FORGOT_PASSWORD_ROUTE);
+//       });
+// }
