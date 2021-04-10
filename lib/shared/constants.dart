@@ -17,3 +17,21 @@ var textInputDecoration = InputDecoration(
 
 var buttonStyle = ButtonStyle(
     backgroundColor: MaterialStateProperty.all(Color.fromRGBO(64, 75, 96, .9)));
+
+class CommonFieldValidator {
+  static String validate(String value) {
+    return value.isEmpty ? "Field cant be empty" : null;
+  }
+}
+
+class EmailFieldValidator {
+  static String validate(String value) {
+    if ((value.contains(RegExp(r'[A-Z]')) ||
+            value.contains(RegExp(r'[a-z]'))) &&
+        value.contains("@") &&
+        value.contains(".")) {
+      return "Valid email address";
+    }
+    return null;
+  }
+}
