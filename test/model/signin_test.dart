@@ -119,7 +119,7 @@ group("SignIn page testing", (){
     Form formWidget = tester.widget(formWidgetFinder) as Form;
     GlobalKey<FormState> formKey = formWidget.key as GlobalKey<FormState>;
     print("Signin with invalid email password should not pass and the test should fail.");
-    expect(formKey.currentState.validate(), isTrue);
+    expect(formKey.currentState.validate(), isFalse);
   });
 
 });

@@ -94,6 +94,7 @@ class _ODState extends State<OD> {
                       child: Column(
                         children: [
                           Card(
+                            key:Key('advisor-field'),
                             margin: new EdgeInsets.symmetric(
                                 horizontal: 10.0, vertical: 6.0),
                             elevation: 8.0,
@@ -169,6 +170,7 @@ class _ODState extends State<OD> {
                                       fontWeight: FontWeight.bold),
                                 ),
                                 name: "faculty",
+                                key:Key('faculty-field'),
                                 validator: (val) {
                                   if (clickedidfac != "" &&
                                       clickedidfac != null) {
@@ -231,6 +233,7 @@ class _ODState extends State<OD> {
                           //   onChanged: (_) {},
                           // ),
                           Card(
+                            key:Key('date-field'),
                             margin: new EdgeInsets.symmetric(
                                 horizontal: 10.0, vertical: 6.0),
                             elevation: 8.0,
@@ -262,6 +265,7 @@ class _ODState extends State<OD> {
                           ),
 
                           Card(
+                            key:Key('time-field'),
                             margin: new EdgeInsets.symmetric(
                                 horizontal: 10.0, vertical: 6.0),
                             elevation: 8.0,
@@ -285,6 +289,7 @@ class _ODState extends State<OD> {
                             ),
                           ),
                           Card(
+                            key:Key('decription-field'),
                             margin: new EdgeInsets.symmetric(
                                 horizontal: 10.0, vertical: 6.0),
                             elevation: 8.0,
@@ -309,6 +314,7 @@ class _ODState extends State<OD> {
                           ),
 
                           Card(
+                            key:Key('type-field'),
                             margin: new EdgeInsets.symmetric(
                                 horizontal: 10.0, vertical: 6.0),
                             elevation: 8.0,
@@ -401,6 +407,7 @@ class _ODState extends State<OD> {
                                           width: 2,
                                         ),
                                         ElevatedButton(
+                                          key:Key('addproof-field'),
                                           style: buttonStyle,
                                           child: Text("Remove proof"),
                                           onPressed: () {
@@ -418,6 +425,7 @@ class _ODState extends State<OD> {
                           ),
 
                           ElevatedButton(
+                              key:Key('submit-field'),
                               style: buttonStyle,
                               onPressed: () {
                                 _formKey.currentState.save();

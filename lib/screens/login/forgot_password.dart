@@ -85,7 +85,10 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   },
                 ),
                 SizedBox(height: 20),
-                Text(msg),
+                Text(
+                  msg,
+                  key:Key("text-message"),
+                  ),
                 TextButton(
                   style: ButtonStyle(
                       foregroundColor:
