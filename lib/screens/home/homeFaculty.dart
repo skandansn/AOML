@@ -43,6 +43,7 @@ class _HomeFacultyState extends State<HomeFaculty> {
             title: (Text("Welcome ${widget.name} !")),
             actions: [
               TextButton.icon(
+                  key: Key("logout-button"),
                   style: ButtonStyle(
                       foregroundColor: MaterialStateProperty.all(Colors.white)),
                   onPressed: () async {
