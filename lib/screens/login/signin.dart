@@ -38,9 +38,9 @@ class _SignInState extends State<SignIn> {
                   autovalidateMode: AutovalidateMode.disabled,
                   child: Column(
                     children: [
-                      FadeInImage.assetNetwork(
-                          placeholder: cupertinoActivityIndicatorSmall,
-                          image: 'https://i.imgur.com/pQR0s45.jpg'),
+                      //FadeInImage.assetNetwork(
+                          //placeholder: cupertinoActivityIndicatorSmall,
+                         // image: 'https://i.imgur.com/pQR0s45.jpg'),
                       SizedBox(height: 20),
                       Card(
                         margin: new EdgeInsets.symmetric(

@@ -33,9 +33,9 @@ class _ForgotPasswordState extends State<ForgotPassword> {
             padding: EdgeInsets.symmetric(vertical: 20, horizontal: 50),
             child: Column(
               children: [
-                FadeInImage.assetNetwork(
-                    placeholder: cupertinoActivityIndicatorSmall,
-                    image: 'https://i.imgur.com/pQR0s45.jpg'),
+                //FadeInImage.assetNetwork(
+                    //placeholder: cupertinoActivityIndicatorSmall,
+                    //image: 'https://i.imgur.com/pQR0s45.jpg'),
                 SizedBox(height: 20),
                 Card(
                   margin:
