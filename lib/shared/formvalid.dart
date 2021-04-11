@@ -562,9 +562,9 @@ class _FormValState extends State<FormVal> {
                                     }
                                   },
                                 )
-                              :  IconButton(
+                              : IconButton(
                                   icon: const Icon(
-                                    Icons.do_not_disturb_alt,
+                                    Icons.delete,
                                     color: Colors.red,
                                   ),
                                   onPressed: () {
@@ -572,11 +572,15 @@ class _FormValState extends State<FormVal> {
                                       context: context,
                                       builder: (ctx) => AlertDialog(
                                         title: Text("Cancel OD/Leave/ML"),
-                                        content: Text("Are you sure you want to cancel your OD/Leave/ML"),
+                                        content: Text(
+                                            "Are you sure you want to cancel your OD/Leave/ML"),
                                         actions: <Widget>[
                                           FlatButton(
                                             onPressed: () {
-                                              Firestore.instance.collection('ods').document(obj.formid).delete();
+                                              Firestore.instance
+                                                  .collection('ods')
+                                                  .document(obj.formid)
+                                                  .delete();
                                               Navigator.of(ctx).pop();
                                               Navigator.pop(context);
                                             },
@@ -591,8 +595,7 @@ class _FormValState extends State<FormVal> {
                                         ],
                                       ),
                                     );
-                                  }
-                              ),
+                                  }),
                           flagType
                               ? IconButton(
                                   icon: const Icon(
