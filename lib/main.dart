@@ -1,3 +1,4 @@
+import 'package:aumsodmll/faqPage.dart';
 import 'package:aumsodmll/models/user.dart';
 import 'package:aumsodmll/screens/apply/odApply.dart';
 import 'package:aumsodmll/screens/apply/track.dart';
@@ -32,6 +33,7 @@ class MyApp extends StatelessWidget {
           '/forgotPass': (context) => ForgotPassword(),
           '/od': (context) => OD(),
           '/track': (context) => Track(),
+          '/faq': (context) => Faq(),
         },
         home: Wrapper(),
       ),

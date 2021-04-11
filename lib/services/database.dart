@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:aumsodmll/models/faq.dart';
 import 'package:aumsodmll/models/od.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -8,6 +9,8 @@ class DatabaseService {
   final CollectionReference odcollection = Firestore.instance.collection('ods');
   final CollectionReference groupodcollection =
       Firestore.instance.collection('groupods');
+  final CollectionReference faqcollection =
+      Firestore.instance.collection('faqs');
 
   final String uid;
   DatabaseService({this.uid});
@@ -16,7 +19,6 @@ class DatabaseService {
   Future<String> getUserid() async {
     currentuserid = await FirebaseAuth.instance.currentUser();
     currentuserid = currentuserid.uid;
-
     return currentuserid;
   }
 
@@ -55,6 +57,17 @@ class DatabaseService {
     var userid = await FirebaseAuth.instance.currentUser();
     var res = await typefun(userid.uid);
     return res;
+  }
+
+  Future<List> getUserDetails() async {
+    var userid = await FirebaseAuth.instance.currentUser();
+    QuerySnapshot res =
+        await userList.where("userid", isEqualTo: userid.uid).snapshots().first;
+    return [
+      (res.documents.first.data["name"]),
+      (res.documents.first.data["stuNo"]),
+      (res.documents.first.data["userid"]),
+    ];
   }
 
   Stream<List<OD>> get ods {
@@ -105,6 +118,24 @@ class DatabaseService {
     }).toList();
   }
 
+  Stream<List<FAQClass>> get faqs {
+    return faqcollection.snapshots().map(_faqsfromsnapshot);
+  }
+
+  List<FAQClass> _faqsfromsnapshot(QuerySnapshot snapshot) {
+    return snapshot.documents.map((doc) {
+      return FAQClass(
+          time: doc.data['time'],
+          question: doc.data['question'],
+          answers: doc.data['answers'],
+          upvotes: doc.data['upvotes'],
+          stuNo: doc.data['stuNo'],
+          stuid: doc.data['stuid'],
+          stuname: doc.data['stuname'],
+          formid: doc.documentID);
+    }).toList();
+  }
+
   Future reasonsandproof(String person, String id, String details) async {
     int flag = 1;
     String oldmsg;
@@ -125,6 +156,50 @@ class DatabaseService {
     } else {
       groupodcollection.document(id).updateData({"proofreq": oldmsg});
     }
+  }
+
+  Future upvoteFaq(String formid, String userid) async {
+    var faqitem = await faqcollection.document(formid).get();
+    int oldUpvoteValue = faqitem['upvotes'];
+    var oldPeopleUpvoted = [];
+    oldPeopleUpvoted.addAll(faqitem['upvotedPeople']);
+    print(oldPeopleUpvoted);
+    if (oldPeopleUpvoted.contains(userid)) {
+      oldPeopleUpvoted.remove(userid);
+      faqcollection.document(formid).updateData(
+          {"upvotes": oldUpvoteValue - 1, "upvotedPeople": oldPeopleUpvoted});
+    } else {
+      oldPeopleUpvoted.add(userid);
+      faqcollection.document(formid).updateData(
+          {"upvotes": oldUpvoteValue + 1, "upvotedPeople": oldPeopleUpvoted});
+    }
+  }
+
+  Future addAnswerFaq(String formid, String userid, Map newAnswer) async {
+    var faqitem = await faqcollection.document(formid).get();
+    var answers = [];
+    answers.addAll(faqitem['answers']);
+    answers.add(newAnswer);
+    faqcollection.document(formid).updateData({"answers": answers});
+  }
+
+  Future addFaq(
+    String stuid,
+    String stuname,
+    String stuNo,
+    String question,
+  ) async {
+    var data = {
+      "question": question,
+      "stuNo": stuNo,
+      "stuid": stuid,
+      "stuname": stuname,
+      "time": DateTime.now().toString(),
+      "upvotes": 0,
+      "upvotedPeople": [],
+      "answers": []
+    };
+    faqcollection.add(data);
   }
 
   Future applyod(

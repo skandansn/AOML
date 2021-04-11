@@ -20,7 +20,7 @@ class HomeStudent extends StatelessWidget {
         title: (Text("Welcome $name !")),
         actions: [
           TextButton.icon(
-              key:Key("logout-button"),
+              key: Key("logout-button"),
               style: ButtonStyle(
                   foregroundColor: MaterialStateProperty.all(Colors.white)),
               onPressed: () async {
@@ -45,7 +45,7 @@ class HomeStudent extends StatelessWidget {
                   decoration:
                       BoxDecoration(color: Color.fromRGBO(64, 75, 96, .9)),
                   child: ListTile(
-                    key:Key("apply-od"),
+                    key: Key("apply-od"),
                     contentPadding:
                         EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
                     leading: Container(
@@ -78,7 +78,7 @@ class HomeStudent extends StatelessWidget {
                   decoration:
                       BoxDecoration(color: Color.fromRGBO(64, 75, 96, .9)),
                   child: ListTile(
-                    key:Key("group-od"),
+                    key: Key("group-od"),
                     contentPadding:
                         EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
                     leading: Container(
@@ -111,7 +111,7 @@ class HomeStudent extends StatelessWidget {
                   decoration:
                       BoxDecoration(color: Color.fromRGBO(64, 75, 96, .9)),
                   child: ListTile(
-                    key:Key("track-status"),
+                    key: Key("track-status"),
                     contentPadding:
                         EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
                     leading: Container(
@@ -132,6 +132,39 @@ class HomeStudent extends StatelessWidget {
                     ),
                     onTap: () {
                       Navigator.pushNamed(context, "/track");
+                    },
+                  ),
+                ),
+              ),
+              Card(
+                margin:
+                    new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
+                elevation: 8.0,
+                child: Container(
+                  decoration:
+                      BoxDecoration(color: Color.fromRGBO(64, 75, 96, .9)),
+                  child: ListTile(
+                    key: Key("faqs"),
+                    contentPadding:
+                        EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+                    leading: Container(
+                      padding: EdgeInsets.only(right: 12.0),
+                      decoration: new BoxDecoration(
+                          border: new Border(
+                              right: new BorderSide(
+                                  width: 1.0, color: Colors.white24))),
+                      child: Icon(
+                        Icons.question_answer,
+                        color: Colors.white,
+                      ),
+                    ),
+                    title: Text(
+                      'FAQs',
+                      style: TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.bold),
+                    ),
+                    onTap: () {
+                      Navigator.pushNamed(context, "/faq");
                     },
                   ),
                 ),
