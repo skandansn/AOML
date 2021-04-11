@@ -1,5 +1,4 @@
 class OD {
-  final String id;
   final String advisor;
   final String date;
   final String time;
@@ -16,7 +15,6 @@ class OD {
   final String proofreq;
   OD(
       {
-      this.id,
       this.advisor,
       this.date,
       this.time,

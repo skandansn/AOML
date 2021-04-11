@@ -576,8 +576,9 @@ class _FormValState extends State<FormVal> {
                                         actions: <Widget>[
                                           FlatButton(
                                             onPressed: () {
-                                              Firestore.instance.collection('ods').document(obj.id).delete();
+                                              Firestore.instance.collection('ods').document(obj.formid).delete();
                                               Navigator.of(ctx).pop();
+                                              Navigator.pop(context);
                                             },
                                             child: Text("Yes"),
                                           ),
