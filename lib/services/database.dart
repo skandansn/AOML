@@ -77,6 +77,7 @@ class DatabaseService {
   List<OD> _odsfromsnapshot(QuerySnapshot snapshot) {
     return snapshot.documents.map((doc) {
       return OD(
+          id: doc.documentID,
           advisor: doc.data['advisor'],
           date: doc.data['date'],
           time: doc.data['time'],
