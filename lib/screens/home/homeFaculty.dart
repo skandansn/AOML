@@ -7,85 +7,144 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class HomeFaculty extends StatefulWidget {
+class HomeFaculty extends StatelessWidget {
   String name = "";
   HomeFaculty(String names) {
     this.name = names;
   }
 
-  @override
-  _HomeFacultyState createState() => _HomeFacultyState();
-}
+  // @override
+  // _HomeFacultyState createState() => _HomeFacultyState();
 
-class _HomeFacultyState extends State<HomeFaculty> {
   final FirebaseAuth auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
-    groupodfun() {
-      return GroupODList(flag: true);
-    }
-
-    odfun() {
-      return ODList(flag: true);
-    }
-
-    return MultiProvider(
-        providers: [
-          StreamProvider<List<OD>>.value(value: DatabaseService().ods),
-          StreamProvider<List<GroupOD>>.value(
-              value: DatabaseService().groupods),
+    return Scaffold(
+      backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
+      appBar: AppBar(
+        backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
+        elevation: 0.1,
+        title: (Text("Welcome $name !")),
+        actions: [
+          TextButton.icon(
+              key: Key("logout-button"),
+              style: ButtonStyle(
+                  foregroundColor: MaterialStateProperty.all(Colors.white)),
+              onPressed: () async {
+                confirmLogoutBox(context);
+              },
+              icon: Icon(Icons.logout),
+              label: Text("Logout"))
         ],
-        child: Scaffold(
-          backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
-          appBar: AppBar(
-            elevation: 0.1,
-            backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
-            title: (Text("Welcome ${widget.name} !")),
-            actions: [
-              TextButton.icon(
-                  key: Key("logout-button"),
-                  style: ButtonStyle(
-                      foregroundColor: MaterialStateProperty.all(Colors.white)),
-                  onPressed: () async {
-                    confirmLogoutBox(context);
-                  },
-                  icon: Icon(Icons.logout),
-                  label: Text("Logout"))
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Scrollbar(
+          child: ListView(
+            children: <Widget>[
+              Card(
+                margin:
+                    new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
+                elevation: 8.0,
+                child: Container(
+                  // margin:
+                  //     new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
+                  decoration:
+                      BoxDecoration(color: Color.fromRGBO(64, 75, 96, .9)),
+                  child: ListTile(
+                    key: Key("approve-od"),
+                    contentPadding:
+                        EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+                    leading: Container(
+                      padding: EdgeInsets.only(right: 12.0),
+                      decoration: new BoxDecoration(
+                          border: new Border(
+                              right: new BorderSide(
+                                  width: 1.0, color: Colors.white24))),
+                      child: Icon(
+                        Icons.approval,
+                        color: Colors.white,
+                      ),
+                    ),
+                    title: Text(
+                      'Approve/deny application',
+                      style: TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.bold),
+                    ),
+                    onTap: () {
+                      Navigator.pushNamed(context, "/approve");
+                    },
+                  ),
+                ),
+              ),
+              Card(
+                margin:
+                    new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
+                elevation: 8.0,
+                child: Container(
+                  decoration:
+                      BoxDecoration(color: Color.fromRGBO(64, 75, 96, .9)),
+                  child: ListTile(
+                    key: Key("grantgrp"),
+                    contentPadding:
+                        EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+                    leading: Container(
+                      padding: EdgeInsets.only(right: 12.0),
+                      decoration: new BoxDecoration(
+                          border: new Border(
+                              right: new BorderSide(
+                                  width: 1.0, color: Colors.white24))),
+                      child: Icon(
+                        Icons.group,
+                        color: Colors.white,
+                      ),
+                    ),
+                    title: Text(
+                      'Grant Group OD option',
+                      style: TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.bold),
+                    ),
+                    onTap: () {},
+                  ),
+                ),
+              ),
+              Card(
+                margin:
+                    new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
+                elevation: 8.0,
+                child: Container(
+                  decoration:
+                      BoxDecoration(color: Color.fromRGBO(64, 75, 96, .9)),
+                  child: ListTile(
+                    key: Key("faq"),
+                    contentPadding:
+                        EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+                    leading: Container(
+                      padding: EdgeInsets.only(right: 12.0),
+                      decoration: new BoxDecoration(
+                          border: new Border(
+                              right: new BorderSide(
+                                  width: 1.0, color: Colors.white24))),
+                      child: Icon(
+                        Icons.question_answer,
+                        color: Colors.white,
+                      ),
+                    ),
+                    title: Text(
+                      'FAQs',
+                      style: TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.bold),
+                    ),
+                    onTap: () {
+                      Navigator.pushNamed(context, "/faq");
+                    },
+                  ),
+                ),
+              ),
             ],
           ),
-          body: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(children: <Widget>[
-              SizedBox(
-                height: 15,
-              ),
-              Text(
-                "Individual Applications",
-                style:
-                    TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-              ),
-              SizedBox(
-                height: 5,
-              ),
-              Flexible(flex: 8, child: odfun()),
-              Divider(
-                height: 20,
-                thickness: 5,
-                indent: 20,
-                endIndent: 20,
-              ),
-              Text("Your Group OD Applications",
-                  style: TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.bold)),
-              SizedBox(
-                height: 5,
-              ),
-              Flexible(
-                flex: 2,
-                child: groupodfun(),
-              ),
-            ]),
-          ),
-        ));
+        ),
+      ),
+    );
   }
 }

@@ -50,10 +50,10 @@ class Tile extends StatelessWidget {
     }
     var color;
     if (symbol == -1) {
-      symbol = Icons.do_disturb_alt_outlined;
+      symbol = Icons.do_disturb_on_rounded;
       color = Colors.redAccent;
     } else if (symbol == 0) {
-      symbol = Icons.check;
+      symbol = Icons.check_circle_rounded;
       color = Colors.greenAccent;
     } else {
       symbol = Icons.timelapse;

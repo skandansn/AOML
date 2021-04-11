@@ -2,6 +2,7 @@ import 'package:aumsodmll/faqPage.dart';
 import 'package:aumsodmll/models/user.dart';
 import 'package:aumsodmll/screens/apply/odApply.dart';
 import 'package:aumsodmll/screens/apply/track.dart';
+import 'package:aumsodmll/screens/approve/approve.dart';
 import 'package:aumsodmll/screens/login/forgot_password.dart';
 import 'package:aumsodmll/helpers/wrapper.dart';
 import 'package:flutter/material.dart';
@@ -34,6 +35,7 @@ class MyApp extends StatelessWidget {
           '/od': (context) => OD(),
           '/track': (context) => Track(),
           '/faq': (context) => Faq(),
+          '/approve': (context) => Approve(),
         },
         home: Wrapper(),
       ),
