@@ -40,7 +40,7 @@ class _AttendanceCalendarState extends State<AttendanceCalendar> {
 
 List<Appointment> getAppointments(List<dynamic> events) {
   List<Appointment> meetings = <Appointment>[];
-  DateFormat format = DateFormat("dd/MM/yyyy");
+  DateFormat format = DateFormat("MM/dd/yyyy");
 
   events.forEach((element) {
     var st = (element['date'].split(" - ")[0]);
@@ -58,6 +58,7 @@ List<Appointment> getAppointments(List<dynamic> events) {
         subject: element["description"],
         color: Colors.redAccent));
   });
+  print(meetings.length);
 
   return meetings;
 }
