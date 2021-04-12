@@ -11,8 +11,9 @@ class _AttendanceCalendarState extends State<AttendanceCalendar> {
   Widget build(BuildContext context) {
     return Scaffold(
       body:SfCalendar(
-        view: CalendarView.week,
+        view: CalendarView.month,
         dataSource: MeetingDataSource(getAppointments()),
+        monthViewSettings: MonthViewSettings(showAgenda: true),
       )
     );
   }
