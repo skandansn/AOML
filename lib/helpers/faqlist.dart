@@ -44,6 +44,8 @@ class FAQList extends StatelessWidget {
               }
               if (sorted == true) {
                 arr.sort((a, b) => b.upvotes.compareTo(a.upvotes));
+              } else {
+                arr.sort((a, b) => a.time.compareTo(b.time));
               }
               return Scrollbar(
                 thickness: 10.0,
