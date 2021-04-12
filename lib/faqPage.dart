@@ -12,8 +12,11 @@ class Faq extends StatefulWidget {
   _FaqState createState() => _FaqState();
 }
 
+bool sorted = false;
 fun() {
-  return FAQList();
+  return FAQList(
+    sorted: sorted,
+  );
 }
 
 DatabaseService _db = DatabaseService();
@@ -84,7 +87,28 @@ class _FaqState extends State<Faq> {
                         actions: [
                           IconButton(
                               icon: Icon(Icons.push_pin_rounded),
-                              onPressed: () {})
+                              onPressed: () {
+                                Navigator.pushNamed(context, '/pinnedfaq');
+                              }),
+                          IconButton(
+                              icon: Icon(Icons.sort),
+                              onPressed: () {
+                                setState(() {
+                                  sorted = !sorted;
+                                });
+                                if (sorted == true) {
+                                  final snackBar = SnackBar(
+                                      content:
+                                          Text('Sorted by the most upvotes.'));
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(snackBar);
+                                } else {
+                                  final snackBar = SnackBar(
+                                      content: Text('Sorted by old posts'));
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(snackBar);
+                                }
+                              })
                         ],
                         elevation: 0.1,
                         backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),

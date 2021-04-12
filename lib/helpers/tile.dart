@@ -3,6 +3,7 @@ import 'package:aumsodmll/services/database.dart';
 import 'package:aumsodmll/shared/constants.dart';
 import 'package:aumsodmll/shared/formvalid.dart';
 import 'package:aumsodmll/models/od.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 
@@ -11,12 +12,14 @@ class Tile extends StatelessWidget {
   bool flagType;
   String userid;
   String userNo;
+  bool userType;
 
   final _formKey = GlobalKey<FormBuilderState>();
 
   TextEditingController anscont = TextEditingController();
   DatabaseService _db = DatabaseService();
-  Tile({this.appl, this.flagType, this.userid, this.userNo});
+  Tile({this.appl, this.flagType, this.userid, this.userNo, this.userType});
+
   @override
   Widget build(BuildContext context) {
     GroupOD applobjgrp;
@@ -42,6 +45,7 @@ class Tile extends StatelessWidget {
       obj = faqlist;
     }
     dynamic symbol;
+    var pinsymbol;
 
     if (obj.runtimeType == OD || obj.runtimeType == GroupOD) {
       symbol = obj.steps;
@@ -144,24 +148,39 @@ class Tile extends StatelessWidget {
                         ),
                       ),
                     ),
-                    ElevatedButton(
-                        key: Key('submit-field'),
-                        style: buttonStyle,
-                        onPressed: () {
-                          _formKey.currentState.save();
-                          if (_formKey.currentState.validate()) {
-                            var ans = {userNo: anscont.text};
-                            print(ans);
-                            _db.addAnswerFaq(obj.formid, userid, ans);
-                            final snackBar = SnackBar(
-                                content: Text('Your answer has been added!'));
-                            anscont.clear();
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(snackBar);
-                            Navigator.pop(context);
-                          }
-                        },
-                        child: Text("Submit "))
+                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                      !userType
+                          ? IconButton(
+                              icon: pinsymbol,
+                              onPressed: () {
+                                _db.pinOrUnpinFaq(obj.formid);
+                                final snackBar = SnackBar(
+                                    content: Text(
+                                        'The FAQ item has been pinned/unpinned.'));
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(snackBar);
+                                Navigator.pop(context);
+                              })
+                          : Container(),
+                      ElevatedButton(
+                          key: Key('submit-field'),
+                          style: buttonStyle,
+                          onPressed: () {
+                            _formKey.currentState.save();
+                            if (_formKey.currentState.validate()) {
+                              var ans = {userNo: anscont.text};
+                              print(ans);
+                              _db.addAnswerFaq(obj.formid, userid, ans);
+                              final snackBar = SnackBar(
+                                  content: Text('Your answer has been added!'));
+                              anscont.clear();
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snackBar);
+                              Navigator.pop(context);
+                            }
+                          },
+                          child: Text("Submit "))
+                    ]),
                   ],
                 ),
               ),
@@ -227,6 +246,13 @@ class Tile extends StatelessWidget {
         ),
       );
     } else {
+      if (obj.pinned == true) {
+        pinsymbol =
+            Icon(Icons.push_pin_outlined, color: Colors.green, size: 30.0);
+      } else {
+        pinsymbol =
+            Icon(Icons.push_pin_outlined, color: Colors.white, size: 30.0);
+      }
       return Padding(
         padding: EdgeInsets.only(top: 8),
         child: Card(
@@ -237,6 +263,10 @@ class Tile extends StatelessWidget {
             child: ListTile(
                 contentPadding:
                     EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+                // trailing: IconButton(
+                //     icon: Icon(Icons.push_pin_outlined,
+                //         color: Colors.white, size: 30.0),
+                //     onPressed: () {}),
                 leading: Container(
                     padding: EdgeInsets.only(right: 12.0),
                     decoration: new BoxDecoration(

@@ -67,6 +67,7 @@ class DatabaseService {
       (res.documents.first.data["name"]),
       (res.documents.first.data["stuNo"]),
       (res.documents.first.data["userid"]),
+      (res.documents.first.data["userType"]),
     ];
   }
 
@@ -132,6 +133,7 @@ class DatabaseService {
           stuNo: doc.data['stuNo'],
           stuid: doc.data['stuid'],
           stuname: doc.data['stuname'],
+          pinned: doc.data['pinned'],
           formid: doc.documentID);
     }).toList();
   }
@@ -163,7 +165,6 @@ class DatabaseService {
     int oldUpvoteValue = faqitem['upvotes'];
     var oldPeopleUpvoted = [];
     oldPeopleUpvoted.addAll(faqitem['upvotedPeople']);
-    print(oldPeopleUpvoted);
     if (oldPeopleUpvoted.contains(userid)) {
       oldPeopleUpvoted.remove(userid);
       faqcollection.document(formid).updateData(
@@ -173,6 +174,14 @@ class DatabaseService {
       faqcollection.document(formid).updateData(
           {"upvotes": oldUpvoteValue + 1, "upvotedPeople": oldPeopleUpvoted});
     }
+  }
+
+  Future pinOrUnpinFaq(String formid) async {
+    var faqitem = await faqcollection.document(formid).get();
+    bool pinstatus = faqitem['pinned'];
+    pinstatus = !pinstatus;
+
+    faqcollection.document(formid).updateData({"pinned": pinstatus});
   }
 
   Future addAnswerFaq(String formid, String userid, Map newAnswer) async {
@@ -197,7 +206,8 @@ class DatabaseService {
       "time": DateTime.now().toString(),
       "upvotes": 0,
       "upvotedPeople": [],
-      "answers": []
+      "answers": [],
+      "pinned": false
     };
     faqcollection.add(data);
   }

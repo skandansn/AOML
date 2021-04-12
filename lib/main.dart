@@ -5,6 +5,7 @@ import 'package:aumsodmll/screens/apply/track.dart';
 import 'package:aumsodmll/screens/approve/approve.dart';
 import 'package:aumsodmll/screens/login/forgot_password.dart';
 import 'package:aumsodmll/helpers/wrapper.dart';
+import 'package:aumsodmll/screens/pinnedFaqs.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:aumsodmll/services/auth.dart';
@@ -35,6 +36,7 @@ class MyApp extends StatelessWidget {
           '/od': (context) => OD(),
           '/track': (context) => Track(),
           '/faq': (context) => Faq(),
+          '/pinnedfaq': (context) => PinnedFaq(),
           '/approve': (context) => Approve(),
         },
         home: Wrapper(),

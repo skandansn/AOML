@@ -10,8 +10,10 @@ class FAQClass {
   final List upvotedPeople;
   final int upvotes;
   final List answers;
+  final bool pinned;
   FAQClass(
       {this.time,
+      this.pinned,
       this.upvotedPeople,
       this.stuNo,
       this.stuid,

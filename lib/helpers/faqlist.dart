@@ -6,6 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class FAQList extends StatelessWidget {
+  bool pinned = false;
+  bool sorted = false;
+  FAQList({this.pinned, this.sorted});
   @override
   Widget build(BuildContext context) {
     DatabaseService _db = DatabaseService();
@@ -23,14 +26,25 @@ class FAQList extends StatelessWidget {
               final faqs = Provider.of<List<FAQClass>>(context);
               var userid = "${snapshot.data[2]}";
               var userNo = "${snapshot.data[1]}";
-
+              dynamic userType = "${snapshot.data[3]}";
+              if (userType == "false") {
+                userType = false;
+              } else {
+                userType = true;
+              }
               var arr = [];
-              if (faqs != null) {
+              if (pinned == true && faqs != null) {
+                faqs.forEach((element) {
+                  if (element.pinned == true) arr.add(element);
+                });
+              } else if (faqs != null) {
                 faqs.forEach((element) {
                   arr.add(element);
                 });
               }
-
+              if (sorted == true) {
+                arr.sort((a, b) => b.upvotes.compareTo(a.upvotes));
+              }
               return Scrollbar(
                 thickness: 10.0,
                 controller: _scrollcontroller,
@@ -40,7 +54,10 @@ class FAQList extends StatelessWidget {
                   itemCount: arr.length,
                   itemBuilder: (context, index) {
                     return Tile(
-                        appl: arr[index], userid: userid, userNo: userNo);
+                        appl: arr[index],
+                        userid: userid,
+                        userNo: userNo,
+                        userType: userType);
                   },
                 ),
               );
