@@ -6,16 +6,18 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ODList extends StatefulWidget {
+  var arg;
   final bool flag;
-  ODList({Key key, @required this.flag}) : super(key: key);
+  ODList({Key key, @required this.flag, this.arg}) : super(key: key);
   @override
-  _ODListState createState() => new _ODListState(flag: flag);
+  _ODListState createState() => new _ODListState(flag: flag, arg: arg);
 }
 
 class _ODListState extends State<ODList> {
   @override
   bool flag = true;
-  _ODListState({this.flag});
+  var arg;
+  _ODListState({this.flag, this.arg});
   Widget build(BuildContext context) {
     DatabaseService _db = DatabaseService();
     final ScrollController _scrollcontroller = ScrollController();
@@ -56,7 +58,7 @@ class _ODListState extends State<ODList> {
                   controller: _scrollcontroller,
                   itemCount: arr.length,
                   itemBuilder: (context, index) {
-                    return Tile(appl: arr[index], flagType: flag);
+                    return Tile(appl: arr[index], flagType: flag, sel: arg);
                   },
                 ),
               );

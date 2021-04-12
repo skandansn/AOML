@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:aumsodmll/models/faq.dart';
 import 'package:aumsodmll/services/database.dart';
 import 'package:aumsodmll/shared/constants.dart';
@@ -9,6 +11,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 
 class Tile extends StatelessWidget {
   Object appl;
+  String sel;
   bool flagType;
   String userid;
   String userNo;
@@ -18,7 +21,13 @@ class Tile extends StatelessWidget {
 
   TextEditingController anscont = TextEditingController();
   DatabaseService _db = DatabaseService();
-  Tile({this.appl, this.flagType, this.userid, this.userNo, this.userType});
+  Tile(
+      {this.appl,
+      this.flagType,
+      this.userid,
+      this.userNo,
+      this.userType,
+      this.sel});
 
   @override
   Widget build(BuildContext context) {
@@ -189,33 +198,64 @@ class Tile extends StatelessWidget {
     }
 
     if (flag == 2) {
-      return Padding(
-        padding: EdgeInsets.only(top: 8),
-        child: Card(
-          margin: EdgeInsets.fromLTRB(20, 6, 20, 6),
-          child: ListTile(
-              // tileColor: symbol,
-              title: Text(
-                obj.stuNos.toString(),
-                style: TextStyle(color: Colors.black),
-              ),
-              subtitle: Text(
-                '\nDate: ${obj.date}. \nType:  ${obj.type} ',
-                style: TextStyle(color: Colors.black),
-              ),
-              onTap: () {
-                _showFormVal(flagType);
-              }),
-        ),
-      );
-    } else if (flag == 1) {
+      var selectedcolor = Color.fromRGBO(64, 75, 96, .9);
+      if (sel == '${obj.formid}') {
+        print(sel);
+        print('${obj.formid}');
+        print("came");
+        selectedcolor = Colors.teal;
+      }
       return Padding(
         padding: EdgeInsets.only(top: 8),
         child: Card(
           elevation: 8.0,
           margin: new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
           child: Container(
-            decoration: BoxDecoration(color: Color.fromRGBO(64, 75, 96, .9)),
+            decoration: BoxDecoration(color: selectedcolor),
+            child: ListTile(
+                contentPadding:
+                    EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+                leading: Container(
+                  padding: EdgeInsets.only(right: 12.0),
+                  decoration: new BoxDecoration(
+                      border: new Border(
+                          right: new BorderSide(
+                              width: 1.0, color: Colors.white24))),
+                  child: Icon(symbol, color: color),
+                ),
+                // tileColor: colour,
+                title: Text(
+                  obj.stuNos.toString(),
+                  style: TextStyle(
+                      color: Colors.white, fontWeight: FontWeight.bold),
+                ),
+                subtitle: Text(
+                  '\nDate: ${obj.date}\nType:  ${obj.type} ',
+                  style: TextStyle(color: Colors.white),
+                ),
+                trailing: Icon(Icons.keyboard_arrow_down,
+                    color: Colors.white, size: 30.0),
+                onTap: () {
+                  _showFormVal(flagType);
+                }),
+          ),
+        ),
+      );
+    } else if (flag == 1) {
+      var selectedcolor = Color.fromRGBO(64, 75, 96, .9);
+      if (sel == '${obj.formid}') {
+        print(sel);
+        print('${obj.formid}');
+        print("came");
+        selectedcolor = Colors.teal;
+      }
+      return Padding(
+        padding: EdgeInsets.only(top: 8),
+        child: Card(
+          elevation: 8.0,
+          margin: new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
+          child: Container(
+            decoration: BoxDecoration(color: selectedcolor),
             child: ListTile(
                 contentPadding:
                     EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),

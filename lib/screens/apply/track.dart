@@ -16,12 +16,15 @@ class _TrackState extends State<Track> {
 
   @override
   Widget build(BuildContext context) {
+    var arguements = ModalRoute.of(context).settings.arguments;
+    print(arguements);
+
     groupodfun() {
-      return GroupODList(flag: false);
+      return GroupODList(flag: false, arg: arguements);
     }
 
     odfun() {
-      return ODList(flag: false);
+      return ODList(flag: false, arg: arguements);
     }
 
     return MultiProvider(

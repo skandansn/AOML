@@ -53,13 +53,13 @@ class DatabaseService {
     for (int i = 0; i < r.documents.length; i++) {
       item = r.documents.elementAt(i);
       if (item.data["stuid"] == currentuserid) {
-        list.add(item.data);
+        list.add(item);
       }
     }
     for (int i = 0; i < r2.documents.length; i++) {
       item = r2.documents.elementAt(i);
       if (item.data["stuids"].contains(currentuserid)) {
-        list.add(item.data);
+        list.add(item);
       }
     }
     return list;

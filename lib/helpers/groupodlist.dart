@@ -7,16 +7,19 @@ import 'package:provider/provider.dart';
 
 class GroupODList extends StatefulWidget {
   final bool flag;
-  GroupODList({Key key, @required this.flag}) : super(key: key);
+  var arg;
+  GroupODList({Key key, @required this.flag, this.arg}) : super(key: key);
   @override
-  _GroupODListState createState() => new _GroupODListState(flag: flag);
+  _GroupODListState createState() =>
+      new _GroupODListState(flag: flag, arg: arg);
 }
 
 class _GroupODListState extends State<GroupODList> {
   bool flag = true;
+  var arg;
   final ScrollController _scrollcontroller = ScrollController();
 
-  _GroupODListState({this.flag});
+  _GroupODListState({this.flag, this.arg});
   @override
   Widget build(BuildContext context) {
     DatabaseService _db = DatabaseService();
@@ -61,7 +64,7 @@ class _GroupODListState extends State<GroupODList> {
                   shrinkWrap: true,
                   itemCount: arr.length,
                   itemBuilder: (context, index) {
-                    return Tile(appl: arr[index], flagType: flag);
+                    return Tile(appl: arr[index], flagType: flag, sel: arg);
                   },
                 ),
               );
