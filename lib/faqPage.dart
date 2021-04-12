@@ -104,7 +104,7 @@ class _FaqState extends State<Faq> {
                                       .showSnackBar(snackBar);
                                 } else {
                                   final snackBar = SnackBar(
-                                      content: Text('Sorted by old posts'));
+                                      content: Text('Sorted by new posts'));
                                   ScaffoldMessenger.of(context)
                                       .showSnackBar(snackBar);
                                 }

@@ -144,6 +144,39 @@ class HomeStudent extends StatelessWidget {
                   decoration:
                       BoxDecoration(color: Color.fromRGBO(64, 75, 96, .9)),
                   child: ListTile(
+                    key: Key("cal"),
+                    contentPadding:
+                        EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+                    leading: Container(
+                      padding: EdgeInsets.only(right: 12.0),
+                      decoration: new BoxDecoration(
+                          border: new Border(
+                              right: new BorderSide(
+                                  width: 1.0, color: Colors.white24))),
+                      child: Icon(
+                        Icons.calendar_today,
+                        color: Colors.white,
+                      ),
+                    ),
+                    title: Text(
+                      'Attendance Calendar',
+                      style: TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.bold),
+                    ),
+                    onTap: () {
+                      Navigator.pushNamed(context, "/calendar");
+                    },
+                  ),
+                ),
+              ),
+              Card(
+                margin:
+                    new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
+                elevation: 8.0,
+                child: Container(
+                  decoration:
+                      BoxDecoration(color: Color.fromRGBO(64, 75, 96, .9)),
+                  child: ListTile(
                     key: Key("faqs"),
                     contentPadding:
                         EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),

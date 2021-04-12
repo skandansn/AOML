@@ -3,6 +3,7 @@ import 'package:aumsodmll/models/user.dart';
 import 'package:aumsodmll/screens/apply/odApply.dart';
 import 'package:aumsodmll/screens/apply/track.dart';
 import 'package:aumsodmll/screens/approve/approve.dart';
+import 'package:aumsodmll/screens/attendanceCalendar.dart';
 import 'package:aumsodmll/screens/login/forgot_password.dart';
 import 'package:aumsodmll/helpers/wrapper.dart';
 import 'package:aumsodmll/screens/pinnedFaqs.dart';
@@ -38,6 +39,7 @@ class MyApp extends StatelessWidget {
           '/faq': (context) => Faq(),
           '/pinnedfaq': (context) => PinnedFaq(),
           '/approve': (context) => Approve(),
+          '/calendar': (context) => AttendanceCalendar(),
         },
         home: Wrapper(),
       ),
