@@ -200,9 +200,6 @@ class Tile extends StatelessWidget {
     if (flag == 2) {
       var selectedcolor = Color.fromRGBO(64, 75, 96, .9);
       if (sel == '${obj.formid}') {
-        print(sel);
-        print('${obj.formid}');
-        print("came");
         selectedcolor = Colors.teal;
       }
       return Padding(

@@ -7,19 +7,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:provider/provider.dart';
 
-class PinnedFaq extends StatefulWidget {
-  @override
-  _PinnedFaqState createState() => _PinnedFaqState();
-}
+class PinnedFaq extends StatelessWidget {
+  final DatabaseService _db = DatabaseService();
+  final TextEditingController qn = new TextEditingController();
+  fun() {
+    return FAQList(pinned: true);
+  }
 
-fun() {
-  return FAQList(pinned: true);
-}
-
-DatabaseService _db = DatabaseService();
-TextEditingController qn = new TextEditingController();
-
-class _PinnedFaqState extends State<PinnedFaq> {
   @override
   Widget build(BuildContext context) {
     return StreamProvider<List<FAQClass>>.value(
