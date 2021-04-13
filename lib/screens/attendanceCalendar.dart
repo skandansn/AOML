@@ -1,10 +1,10 @@
 import 'package:aumsodmll/services/database.dart';
 import 'package:aumsodmll/shared/loading.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+//import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:intl/intl.dart';
-import 'package:aumsodmll/helpers/tile.dart';
+//import 'package:aumsodmll/helpers/tile.dart';
 
 class AttendanceCalendar extends StatefulWidget {
   @override
@@ -14,10 +14,10 @@ class AttendanceCalendar extends StatefulWidget {
 class _AttendanceCalendarState extends State<AttendanceCalendar> {
   DatabaseService _db = DatabaseService();
   var events = [];
-  Widget calendarTapped(CalendarTapDetails details) {
+  void calendarTapped(CalendarTapDetails details) {
     if (details.targetElement == CalendarElement.appointment ||
         details.targetElement == CalendarElement.agenda) {
-      final CustomAppointment appointmentDetails = details.appointments[0];
+      //final CustomAppointment appointmentDetails = details.appointments[0];
       var formid = details.appointments[0].formid;
       Navigator.pushNamed(context, "/track", arguments: formid);
     }

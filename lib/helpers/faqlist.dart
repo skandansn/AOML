@@ -6,9 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class FAQList extends StatelessWidget {
-  bool pinned = false;
-  bool sorted = false;
-  FAQList({this.pinned, this.sorted});
+  final bool pinned;
+  final bool sorted;
+  FAQList({this.pinned=false, this.sorted=false});
   @override
   Widget build(BuildContext context) {
     DatabaseService _db = DatabaseService();

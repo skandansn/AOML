@@ -1,26 +1,26 @@
-import 'dart:io';
+//import 'dart:io';
 
 import 'package:aumsodmll/models/faq.dart';
 import 'package:aumsodmll/services/database.dart';
 import 'package:aumsodmll/shared/constants.dart';
 import 'package:aumsodmll/shared/formvalid.dart';
 import 'package:aumsodmll/models/od.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+//import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 
 class Tile extends StatelessWidget {
-  Object appl;
-  String sel;
-  bool flagType;
-  String userid;
-  String userNo;
-  bool userType;
+  final Object appl;
+  final String sel;
+  final bool flagType;
+  final String userid;
+  final String userNo;
+  final bool userType;
 
   final _formKey = GlobalKey<FormBuilderState>();
 
-  TextEditingController anscont = TextEditingController();
-  DatabaseService _db = DatabaseService();
+  final TextEditingController anscont = TextEditingController();
+  final DatabaseService _db = DatabaseService();
   Tile(
       {this.appl,
       this.flagType,

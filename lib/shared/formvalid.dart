@@ -11,8 +11,8 @@ import 'package:path_provider/path_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:pdf/pdf.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
+//import 'package:firebase_auth/firebase_auth.dart';
+//import 'package:firebase_storage/firebase_storage.dart';
 import 'package:pdf/widgets.dart' as pw;
 
 class FormVal extends StatefulWidget {
@@ -575,7 +575,7 @@ class _FormValState extends State<FormVal> {
                                         content: Text(
                                             "Are you sure you want to cancel your OD/Leave/ML"),
                                         actions: <Widget>[
-                                          FlatButton(
+                                          TextButton(
                                             onPressed: () {
                                               Firestore.instance
                                                   .collection('ods')
@@ -586,7 +586,7 @@ class _FormValState extends State<FormVal> {
                                             },
                                             child: Text("Yes"),
                                           ),
-                                          FlatButton(
+                                          TextButton(
                                             onPressed: () {
                                               Navigator.of(ctx).pop();
                                             },
