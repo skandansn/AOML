@@ -31,8 +31,9 @@ class _HomeFacultyState extends State<HomeFaculty> {
 
     return MultiProvider(
         providers: [
-          StreamProvider<List<OD>>.value(value: DatabaseService().ods),
+          StreamProvider<List<OD>>.value(initialData: null,value: DatabaseService().ods),
           StreamProvider<List<GroupOD>>.value(
+              initialData: null,
               value: DatabaseService().groupods),
         ],
         child: Scaffold(

@@ -3,7 +3,7 @@ import 'package:aumsodmll/shared/constants.dart';
 import 'package:aumsodmll/shared/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:loading_gifs/loading_gifs.dart';
+//import 'package:loading_gifs/loading_gifs.dart';
 
 class SignIn extends StatefulWidget {
   @override

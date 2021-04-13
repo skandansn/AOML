@@ -1,76 +1,129 @@
-{"protocolVersion":"0.1.1","runnerVersion":"1.16.5","pid":6860,"type":"start","time":0}
-{"suite":{"id":0,"platform":"vm","path":"D:\\MyWorkFiles\\AndroidStudio\\SE_Project_OD\\test\\model\\forgot_password_test.dart"},"type":"suite","time":0}
-{"test":{"id":1,"name":"loading D:\\MyWorkFiles\\AndroidStudio\\SE_Project_OD\\test\\model\\forgot_password_test.dart","suiteID":0,"groupIDs":[],"metadata":{"skip":false,"skipReason":null},"line":null,"column":null,"url":null},"type":"testStart","time":2}
-{"suite":{"id":2,"platform":"vm","path":"D:\\MyWorkFiles\\AndroidStudio\\SE_Project_OD\\test\\model\\homeStudent_test.dart"},"type":"suite","time":11}
-{"test":{"id":3,"name":"loading D:\\MyWorkFiles\\AndroidStudio\\SE_Project_OD\\test\\model\\homeStudent_test.dart","suiteID":2,"groupIDs":[],"metadata":{"skip":false,"skipReason":null},"line":null,"column":null,"url":null},"type":"testStart","time":12}
-{"suite":{"id":4,"platform":"vm","path":"D:\\MyWorkFiles\\AndroidStudio\\SE_Project_OD\\test\\model\\signin_test.dart"},"type":"suite","time":12}
-{"test":{"id":5,"name":"loading D:\\MyWorkFiles\\AndroidStudio\\SE_Project_OD\\test\\model\\signin_test.dart","suiteID":4,"groupIDs":[],"metadata":{"skip":false,"skipReason":null},"line":null,"column":null,"url":null},"type":"testStart","time":12}
-{"suite":{"id":6,"platform":"vm","path":"D:\\MyWorkFiles\\AndroidStudio\\SE_Project_OD\\test\\widget_test.dart"},"type":"suite","time":14}
-{"test":{"id":7,"name":"loading D:\\MyWorkFiles\\AndroidStudio\\SE_Project_OD\\test\\widget_test.dart","suiteID":6,"groupIDs":[],"metadata":{"skip":false,"skipReason":null},"line":null,"column":null,"url":null},"type":"testStart","time":14}
-{"count":4,"type":"allSuites","time":14}
+{"protocolVersion":"0.1.1","runnerVersion":"1.16.5","pid":7552,"type":"start","time":0}
+{"suite":{"id":0,"platform":"vm","path":"D:\\MyWorkFiles\\AndroidStudio\\SE_Project_OD\\test\\model\\forgot_password_test.dart"},"type":"suite","time":1}
+{"test":{"id":1,"name":"loading D:\\MyWorkFiles\\AndroidStudio\\SE_Project_OD\\test\\model\\forgot_password_test.dart","suiteID":0,"groupIDs":[],"metadata":{"skip":false,"skipReason":null},"line":null,"column":null,"url":null},"type":"testStart","time":4}
+{"suite":{"id":2,"platform":"vm","path":"D:\\MyWorkFiles\\AndroidStudio\\SE_Project_OD\\test\\model\\homeFaculty_test.dart"},"type":"suite","time":20}
+{"test":{"id":3,"name":"loading D:\\MyWorkFiles\\AndroidStudio\\SE_Project_OD\\test\\model\\homeFaculty_test.dart","suiteID":2,"groupIDs":[],"metadata":{"skip":false,"skipReason":null},"line":null,"column":null,"url":null},"type":"testStart","time":20}
+{"suite":{"id":4,"platform":"vm","path":"D:\\MyWorkFiles\\AndroidStudio\\SE_Project_OD\\test\\model\\homeStudent_test.dart"},"type":"suite","time":21}
+{"test":{"id":5,"name":"loading D:\\MyWorkFiles\\AndroidStudio\\SE_Project_OD\\test\\model\\homeStudent_test.dart","suiteID":4,"groupIDs":[],"metadata":{"skip":false,"skipReason":null},"line":null,"column":null,"url":null},"type":"testStart","time":21}
+{"suite":{"id":6,"platform":"vm","path":"D:\\MyWorkFiles\\AndroidStudio\\SE_Project_OD\\test\\model\\nav_fpassToSignin_test.dart"},"type":"suite","time":22}
+{"test":{"id":7,"name":"loading D:\\MyWorkFiles\\AndroidStudio\\SE_Project_OD\\test\\model\\nav_fpassToSignin_test.dart","suiteID":6,"groupIDs":[],"metadata":{"skip":false,"skipReason":null},"line":null,"column":null,"url":null},"type":"testStart","time":22}
+{"suite":{"id":8,"platform":"vm","path":"D:\\MyWorkFiles\\AndroidStudio\\SE_Project_OD\\test\\model\\nav_StudToApply_test.dart"},"type":"suite","time":22}
+{"test":{"id":9,"name":"loading D:\\MyWorkFiles\\AndroidStudio\\SE_Project_OD\\test\\model\\nav_StudToApply_test.dart","suiteID":8,"groupIDs":[],"metadata":{"skip":false,"skipReason":null},"line":null,"column":null,"url":null},"type":"testStart","time":22}
+{"suite":{"id":10,"platform":"vm","path":"D:\\MyWorkFiles\\AndroidStudio\\SE_Project_OD\\test\\model\\nav_StudToStatus_test.dart"},"type":"suite","time":23}
+{"test":{"id":11,"name":"loading D:\\MyWorkFiles\\AndroidStudio\\SE_Project_OD\\test\\model\\nav_StudToStatus_test.dart","suiteID":10,"groupIDs":[],"metadata":{"skip":false,"skipReason":null},"line":null,"column":null,"url":null},"type":"testStart","time":23}
+{"count":11,"type":"allSuites","time":26}
 
 [{"event":"test.startedProcess","params":{"observatoryUri":null}}]
 
 [{"event":"test.startedProcess","params":{"observatoryUri":null}}]
 
 [{"event":"test.startedProcess","params":{"observatoryUri":null}}]
-{"testID":1,"result":"success","skipped":false,"hidden":true,"type":"testDone","time":16184}
-{"group":{"id":8,"suiteID":0,"parentID":null,"name":"","metadata":{"skip":false,"skipReason":null},"testCount":2,"line":null,"column":null,"url":null},"type":"group","time":16201}
-{"group":{"id":9,"suiteID":0,"parentID":8,"name":"Password Reset Page Testing","metadata":{"skip":false,"skipReason":null},"testCount":2,"line":16,"column":1,"url":"file:///D:/MyWorkFiles/AndroidStudio/SE_Project_OD/test/model/forgot_password_test.dart"},"type":"group","time":16204}
-{"test":{"id":10,"name":"Password Reset Page Testing Check for necessary components in the password page","suiteID":0,"groupIDs":[8,9],"metadata":{"skip":false,"skipReason":null},"line":125,"column":5,"url":"package:flutter_test/src/widget_tester.dart","root_line":17,"root_column":3,"root_url":"file:///D:/MyWorkFiles/AndroidStudio/SE_Project_OD/test/model/forgot_password_test.dart"},"type":"testStart","time":16205}
-{"testID":3,"result":"success","skipped":false,"hidden":true,"type":"testDone","time":16216}
-{"group":{"id":11,"suiteID":2,"parentID":null,"name":"","metadata":{"skip":false,"skipReason":null},"testCount":2,"line":null,"column":null,"url":null},"type":"group","time":16217}
-{"group":{"id":12,"suiteID":2,"parentID":11,"name":"Student home page testing","metadata":{"skip":false,"skipReason":null},"testCount":2,"line":18,"column":1,"url":"file:///D:/MyWorkFiles/AndroidStudio/SE_Project_OD/test/model/homeStudent_test.dart"},"type":"group","time":16217}
-{"test":{"id":13,"name":"Student home page testing Test for necessary OD page components","suiteID":2,"groupIDs":[11,12],"metadata":{"skip":false,"skipReason":null},"line":125,"column":5,"url":"package:flutter_test/src/widget_tester.dart","root_line":19,"root_column":3,"root_url":"file:///D:/MyWorkFiles/AndroidStudio/SE_Project_OD/test/model/homeStudent_test.dart"},"type":"testStart","time":16217}
+{"testID":3,"result":"success","skipped":false,"hidden":true,"type":"testDone","time":5582}
+{"suite":{"id":12,"platform":"vm","path":"D:\\MyWorkFiles\\AndroidStudio\\SE_Project_OD\\test\\model\\odApply_test.dart"},"type":"suite","time":5647}
+{"test":{"id":13,"name":"loading D:\\MyWorkFiles\\AndroidStudio\\SE_Project_OD\\test\\model\\odApply_test.dart","suiteID":12,"groupIDs":[],"metadata":{"skip":false,"skipReason":null},"line":null,"column":null,"url":null},"type":"testStart","time":5647}
 
 [{"event":"test.startedProcess","params":{"observatoryUri":null}}]
-{"testID":10,"messageType":"print","message":"Found forgotmail field","type":"print","time":19926}
-{"testID":10,"messageType":"print","message":"Found send mail button","type":"print","time":19927}
-{"testID":10,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":19928}
-{"testID":13,"messageType":"print","message":"Found Logout button","type":"print","time":19929}
-{"testID":13,"messageType":"print","message":"Found Apply OD button","type":"print","time":19929}
-{"testID":13,"messageType":"print","message":"Found group od button","type":"print","time":19929}
-{"testID":13,"messageType":"print","message":"Found Track Status button","type":"print","time":19930}
-{"testID":13,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":19930}
-{"test":{"id":14,"name":"Password Reset Page Testing Forgot password email validation","suiteID":0,"groupIDs":[8,9],"metadata":{"skip":false,"skipReason":null},"line":125,"column":5,"url":"package:flutter_test/src/widget_tester.dart","root_line":31,"root_column":3,"root_url":"file:///D:/MyWorkFiles/AndroidStudio/SE_Project_OD/test/model/forgot_password_test.dart"},"type":"testStart","time":19936}
-{"test":{"id":15,"name":"Student home page testing Test Navigation to OD","suiteID":2,"groupIDs":[11,12],"metadata":{"skip":false,"skipReason":null},"line":125,"column":5,"url":"package:flutter_test/src/widget_tester.dart","root_line":34,"root_column":3,"root_url":"file:///D:/MyWorkFiles/AndroidStudio/SE_Project_OD/test/model/homeStudent_test.dart"},"type":"testStart","time":19937}
-{"testID":5,"result":"success","skipped":false,"hidden":true,"type":"testDone","time":20238}
-{"group":{"id":16,"suiteID":4,"parentID":null,"name":"","metadata":{"skip":false,"skipReason":null},"testCount":5,"line":null,"column":null,"url":null},"type":"group","time":20238}
-{"group":{"id":17,"suiteID":4,"parentID":16,"name":"SignIn page testing","metadata":{"skip":false,"skipReason":null},"testCount":5,"line":16,"column":1,"url":"file:///D:/MyWorkFiles/AndroidStudio/SE_Project_OD/test/model/signin_test.dart"},"type":"group","time":20238}
-{"test":{"id":18,"name":"SignIn page testing Check for necessary components in the Login page","suiteID":4,"groupIDs":[16,17],"metadata":{"skip":false,"skipReason":null},"line":125,"column":5,"url":"package:flutter_test/src/widget_tester.dart","root_line":17,"root_column":3,"root_url":"file:///D:/MyWorkFiles/AndroidStudio/SE_Project_OD/test/model/signin_test.dart"},"type":"testStart","time":20238}
-{"testID":14,"messageType":"print","message":"Valid email test passed","type":"print","time":20350}
-{"testID":14,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":20353}
-{"testID":15,"messageType":"print","message":"══╡ EXCEPTION CAUGHT BY GESTURE ╞═══════════════════════════════════════════════════════════════════\nThe following assertion was thrown while handling a gesture:\nCould not find a generator for route RouteSettings(\"/od\", null) in the _WidgetsAppState.\nMake sure your root app widget has provided a way to generate\nthis route.\nGenerators for routes are searched for in the following order:\n 1. For the \"/\" route, the \"home\" property, if non-null, is used.\n 2. Otherwise, the \"routes\" table is used, if it has an entry for the route.\n 3. Otherwise, onGenerateRoute is called. It should return a non-null value for any valid route not\nhandled by \"home\" and \"routes\".\n 4. Finally if all else fails onUnknownRoute is called.\nUnfortunately, onUnknownRoute was not set.\n\nWhen the exception was thrown, this was the stack:\n#0      _WidgetsAppState._onUnknownRoute.<anonymous closure> (package:flutter/src/widgets/app.dart:1227:9)\n#1      _WidgetsAppState._onUnknownRoute (package:flutter/src/widgets/app.dart:1242:6)\n#2      NavigatorState._routeNamed (package:flutter/src/widgets/navigator.dart:4169:37)\n#3      NavigatorState.pushNamed (package:flutter/src/widgets/navigator.dart:4211:20)\n#4      Navigator.pushNamed (package:flutter/src/widgets/navigator.dart:1735:34)\n#5      HomeStudent.build.<anonymous closure> (package:aumsodmll/screens/home/homeStudent.dart:68:33)\n#6      _InkResponseState._handleTap (package:flutter/src/material/ink_well.dart:994:20)\n#7      GestureRecognizer.invokeCallback (package:flutter/src/gestures/recognizer.dart:182:24)\n#8      TapGestureRecognizer.handleTapUp (package:flutter/src/gestures/tap.dart:607:11)\n#9      BaseTapGestureRecognizer._checkUp (package:flutter/src/gestures/tap.dart:296:5)\n#10     BaseTapGestureRecognizer.acceptGesture (package:flutter/src/gestures/tap.dart:267:7)\n#11     GestureArenaManager.sweep (package:flutter/src/gestures/arena.dart:157:27)\n#12     GestureBinding.handleEvent (package:flutter/src/gestures/binding.dart:443:20)\n#13     GestureBinding.dispatchEvent (package:flutter/src/gestures/binding.dart:419:22)\n#14     RendererBinding.dispatchEvent (package:flutter/src/rendering/binding.dart:288:11)\n#15     GestureBinding._handlePointerEventImmediately (package:flutter/src/gestures/binding.dart:374:7)\n#16     GestureBinding.handlePointerEvent (package:flutter/src/gestures/binding.dart:338:5)\n#17     TestWidgetsFlutterBinding.handlePointerEvent (package:flutter_test/src/binding.dart:507:13)\n#18     WidgetTester.sendEventToBinding.<anonymous closure> (package:flutter_test/src/widget_tester.dart:779:15)\n#19     WidgetTester.sendEventToBinding.<anonymous closure> (package:flutter_test/src/widget_tester.dart:778:39)\n#22     TestAsyncUtils.guard (package:flutter_test/src/test_async_utils.dart:72:41)\n#23     WidgetTester.sendEventToBinding (package:flutter_test/src/widget_tester.dart:778:27)\n#24     TestGesture.up.<anonymous closure> (package:flutter_test/src/test_pointer.dart:392:24)\n#25     TestGesture.up.<anonymous closure> (package:flutter_test/src/test_pointer.dart:390:39)\n#28     TestAsyncUtils.guard (package:flutter_test/src/test_async_utils.dart:72:41)\n#29     TestGesture.up (package:flutter_test/src/test_pointer.dart:390:27)\n#30     WidgetController.tapAt.<anonymous closure> (package:flutter_test/src/controller.dart:278:21)\n<asynchronous suspension>\n<asynchronous suspension>\n(elided 5 frames from dart:async and package:stack_trace)\n\nHandler: \"onTap\"\nRecognizer:\n  TapGestureRecognizer#07549\n════════════════════════════════════════════════════════════════════════════════════════════════════","type":"print","time":20512}
-{"testID":15,"messageType":"print","message":"══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════\nThe following TestFailure object was thrown running a test:\n  Expected: exactly one matching node in the widget tree\n  Actual: _WidgetTypeFinder:<zero widgets with type \"OD\" (ignoring offstage widgets)>\n   Which: means none were found but one was expected\n\nWhen the exception was thrown, this was the stack:\n#4      main.<anonymous closure>.<anonymous closure> (file:///D:/MyWorkFiles/AndroidStudio/SE_Project_OD/test/model/homeStudent_test.dart:47:5)\n<asynchronous suspension>\n<asynchronous suspension>\n(elided one frame from package:stack_trace)\n...\n\nThis was caught by the test expectation on the following line:\n  file:///D:/MyWorkFiles/AndroidStudio/SE_Project_OD/test/model/homeStudent_test.dart line 47\nThe test description was:\n  Test Navigation to OD\n════════════════════════════════════════════════════════════════════════════════════════════════════","type":"print","time":20521}
-{"testID":15,"messageType":"print","message":"══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════\nThe following message was thrown:\nMultiple exceptions (2) were detected during the running of the current test, and at least one was\nunexpected.\n════════════════════════════════════════════════════════════════════════════════════════════════════","type":"print","time":20523}
-{"testID":15,"error":"Test failed. See exception logs above.\nThe test description was: Test Navigation to OD","stackTrace":"","isFailure":false,"type":"error","time":20531}
-{"testID":15,"result":"error","skipped":false,"hidden":false,"type":"testDone","time":20531}
-{"testID":7,"result":"success","skipped":false,"hidden":true,"type":"testDone","time":21097}
-{"group":{"id":19,"suiteID":6,"parentID":null,"name":"","metadata":{"skip":false,"skipReason":null},"testCount":1,"line":null,"column":null,"url":null},"type":"group","time":21098}
-{"test":{"id":20,"name":"Counter increments smoke test","suiteID":6,"groupIDs":[19],"metadata":{"skip":false,"skipReason":null},"line":125,"column":5,"url":"package:flutter_test/src/widget_tester.dart","root_line":14,"root_column":3,"root_url":"file:///D:/MyWorkFiles/AndroidStudio/SE_Project_OD/test/widget_test.dart"},"type":"testStart","time":21098}
-{"testID":18,"messageType":"print","message":"Found email field","type":"print","time":21263}
-{"testID":18,"messageType":"print","message":"Found password field","type":"print","time":21265}
-{"testID":18,"messageType":"print","message":"Found signin button","type":"print","time":21265}
-{"testID":18,"messageType":"print","message":"Found forgot password button","type":"print","time":21266}
-{"testID":18,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":21267}
-{"test":{"id":21,"name":"SignIn page testing Empty email and password","suiteID":4,"groupIDs":[16,17],"metadata":{"skip":false,"skipReason":null},"line":125,"column":5,"url":"package:flutter_test/src/widget_tester.dart","root_line":34,"root_column":3,"root_url":"file:///D:/MyWorkFiles/AndroidStudio/SE_Project_OD/test/model/signin_test.dart"},"type":"testStart","time":21269}
-{"testID":21,"messageType":"print","message":"Getting email widget","type":"print","time":21345}
-{"testID":21,"messageType":"print","message":"exactly one widget with key [<'email-field'>] (ignoring offstage widgets): FormBuilderTextField-[<'email-field'>](dependencies: [_FormScope], state: _FormBuilderTextFieldState#6cdb1)","type":"print","time":21349}
-{"testID":21,"messageType":"print","message":"Getting form widget","type":"print","time":21350}
-{"testID":21,"messageType":"print","message":"exactly one widget with type \"Form\" (ignoring offstage widgets): Form-[LabeledGlobalKey<FormState>#f1dc3](state: FormState#4bb4d)","type":"print","time":21381}
-{"testID":21,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":21383}
-{"test":{"id":22,"name":"SignIn page testing SignIn with email and password-Student","suiteID":4,"groupIDs":[16,17],"metadata":{"skip":false,"skipReason":null},"line":125,"column":5,"url":"package:flutter_test/src/widget_tester.dart","root_line":55,"root_column":5,"root_url":"file:///D:/MyWorkFiles/AndroidStudio/SE_Project_OD/test/model/signin_test.dart"},"type":"testStart","time":21383}
-{"testID":22,"messageType":"print","message":"Signin with email password passed","type":"print","time":21671}
-{"testID":22,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":21722}
-{"test":{"id":23,"name":"SignIn page testing SignIn with email and password-Faculty","suiteID":4,"groupIDs":[16,17],"metadata":{"skip":false,"skipReason":null},"line":125,"column":5,"url":"package:flutter_test/src/widget_tester.dart","root_line":78,"root_column":3,"root_url":"file:///D:/MyWorkFiles/AndroidStudio/SE_Project_OD/test/model/signin_test.dart"},"type":"testStart","time":21723}
-{"testID":23,"messageType":"print","message":"Signin with email password passed","type":"print","time":21904}
-{"testID":23,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":21905}
-{"test":{"id":24,"name":"SignIn page testing SignIn with invalid email and password","suiteID":4,"groupIDs":[16,17],"metadata":{"skip":false,"skipReason":null},"line":125,"column":5,"url":"package:flutter_test/src/widget_tester.dart","root_line":102,"root_column":7,"root_url":"file:///D:/MyWorkFiles/AndroidStudio/SE_Project_OD/test/model/signin_test.dart"},"type":"testStart","time":21906}
-{"testID":24,"messageType":"print","message":"Signin with invalid email password should not pass and the test should fail.","type":"print","time":22215}
-{"testID":24,"messageType":"print","message":"══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════\nThe following TestFailure object was thrown running a test:\n  Expected: true\n  Actual: <false>\n\nWhen the exception was thrown, this was the stack:\n#4      main.<anonymous closure>.<anonymous closure> (file:///D:/MyWorkFiles/AndroidStudio/SE_Project_OD/test/model/signin_test.dart:122:5)\n<asynchronous suspension>\n<asynchronous suspension>\n(elided one frame from package:stack_trace)\n...\n\nThis was caught by the test expectation on the following line:\n  file:///D:/MyWorkFiles/AndroidStudio/SE_Project_OD/test/model/signin_test.dart line 122\nThe test description was:\n  SignIn with invalid email and password\n════════════════════════════════════════════════════════════════════════════════════════════════════","type":"print","time":22218}
-{"testID":24,"error":"Test failed. See exception logs above.\nThe test description was: SignIn with invalid email and password","stackTrace":"","isFailure":false,"type":"error","time":22221}
-{"testID":24,"result":"error","skipped":false,"hidden":false,"type":"testDone","time":22221}
-{"testID":20,"messageType":"print","message":"══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════\nThe following TestFailure object was thrown running a test:\n  Expected: exactly one matching node in the widget tree\n  Actual: _TextFinder:<zero widgets with text \"0\" (ignoring offstage widgets)>\n   Which: means none were found but one was expected\n\nWhen the exception was thrown, this was the stack:\n#4      main.<anonymous closure> (file:///D:/MyWorkFiles/AndroidStudio/SE_Project_OD/test/widget_test.dart:19:5)\n<asynchronous suspension>\n<asynchronous suspension>\n(elided one frame from package:stack_trace)\n...\n\nThis was caught by the test expectation on the following line:\n  file:///D:/MyWorkFiles/AndroidStudio/SE_Project_OD/test/widget_test.dart line 19\nThe test description was:\n  Counter increments smoke test\n════════════════════════════════════════════════════════════════════════════════════════════════════","type":"print","time":22327}
-{"testID":20,"error":"Test failed. See exception logs above.\nThe test description was: Counter increments smoke test","stackTrace":"","isFailure":false,"type":"error","time":22336}
-{"testID":20,"result":"error","skipped":false,"hidden":false,"type":"testDone","time":22336}
-{"success":false,"type":"done","time":22374}
+{"testID":1,"result":"success","skipped":false,"hidden":true,"type":"testDone","time":6984}
+{"group":{"id":14,"suiteID":0,"parentID":null,"name":"","metadata":{"skip":false,"skipReason":null},"testCount":3,"line":null,"column":null,"url":null},"type":"group","time":6988}
+{"group":{"id":15,"suiteID":0,"parentID":14,"name":"Password Reset Page Testing","metadata":{"skip":false,"skipReason":null},"testCount":3,"line":16,"column":1,"url":"file:///D:/MyWorkFiles/AndroidStudio/SE_Project_OD/test/model/forgot_password_test.dart"},"type":"group","time":6989}
+{"test":{"id":16,"name":"Password Reset Page Testing Check for necessary components in the forgot password page","suiteID":0,"groupIDs":[14,15],"metadata":{"skip":false,"skipReason":null},"line":125,"column":5,"url":"package:flutter_test/src/widget_tester.dart","root_line":17,"root_column":3,"root_url":"file:///D:/MyWorkFiles/AndroidStudio/SE_Project_OD/test/model/forgot_password_test.dart"},"type":"testStart","time":6990}
+
+[{"event":"test.startedProcess","params":{"observatoryUri":null}}]
+{"testID":7,"result":"success","skipped":false,"hidden":true,"type":"testDone","time":8159}
+{"group":{"id":17,"suiteID":6,"parentID":null,"name":"","metadata":{"skip":false,"skipReason":null},"testCount":1,"line":null,"column":null,"url":null},"type":"group","time":8159}
+{"test":{"id":18,"name":"Sign in button tap should pop SignIn page","suiteID":6,"groupIDs":[17],"metadata":{"skip":false,"skipReason":null},"line":125,"column":5,"url":"package:flutter_test/src/widget_tester.dart","root_line":112,"root_column":2,"root_url":"file:///D:/MyWorkFiles/AndroidStudio/SE_Project_OD/test/model/nav_fpassToSignin_test.dart"},"type":"testStart","time":8160}
+{"testID":5,"result":"success","skipped":false,"hidden":true,"type":"testDone","time":8163}
+{"group":{"id":19,"suiteID":4,"parentID":null,"name":"","metadata":{"skip":false,"skipReason":null},"testCount":1,"line":null,"column":null,"url":null},"type":"group","time":8164}
+{"group":{"id":20,"suiteID":4,"parentID":19,"name":"Student home page testing","metadata":{"skip":false,"skipReason":null},"testCount":1,"line":18,"column":1,"url":"file:///D:/MyWorkFiles/AndroidStudio/SE_Project_OD/test/model/homeStudent_test.dart"},"type":"group","time":8164}
+{"test":{"id":21,"name":"Student home page testing Test for necessary OD page components","suiteID":4,"groupIDs":[19,20],"metadata":{"skip":false,"skipReason":null},"line":125,"column":5,"url":"package:flutter_test/src/widget_tester.dart","root_line":19,"root_column":3,"root_url":"file:///D:/MyWorkFiles/AndroidStudio/SE_Project_OD/test/model/homeStudent_test.dart"},"type":"testStart","time":8165}
+{"testID":16,"messageType":"print","message":"Found forgotmail field","type":"print","time":8322}
+{"testID":16,"messageType":"print","message":"Found send mail button","type":"print","time":8323}
+
+[{"event":"test.startedProcess","params":{"observatoryUri":null}}]
+{"testID":16,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":8506}
+{"test":{"id":22,"name":"Password Reset Page Testing Forgot password email validation","suiteID":0,"groupIDs":[14,15],"metadata":{"skip":false,"skipReason":null},"line":125,"column":5,"url":"package:flutter_test/src/widget_tester.dart","root_line":31,"root_column":3,"root_url":"file:///D:/MyWorkFiles/AndroidStudio/SE_Project_OD/test/model/forgot_password_test.dart"},"type":"testStart","time":8507}
+
+[{"event":"test.startedProcess","params":{"observatoryUri":null}}]
+{"testID":22,"messageType":"print","message":"Valid email test passed","type":"print","time":8930}
+{"testID":22,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":8932}
+{"test":{"id":23,"name":"Password Reset Page Testing Forgot password- email sent message test","suiteID":0,"groupIDs":[14,15],"metadata":{"skip":false,"skipReason":null},"line":125,"column":5,"url":"package:flutter_test/src/widget_tester.dart","root_line":48,"root_column":3,"root_url":"file:///D:/MyWorkFiles/AndroidStudio/SE_Project_OD/test/model/forgot_password_test.dart"},"type":"testStart","time":8932}
+{"testID":9,"result":"success","skipped":false,"hidden":true,"type":"testDone","time":9237}
+{"group":{"id":24,"suiteID":8,"parentID":null,"name":"","metadata":{"skip":false,"skipReason":null},"testCount":1,"line":null,"column":null,"url":null},"type":"group","time":9237}
+{"test":{"id":25,"name":"Navigate to Another screen","suiteID":8,"groupIDs":[24],"metadata":{"skip":false,"skipReason":null},"line":125,"column":5,"url":"package:flutter_test/src/widget_tester.dart","root_line":97,"root_column":3,"root_url":"file:///D:/MyWorkFiles/AndroidStudio/SE_Project_OD/test/model/nav_StudToApply_test.dart"},"type":"testStart","time":9237}
+{"testID":23,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":9292}
+{"suite":{"id":26,"platform":"vm","path":"D:\\MyWorkFiles\\AndroidStudio\\SE_Project_OD\\test\\model\\signin_test.dart"},"type":"suite","time":9353}
+{"test":{"id":27,"name":"loading D:\\MyWorkFiles\\AndroidStudio\\SE_Project_OD\\test\\model\\signin_test.dart","suiteID":26,"groupIDs":[],"metadata":{"skip":false,"skipReason":null},"line":null,"column":null,"url":null},"type":"testStart","time":9353}
+{"testID":13,"result":"success","skipped":false,"hidden":true,"type":"testDone","time":9666}
+
+[{"event":"test.startedProcess","params":{"observatoryUri":null}}]
+{"suite":{"id":28,"platform":"vm","path":"D:\\MyWorkFiles\\AndroidStudio\\SE_Project_OD\\test\\unit_tests\\inputboxes_test.dart"},"type":"suite","time":9851}
+{"test":{"id":29,"name":"loading D:\\MyWorkFiles\\AndroidStudio\\SE_Project_OD\\test\\unit_tests\\inputboxes_test.dart","suiteID":28,"groupIDs":[],"metadata":{"skip":false,"skipReason":null},"line":null,"column":null,"url":null},"type":"testStart","time":9851}
+{"testID":21,"messageType":"print","message":"Found Logout button","type":"print","time":9852}
+{"testID":21,"messageType":"print","message":"Found Apply OD button","type":"print","time":9863}
+{"testID":21,"messageType":"print","message":"Found group od button","type":"print","time":9863}
+{"testID":21,"messageType":"print","message":"Found Track Status button","type":"print","time":9863}
+{"testID":21,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":9863}
+{"suite":{"id":30,"platform":"vm","path":"D:\\MyWorkFiles\\AndroidStudio\\SE_Project_OD\\test\\unit_tests\\odlist_test.dart"},"type":"suite","time":9908}
+{"test":{"id":31,"name":"loading D:\\MyWorkFiles\\AndroidStudio\\SE_Project_OD\\test\\unit_tests\\odlist_test.dart","suiteID":30,"groupIDs":[],"metadata":{"skip":false,"skipReason":null},"line":null,"column":null,"url":null},"type":"testStart","time":9908}
+{"testID":11,"result":"success","skipped":false,"hidden":true,"type":"testDone","time":9997}
+{"group":{"id":32,"suiteID":10,"parentID":null,"name":"","metadata":{"skip":false,"skipReason":null},"testCount":1,"line":null,"column":null,"url":null},"type":"group","time":9998}
+{"test":{"id":33,"name":"Navigate to Another screen","suiteID":10,"groupIDs":[32],"metadata":{"skip":false,"skipReason":null},"line":125,"column":5,"url":"package:flutter_test/src/widget_tester.dart","root_line":96,"root_column":3,"root_url":"file:///D:/MyWorkFiles/AndroidStudio/SE_Project_OD/test/model/nav_StudToStatus_test.dart"},"type":"testStart","time":9998}
+{"testID":18,"messageType":"print","message":"Popped Back to signIn page","type":"print","time":10079}
+{"testID":18,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":10082}
+{"suite":{"id":34,"platform":"vm","path":"D:\\MyWorkFiles\\AndroidStudio\\SE_Project_OD\\test\\widget_test.dart"},"type":"suite","time":10116}
+{"test":{"id":35,"name":"loading D:\\MyWorkFiles\\AndroidStudio\\SE_Project_OD\\test\\widget_test.dart","suiteID":34,"groupIDs":[],"metadata":{"skip":false,"skipReason":null},"line":null,"column":null,"url":null},"type":"testStart","time":10116}
+{"testID":27,"result":"success","skipped":false,"hidden":true,"type":"testDone","time":10474}
+{"group":{"id":36,"suiteID":26,"parentID":null,"name":"","metadata":{"skip":false,"skipReason":null},"testCount":5,"line":null,"column":null,"url":null},"type":"group","time":10474}
+{"group":{"id":37,"suiteID":26,"parentID":36,"name":"SignIn page testing","metadata":{"skip":false,"skipReason":null},"testCount":5,"line":16,"column":1,"url":"file:///D:/MyWorkFiles/AndroidStudio/SE_Project_OD/test/model/signin_test.dart"},"type":"group","time":10475}
+{"test":{"id":38,"name":"SignIn page testing Check for necessary components in the Login page","suiteID":26,"groupIDs":[36,37],"metadata":{"skip":false,"skipReason":null},"line":125,"column":5,"url":"package:flutter_test/src/widget_tester.dart","root_line":17,"root_column":3,"root_url":"file:///D:/MyWorkFiles/AndroidStudio/SE_Project_OD/test/model/signin_test.dart"},"type":"testStart","time":10475}
+
+[{"event":"test.startedProcess","params":{"observatoryUri":null}}]
+{"testID":25,"messageType":"print","message":"Navigation from Student home to Apply OD page successful","type":"print","time":10997}
+{"testID":25,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":10998}
+
+[{"event":"test.startedProcess","params":{"observatoryUri":null}}]
+{"testID":38,"messageType":"print","message":"Found email field","type":"print","time":11305}
+{"testID":38,"messageType":"print","message":"Found password field","type":"print","time":11308}
+{"testID":38,"messageType":"print","message":"Found signin button","type":"print","time":11310}
+{"testID":38,"messageType":"print","message":"Found forgot password button","type":"print","time":11311}
+{"testID":38,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":11312}
+{"test":{"id":39,"name":"SignIn page testing Empty email and password","suiteID":26,"groupIDs":[36,37],"metadata":{"skip":false,"skipReason":null},"line":125,"column":5,"url":"package:flutter_test/src/widget_tester.dart","root_line":34,"root_column":3,"root_url":"file:///D:/MyWorkFiles/AndroidStudio/SE_Project_OD/test/model/signin_test.dart"},"type":"testStart","time":11313}
+{"testID":29,"result":"success","skipped":false,"hidden":true,"type":"testDone","time":11349}
+{"group":{"id":40,"suiteID":28,"parentID":null,"name":"","metadata":{"skip":false,"skipReason":null},"testCount":4,"line":null,"column":null,"url":null},"type":"group","time":11350}
+{"test":{"id":41,"name":"Field empty tester","suiteID":28,"groupIDs":[40],"metadata":{"skip":false,"skipReason":null},"line":5,"column":3,"url":"file:///D:/MyWorkFiles/AndroidStudio/SE_Project_OD/test/unit_tests/inputboxes_test.dart"},"type":"testStart","time":11350}
+{"testID":41,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":11381}
+{"test":{"id":42,"name":"Non empty Field tester","suiteID":28,"groupIDs":[40],"metadata":{"skip":false,"skipReason":null},"line":9,"column":3,"url":"file:///D:/MyWorkFiles/AndroidStudio/SE_Project_OD/test/unit_tests/inputboxes_test.dart"},"type":"testStart","time":11382}
+{"testID":42,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":11389}
+{"test":{"id":43,"name":"Wrong email format tester","suiteID":28,"groupIDs":[40],"metadata":{"skip":false,"skipReason":null},"line":13,"column":3,"url":"file:///D:/MyWorkFiles/AndroidStudio/SE_Project_OD/test/unit_tests/inputboxes_test.dart"},"type":"testStart","time":11389}
+{"testID":43,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":11396}
+{"test":{"id":44,"name":"Email field tester","suiteID":28,"groupIDs":[40],"metadata":{"skip":false,"skipReason":null},"line":17,"column":3,"url":"file:///D:/MyWorkFiles/AndroidStudio/SE_Project_OD/test/unit_tests/inputboxes_test.dart"},"type":"testStart","time":11396}
+{"testID":44,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":11403}
+{"testID":39,"messageType":"print","message":"Getting email widget","type":"print","time":11405}
+{"testID":39,"messageType":"print","message":"exactly one widget with key [<'email-field'>] (ignoring offstage widgets): FormBuilderTextField-[<'email-field'>](dependencies: [_FormScope], state: _FormBuilderTextFieldState#54e74)","type":"print","time":11407}
+{"testID":39,"messageType":"print","message":"Getting form widget","type":"print","time":11426}
+{"testID":39,"messageType":"print","message":"exactly one widget with type \"Form\" (ignoring offstage widgets): Form-[LabeledGlobalKey<FormState>#95ddd](state: FormState#c1243)","type":"print","time":11426}
+{"testID":39,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":11427}
+{"test":{"id":45,"name":"SignIn page testing SignIn with email and password-Student","suiteID":26,"groupIDs":[36,37],"metadata":{"skip":false,"skipReason":null},"line":125,"column":5,"url":"package:flutter_test/src/widget_tester.dart","root_line":55,"root_column":5,"root_url":"file:///D:/MyWorkFiles/AndroidStudio/SE_Project_OD/test/model/signin_test.dart"},"type":"testStart","time":11427}
+{"testID":33,"messageType":"print","message":"Navigation from Student home to Track Status successful","type":"print","time":11569}
+{"testID":31,"result":"success","skipped":false,"hidden":true,"type":"testDone","time":11616}
+{"group":{"id":46,"suiteID":30,"parentID":null,"name":"","metadata":{"skip":false,"skipReason":null},"testCount":1,"line":null,"column":null,"url":null},"type":"group","time":11616}
+{"test":{"id":47,"name":"Add to array tester","suiteID":30,"groupIDs":[46],"metadata":{"skip":false,"skipReason":null},"line":20,"column":3,"url":"file:///D:/MyWorkFiles/AndroidStudio/SE_Project_OD/test/unit_tests/odlist_test.dart"},"type":"testStart","time":11617}
+{"testID":33,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":11618}
+{"testID":47,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":11647}
+
+[{"event":"test.startedProcess","params":{"observatoryUri":null}}]
+{"testID":45,"messageType":"print","message":"Signin with email password passed","type":"print","time":11763}
+{"testID":45,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":11763}
+{"test":{"id":48,"name":"SignIn page testing SignIn with email and password-Faculty","suiteID":26,"groupIDs":[36,37],"metadata":{"skip":false,"skipReason":null},"line":125,"column":5,"url":"package:flutter_test/src/widget_tester.dart","root_line":78,"root_column":3,"root_url":"file:///D:/MyWorkFiles/AndroidStudio/SE_Project_OD/test/model/signin_test.dart"},"type":"testStart","time":11764}
+{"testID":48,"messageType":"print","message":"Signin with email password passed","type":"print","time":11901}
+{"testID":48,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":11902}
+{"test":{"id":49,"name":"SignIn page testing SignIn with invalid email and password","suiteID":26,"groupIDs":[36,37],"metadata":{"skip":false,"skipReason":null},"line":125,"column":5,"url":"package:flutter_test/src/widget_tester.dart","root_line":102,"root_column":7,"root_url":"file:///D:/MyWorkFiles/AndroidStudio/SE_Project_OD/test/model/signin_test.dart"},"type":"testStart","time":11902}
+{"testID":49,"messageType":"print","message":"Signin with invalid email password should not pass and the test should fail.","type":"print","time":12033}
+{"testID":49,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":12034}
+{"testID":35,"result":"success","skipped":false,"hidden":true,"type":"testDone","time":12256}
+{"group":{"id":50,"suiteID":34,"parentID":null,"name":"","metadata":{"skip":false,"skipReason":null},"testCount":1,"line":null,"column":null,"url":null},"type":"group","time":12256}
+{"test":{"id":51,"name":"Counter increments smoke test","suiteID":34,"groupIDs":[50],"metadata":{"skip":false,"skipReason":null},"line":125,"column":5,"url":"package:flutter_test/src/widget_tester.dart","root_line":14,"root_column":3,"root_url":"file:///D:/MyWorkFiles/AndroidStudio/SE_Project_OD/test/widget_test.dart"},"type":"testStart","time":12256}
+{"testID":51,"messageType":"print","message":"══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════\nThe following TestFailure object was thrown running a test:\n  Expected: exactly one matching node in the widget tree\n  Actual: _TextFinder:<zero widgets with text \"0\" (ignoring offstage widgets)>\n   Which: means none were found but one was expected\n\nWhen the exception was thrown, this was the stack:\n#4      main.<anonymous closure> (file:///D:/MyWorkFiles/AndroidStudio/SE_Project_OD/test/widget_test.dart:19:5)\n<asynchronous suspension>\n<asynchronous suspension>\n(elided one frame from package:stack_trace)\n...\n\nThis was caught by the test expectation on the following line:\n  file:///D:/MyWorkFiles/AndroidStudio/SE_Project_OD/test/widget_test.dart line 19\nThe test description was:\n  Counter increments smoke test\n════════════════════════════════════════════════════════════════════════════════════════════════════","type":"print","time":13119}
+{"testID":51,"error":"Test failed. See exception logs above.\nThe test description was: Counter increments smoke test","stackTrace":"","isFailure":false,"type":"error","time":13122}
+{"testID":51,"result":"error","skipped":false,"hidden":false,"type":"testDone","time":13123}
+{"success":false,"type":"done","time":13148}

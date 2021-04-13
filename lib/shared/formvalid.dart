@@ -159,7 +159,7 @@ class _FormValState extends State<FormVal> {
     ));
   }
 
-  Future SavePdf(String path) async {
+  Future savePdf(String path) async {
     Directory documentDirectory = await getExternalStorageDirectory();
 
     String documentPath = documentDirectory.path;
@@ -298,7 +298,7 @@ class _FormValState extends State<FormVal> {
                     ),
                     flagType
                         ? Container()
-                        : FlatButton(
+                        : TextButton(
                             child: Text(
                               "View proof",
                               style: TextStyle(color: Colors.white),
@@ -344,7 +344,7 @@ class _FormValState extends State<FormVal> {
                             ),
                             onPressed: () async {
                               writeOnPdf(flag);
-                              await SavePdf(obj.formid);
+                              await savePdf(obj.formid);
 
                               Directory documentDirectory =
                                   await getExternalStorageDirectory();
@@ -590,7 +590,7 @@ class _FormValState extends State<FormVal> {
                                   ),
                                   onPressed: () async {
                                     writeOnPdf(flag);
-                                    await SavePdf(obj.formid);
+                                    await savePdf(obj.formid);
 
                                     Directory documentDirectory =
                                         await getExternalStorageDirectory();
