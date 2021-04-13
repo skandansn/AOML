@@ -1,37 +1,38 @@
 import 'package:aumsodmll/helpers/groupodlist.dart';
 import 'package:aumsodmll/models/od.dart';
 import 'package:aumsodmll/helpers/od_list.dart';
+import 'package:aumsodmll/shared/functions.dart';
 import 'package:aumsodmll/services/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class Track extends StatefulWidget {
+class Approve extends StatefulWidget {
+  // String name = "";
+  // Approve(String names) {
+  //   this.name = names;
+  // }
+
   @override
-  _TrackState createState() => _TrackState();
+  _ApproveState createState() => _ApproveState();
 }
 
-class _TrackState extends State<Track> {
+class _ApproveState extends State<Approve> {
   final FirebaseAuth auth = FirebaseAuth.instance;
-
   @override
   Widget build(BuildContext context) {
-    var arguements = ModalRoute.of(context).settings.arguments;
-    print(arguements);
-
     groupodfun() {
-      return GroupODList(flag: false, arg: arguements);
+      return GroupODList(flag: true);
     }
 
     odfun() {
-      return ODList(flag: false, arg: arguements);
+      return ODList(flag: true);
     }
 
     return MultiProvider(
         providers: [
-          StreamProvider<List<OD>>.value(initialData: null,value: DatabaseService().ods),
+          StreamProvider<List<OD>>.value(value: DatabaseService().ods),
           StreamProvider<List<GroupOD>>.value(
-              initialData: null,
               value: DatabaseService().groupods),
         ],
         child: Scaffold(
@@ -39,7 +40,7 @@ class _TrackState extends State<Track> {
           appBar: AppBar(
             elevation: 0.1,
             backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
-            title: (Text("Track Status")),
+            title: (Text("Applications")),
           ),
           body: Padding(
             padding: const EdgeInsets.all(8.0),
@@ -48,7 +49,7 @@ class _TrackState extends State<Track> {
                 height: 15,
               ),
               Text(
-                "Your Applications",
+                "Individual Applications",
                 style:
                     TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
               ),
@@ -62,11 +63,9 @@ class _TrackState extends State<Track> {
                 indent: 20,
                 endIndent: 20,
               ),
-              Text(
-                "Your Group OD Applications",
-                style:
-                    TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-              ),
+              Text("Your Group OD Applications",
+                  style: TextStyle(
+                      color: Colors.white, fontWeight: FontWeight.bold)),
               SizedBox(
                 height: 5,
               ),

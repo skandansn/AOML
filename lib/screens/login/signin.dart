@@ -24,7 +24,7 @@ class _SignInState extends State<SignIn> {
     return loading
         ? Loading()
         : Scaffold(
-            resizeToAvoidBottomInset: true,
+            resizeToAvoidBottomInset: false,
             backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
             appBar: AppBar(
               backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
@@ -88,7 +88,7 @@ class _SignInState extends State<SignIn> {
                           padding: EdgeInsets.symmetric(
                               horizontal: 20.0, vertical: 10.0),
                           child: FormBuilderTextField(
-                            key:Key('password-field'),
+                            key: Key('password-field'),
                             style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold),

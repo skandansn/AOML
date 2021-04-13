@@ -10,6 +10,9 @@ import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:pdf/pdf.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:pdf/widgets.dart' as pw;
 
 class FormVal extends StatefulWidget {
@@ -559,7 +562,40 @@ class _FormValState extends State<FormVal> {
                                     }
                                   },
                                 )
-                              : Container(),
+                              : IconButton(
+                                  icon: const Icon(
+                                    Icons.delete,
+                                    color: Colors.red,
+                                  ),
+                                  onPressed: () {
+                                    return showDialog(
+                                      context: context,
+                                      builder: (ctx) => AlertDialog(
+                                        title: Text("Cancel OD/Leave/ML"),
+                                        content: Text(
+                                            "Are you sure you want to cancel your OD/Leave/ML"),
+                                        actions: <Widget>[
+                                          FlatButton(
+                                            onPressed: () {
+                                              Firestore.instance
+                                                  .collection('ods')
+                                                  .document(obj.formid)
+                                                  .delete();
+                                              Navigator.of(ctx).pop();
+                                              Navigator.pop(context);
+                                            },
+                                            child: Text("Yes"),
+                                          ),
+                                          FlatButton(
+                                            onPressed: () {
+                                              Navigator.of(ctx).pop();
+                                            },
+                                            child: Text("No"),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  }),
                           flagType
                               ? IconButton(
                                   icon: const Icon(

@@ -14,7 +14,8 @@ class OD {
   final String proof;
   final String proofreq;
   OD(
-      {this.advisor,
+      {
+      this.advisor,
       this.date,
       this.time,
       this.faculty,
