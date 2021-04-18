@@ -178,7 +178,6 @@ class Tile extends StatelessWidget {
                             _formKey.currentState.save();
                             if (_formKey.currentState.validate()) {
                               var ans = {userNo: anscont.text};
-                              print(ans);
                               _db.addAnswerFaq(obj.formid, userid, ans);
                               final snackBar = SnackBar(
                                   content: Text('Your answer has been added!'));
@@ -241,9 +240,6 @@ class Tile extends StatelessWidget {
     } else if (flag == 1) {
       var selectedcolor = Color.fromRGBO(64, 75, 96, .9);
       if (sel == '${obj.formid}') {
-        print(sel);
-        print('${obj.formid}');
-        print("came");
         selectedcolor = Colors.teal;
       }
       return Padding(

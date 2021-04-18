@@ -104,7 +104,9 @@ class HomeFaculty extends StatelessWidget {
                       style: TextStyle(
                           color: Colors.white, fontWeight: FontWeight.bold),
                     ),
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.pushNamed(context, '/grantgrpod');
+                    },
                   ),
                 ),
               ),

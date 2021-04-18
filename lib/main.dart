@@ -1,9 +1,11 @@
 import 'package:aumsodmll/faqPage.dart';
 import 'package:aumsodmll/models/user.dart';
+import 'package:aumsodmll/screens/apply/applygrp.dart';
 import 'package:aumsodmll/screens/apply/odApply.dart';
 import 'package:aumsodmll/screens/apply/track.dart';
 import 'package:aumsodmll/screens/approve/approve.dart';
 import 'package:aumsodmll/screens/attendanceCalendar.dart';
+import 'package:aumsodmll/screens/grantGrpOd.dart';
 import 'package:aumsodmll/screens/login/forgot_password.dart';
 import 'package:aumsodmll/helpers/wrapper.dart';
 import 'package:aumsodmll/screens/pinnedFaqs.dart';
@@ -35,10 +37,12 @@ class MyApp extends StatelessWidget {
         routes: {
           '/forgotPass': (context) => ForgotPassword(),
           '/od': (context) => OD(),
+          '/applygrp': (context) => ApplyGrp(),
           '/track': (context) => Track(),
           '/faq': (context) => Faq(),
           '/pinnedfaq': (context) => PinnedFaq(),
           '/approve': (context) => Approve(),
+          '/grantgrpod': (context) => GrantGrpOD(),
           '/calendar': (context) => AttendanceCalendar(),
         },
         home: Wrapper(),

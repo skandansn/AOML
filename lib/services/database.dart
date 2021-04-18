@@ -24,7 +24,26 @@ class DatabaseService {
 
   CollectionReference userList = Firestore.instance.collection("users");
 
-  Future<List> facultyList() async {
+  Future<List> typefun(useridx) async {
+    QuerySnapshot res =
+        await userList.where("userid", isEqualTo: useridx).snapshots().first;
+    return [
+      (res.documents.first.data["userType"]),
+      (res.documents.first.data["name"]),
+      (res.documents.first.data["stuNo"]),
+      (res.documents.first.data["grantOD"]),
+      (res.documents.first.data["timeGrantOD"]),
+      (res.documents.first.data["attendance"]),
+    ];
+  }
+
+  Future<List> fun() async {
+    var userid = await FirebaseAuth.instance.currentUser();
+    var res = await typefun(userid.uid);
+    return res;
+  }
+
+  Future<List> getUsersList(bool typeFromPage) async {
     currentuserid = await FirebaseAuth.instance.currentUser();
     currentuserid = currentuserid.uid;
     var list = [];
@@ -33,11 +52,19 @@ class DatabaseService {
     list.add(currentuserid);
     list.add(typefunout[1]);
     list.add(typefunout[2]);
+    list.add(typefunout[3]);
+    list.add(typefunout[4]);
+    list.add(typefunout[5]);
+
     var r = await userList.getDocuments();
+    var data;
     for (int i = 0; i < r.documents.length; i++) {
       type = r.documents.elementAt(i).data["userType"];
-      if (type == false) {
-        list.add(r.documents.elementAt(i).data);
+
+      if (type == typeFromPage) {
+        data = r.documents.elementAt(i).data;
+        data["formid"] = r.documents.elementAt(i).documentID;
+        list.add(data);
       }
     }
     return list;
@@ -48,8 +75,20 @@ class DatabaseService {
     currentuserid = currentuserid.uid;
     var item;
     var list = [];
+    QuerySnapshot user = await userList
+        .where("userid", isEqualTo: currentuserid)
+        .snapshots()
+        .first;
+    var absentList = (user.documents.first.data["daysAbsentList"]);
+    var attendance = (user.documents.first.data["attendance"]);
+    var formid = (user.documents.first.documentID);
+
     var r = await odcollection.getDocuments();
     var r2 = await groupodcollection.getDocuments();
+    list.add(absentList);
+    list.add(attendance);
+    list.add(formid);
+
     for (int i = 0; i < r.documents.length; i++) {
       item = r.documents.elementAt(i);
       if (item.data["stuid"] == currentuserid) {
@@ -63,22 +102,6 @@ class DatabaseService {
       }
     }
     return list;
-  }
-
-  Future<List> typefun(useridx) async {
-    QuerySnapshot res =
-        await userList.where("userid", isEqualTo: useridx).snapshots().first;
-    return [
-      (res.documents.first.data["userType"]),
-      (res.documents.first.data["name"]),
-      (res.documents.first.data["stuNo"]),
-    ];
-  }
-
-  Future<List> fun() async {
-    var userid = await FirebaseAuth.instance.currentUser();
-    var res = await typefun(userid.uid);
-    return res;
   }
 
   Future<List> getUserDetails() async {
@@ -299,6 +322,21 @@ class DatabaseService {
           odcollection.document(id).updateData({"advisor": "Approved"});
         }
         odcollection.document(id).updateData({"steps": steps - 1});
+        if ((x.data["type"] == "Daypass" || x.data["type"] == "Homepass") &&
+            x.data["steps"] == 1) {
+          var oldList = [];
+
+          QuerySnapshot res = await userList
+              .where("userid", isEqualTo: x.data["stuid"])
+              .snapshots()
+              .first;
+          if (res.documents.first.data["daysAbsentList"] != null)
+            oldList.addAll(res.documents.first.data["daysAbsentList"]);
+          oldList.add(x.data["date"]);
+          userList
+              .document(res.documents.first.documentID)
+              .updateData({"daysAbsentList": oldList});
+        }
       } else {
         if (f == person) {
           odcollection.document(id).updateData({"faculty": "Denied"});

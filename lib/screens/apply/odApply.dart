@@ -53,8 +53,10 @@ class _ODState extends State<OD> {
   var types = ["OD", "ML", "Daypass", "Homepass"];
   @override
   Widget build(BuildContext context) {
+    var arguements = ModalRoute.of(context).settings.arguments;
+    datecont.text = arguements.toString();
     return FutureBuilder<List>(
-      future: _db.facultyList(), // async work
+      future: _db.getUsersList(false), // async work
       builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.waiting:
@@ -70,6 +72,10 @@ class _ODState extends State<OD> {
               list.removeAt(0);
               var stuNo = list[0];
               list.removeAt(0);
+              list.removeAt(0);
+              list.removeAt(0);
+              list.removeAt(0);
+
               List<String> namelist = [];
               list.forEach((element) {
                 namelist.add(element["name"]);
@@ -94,7 +100,7 @@ class _ODState extends State<OD> {
                       child: Column(
                         children: [
                           Card(
-                            key:Key('advisor-field'),
+                            key: Key('advisor-field'),
                             margin: new EdgeInsets.symmetric(
                                 horizontal: 10.0, vertical: 6.0),
                             elevation: 8.0,
@@ -170,7 +176,7 @@ class _ODState extends State<OD> {
                                       fontWeight: FontWeight.bold),
                                 ),
                                 name: "faculty",
-                                key:Key('faculty-field'),
+                                key: Key('faculty-field'),
                                 validator: (val) {
                                   if (clickedidfac != "" &&
                                       clickedidfac != null) {
@@ -233,7 +239,7 @@ class _ODState extends State<OD> {
                           //   onChanged: (_) {},
                           // ),
                           Card(
-                            key:Key('date-field'),
+                            key: Key('date-field'),
                             margin: new EdgeInsets.symmetric(
                                 horizontal: 10.0, vertical: 6.0),
                             elevation: 8.0,
@@ -265,7 +271,7 @@ class _ODState extends State<OD> {
                           ),
 
                           Card(
-                            key:Key('time-field'),
+                            key: Key('time-field'),
                             margin: new EdgeInsets.symmetric(
                                 horizontal: 10.0, vertical: 6.0),
                             elevation: 8.0,
@@ -289,7 +295,7 @@ class _ODState extends State<OD> {
                             ),
                           ),
                           Card(
-                            key:Key('decription-field'),
+                            key: Key('decription-field'),
                             margin: new EdgeInsets.symmetric(
                                 horizontal: 10.0, vertical: 6.0),
                             elevation: 8.0,
@@ -314,7 +320,7 @@ class _ODState extends State<OD> {
                           ),
 
                           Card(
-                            key:Key('type-field'),
+                            key: Key('type-field'),
                             margin: new EdgeInsets.symmetric(
                                 horizontal: 10.0, vertical: 6.0),
                             elevation: 8.0,
@@ -407,7 +413,7 @@ class _ODState extends State<OD> {
                                           width: 2,
                                         ),
                                         ElevatedButton(
-                                          key:Key('addproof-field'),
+                                          key: Key('addproof-field'),
                                           style: buttonStyle,
                                           child: Text("Remove proof"),
                                           onPressed: () {
@@ -425,7 +431,7 @@ class _ODState extends State<OD> {
                           ),
 
                           ElevatedButton(
-                              key:Key('submit-field'),
+                              key: Key('submit-field'),
                               style: buttonStyle,
                               onPressed: () {
                                 _formKey.currentState.save();
