@@ -2,7 +2,7 @@ import 'package:aumsodmll/services/auth.dart';
 import 'package:aumsodmll/shared/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:loading_gifs/loading_gifs.dart';
+//import 'package:loading_gifs/loading_gifs.dart';
 
 class ForgotPassword extends StatefulWidget {
   @override
@@ -33,9 +33,9 @@ class _ForgotPasswordState extends State<ForgotPassword> {
             padding: EdgeInsets.symmetric(vertical: 20, horizontal: 50),
             child: Column(
               children: [
-                FadeInImage.assetNetwork(
-                    placeholder: cupertinoActivityIndicatorSmall,
-                    image: 'https://i.imgur.com/pQR0s45.jpg'),
+                //FadeInImage.assetNetwork(
+                    //placeholder: cupertinoActivityIndicatorSmall,
+                    //image: 'https://i.imgur.com/pQR0s45.jpg'),
                 SizedBox(height: 20),
                 Card(
                   margin:

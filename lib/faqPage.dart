@@ -4,7 +4,7 @@ import 'package:aumsodmll/services/database.dart';
 import 'package:aumsodmll/shared/constants.dart';
 import 'package:aumsodmll/shared/loading.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_form_builder/flutter_form_builder.dart';
+//import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:provider/provider.dart';
 
 class Faq extends StatefulWidget {
@@ -79,6 +79,7 @@ class _FaqState extends State<Faq> {
                 userid = list[2];
 
                 return StreamProvider<List<FAQClass>>.value(
+                  initialData: [],
                     value: DatabaseService().faqs,
                     child: Scaffold(
                       resizeToAvoidBottomInset: false,
