@@ -4,6 +4,7 @@ import 'package:aumsodmll/models/od.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:intl/intl.dart';
 
 class DatabaseService {
   final CollectionReference odcollection = Firestore.instance.collection('ods');
@@ -34,12 +35,47 @@ class DatabaseService {
       (res.documents.first.data["grantOD"]),
       (res.documents.first.data["timeGrantOD"]),
       (res.documents.first.data["attendance"]),
+      (res.documents.first.data["applyLimiter"]),
+      (res.documents.first.data["daysAbsentList"]),
+      (res.documents.first.documentID),
     ];
   }
 
   Future<List> fun() async {
     var userid = await FirebaseAuth.instance.currentUser();
     var res = await typefun(userid.uid);
+    var absentList = (res[7]);
+    var st, end;
+    DateFormat format = DateFormat("MM/dd/yyyy");
+
+    dynamic attendance;
+    var days = [];
+    int workingdaysLeave = 0;
+    if (absentList != null)
+      absentList.forEach((element) {
+        if (element != "") {
+          st = (element.split(" - ")[0]);
+          end = (element.split(" - ")[1]);
+          st = (format.parse(st));
+          end = (format.parse(end));
+
+          for (int i = 0; i <= end.difference(st).inDays; i++) {
+            if (!days.contains(st.add(Duration(days: i)))) {
+              if (st.add(Duration(days: i)).weekday < 6) {
+                workingdaysLeave += 1;
+              }
+              days.add(st.add(Duration(days: i)));
+            }
+          }
+        }
+      });
+    attendance = ((180 - workingdaysLeave) / 180) * 100;
+    attendance = (attendance.toStringAsFixed(2));
+    Firestore.instance
+        .collection("users")
+        .document(res[8])
+        .updateData({"attendance": attendance});
+
     return res;
   }
 
@@ -55,6 +91,7 @@ class DatabaseService {
     list.add(typefunout[3]);
     list.add(typefunout[4]);
     list.add(typefunout[5]);
+    list.add(typefunout[6]);
 
     var r = await userList.getDocuments();
     var data;
@@ -297,6 +334,16 @@ class DatabaseService {
       "steps": steps
     };
     odcollection.add(data);
+    currentuserid = await FirebaseAuth.instance.currentUser();
+    currentuserid = currentuserid.uid;
+    QuerySnapshot res = await userList
+        .where("userid", isEqualTo: currentuserid)
+        .snapshots()
+        .first;
+
+    var formid = res.documents.first.documentID;
+    var oldLim = res.documents.first.data["applyLimiter"];
+    userList.document(formid).updateData({"applyLimiter": oldLim - 1});
   }
 
   Future updateOd(

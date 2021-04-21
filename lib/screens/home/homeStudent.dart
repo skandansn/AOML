@@ -29,13 +29,13 @@ class HomeStudent extends StatelessWidget {
                 snapshot.data.removeAt(0);
                 snapshot.data.removeAt(0);
                 snapshot.data.removeAt(0);
-                var grantOd = snapshot.data[0];
                 snapshot.data.removeAt(0);
 
-                var grantTime = snapshot.data[0];
                 snapshot.data.removeAt(0);
 
                 var attendance = double.parse(snapshot.data[0]);
+                snapshot.data.removeAt(0);
+                // var odLimiter = snapshot.data[0];
                 snapshot.data.removeAt(0);
 
                 return Scaffold(

@@ -54,7 +54,9 @@ class _ODState extends State<OD> {
   @override
   Widget build(BuildContext context) {
     var arguements = ModalRoute.of(context).settings.arguments;
-    datecont.text = arguements.toString();
+    if (arguements.toString() != "" && arguements != null) {
+      datecont.text = arguements.toString();
+    }
     return FutureBuilder<List>(
       future: _db.getUsersList(false), // async work
       builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
@@ -75,6 +77,18 @@ class _ODState extends State<OD> {
               list.removeAt(0);
               list.removeAt(0);
               list.removeAt(0);
+              var odLimiter = snapshot.data[0];
+              snapshot.data.removeAt(0);
+
+              if (odLimiter < 1) {
+                WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                  final snackBar = SnackBar(
+                      content: Text(
+                          'Sorry, You do have used all of your application forms.'));
+                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  Navigator.pop(context);
+                });
+              }
 
               List<String> namelist = [];
               list.forEach((element) {

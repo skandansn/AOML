@@ -77,6 +77,8 @@ class _ApplyGrpState extends State<ApplyGrp> {
               var grantPermissionTime = list[0];
               list.removeAt(0);
               list.removeAt(0);
+              list.removeAt(0);
+
               var st, end;
               if (grantPermissionTime != "" && grantPermissionTime != null) {
                 DateFormat format = DateFormat("MM/dd/yyyy");
