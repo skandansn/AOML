@@ -31,8 +31,9 @@ class _ApproveState extends State<Approve> {
 
     return MultiProvider(
         providers: [
-          StreamProvider<List<OD>>.value(value: DatabaseService().ods),
+          StreamProvider<List<OD>>.value(initialData: [],value: DatabaseService().ods),
           StreamProvider<List<GroupOD>>.value(
+            initialData: [],
               value: DatabaseService().groupods),
         ],
         child: Scaffold(

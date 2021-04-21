@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:aumsodmll/models/faq.dart';
 import 'package:aumsodmll/models/od.dart';
+import 'package:aumsodmll/models/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -175,6 +176,22 @@ class DatabaseService {
           reasons: doc.data['reasons'],
           formid: doc.documentID);
     }).toList();
+  }
+
+  Future updateUserData(String date, String time,String description) async{
+    return await odcollection.document(uid).setData({
+      'date' : date,
+      'time' : time,
+      'description' : description,
+    });
+  }
+
+  Stream<DocumentSnapshot> get userData{
+    return odcollection.document(uid).snapshots();
+  }
+
+  UserData _userDataFromSnapshot(Document){
+    
   }
 
   Stream<List<GroupOD>> get groupods {

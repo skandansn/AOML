@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:aumsodmll/models/od.dart';
 import 'package:aumsodmll/services/database.dart';
 import 'package:aumsodmll/shared/constants.dart';
+import 'package:aumsodmll/shared/updateForm.dart';
 import 'package:aumsodmll/shared/PdfPreviewScreen.dart';
 import 'package:aumsodmll/shared/loading.dart';
 import 'package:flutter/material.dart';
@@ -11,8 +12,8 @@ import 'package:path_provider/path_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:pdf/pdf.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
+//import 'package:firebase_auth/firebase_auth.dart';
+//import 'package:firebase_storage/firebase_storage.dart';
 import 'package:pdf/widgets.dart' as pw;
 
 class FormVal extends StatefulWidget {
@@ -162,7 +163,7 @@ class _FormValState extends State<FormVal> {
     ));
   }
 
-  Future SavePdf(String path) async {
+  Future savePdf(String path) async {
     Directory documentDirectory = await getExternalStorageDirectory();
 
     String documentPath = documentDirectory.path;
@@ -173,6 +174,16 @@ class _FormValState extends State<FormVal> {
   }
 
   Widget build(BuildContext context) {
+
+    void _showSettingsPanel(){
+      showModalBottomSheet(context: context, builder: (context){
+        return Container(
+          padding: EdgeInsets.symmetric(vertical:20.0,horizontal:60.0),
+          child: UpdateForm(),
+        );
+      });
+    }
+
     GroupOD applobjgrp;
     int flag = 1;
     OD applobjind;
@@ -301,7 +312,7 @@ class _FormValState extends State<FormVal> {
                     ),
                     flagType
                         ? Container()
-                        : FlatButton(
+                        : TextButton(
                             child: Text(
                               "View proof",
                               style: TextStyle(color: Colors.white),
@@ -347,7 +358,7 @@ class _FormValState extends State<FormVal> {
                             ),
                             onPressed: () async {
                               writeOnPdf(flag);
-                              await SavePdf(obj.formid);
+                              await savePdf(obj.formid);
 
                               Directory documentDirectory =
                                   await getExternalStorageDirectory();
@@ -575,7 +586,7 @@ class _FormValState extends State<FormVal> {
                                         content: Text(
                                             "Are you sure you want to cancel your OD/Leave/ML"),
                                         actions: <Widget>[
-                                          FlatButton(
+                                          TextButton(
                                             onPressed: () {
                                               Firestore.instance
                                                   .collection('ods')
@@ -586,7 +597,7 @@ class _FormValState extends State<FormVal> {
                                             },
                                             child: Text("Yes"),
                                           ),
-                                          FlatButton(
+                                          TextButton(
                                             onPressed: () {
                                               Navigator.of(ctx).pop();
                                             },
@@ -626,7 +637,7 @@ class _FormValState extends State<FormVal> {
                                   ),
                                   onPressed: () async {
                                     writeOnPdf(flag);
-                                    await SavePdf(obj.formid);
+                                    await savePdf(obj.formid);
 
                                     Directory documentDirectory =
                                         await getExternalStorageDirectory();
@@ -670,7 +681,13 @@ class _FormValState extends State<FormVal> {
                                     }
                                   },
                                 )
-                              : Container(),
+                              : IconButton(
+                                  icon: Icon(
+                                    Icons.edit,
+                                    color: Colors.white,
+                                  ),
+                                  onPressed: () => _showSettingsPanel(),           
+                                ),
                         ],
                       ),
                     ],

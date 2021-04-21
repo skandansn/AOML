@@ -28,8 +28,9 @@ class _TrackState extends State<Track> {
 
     return MultiProvider(
         providers: [
-          StreamProvider<List<OD>>.value(value: DatabaseService().ods),
+          StreamProvider<List<OD>>.value(initialData: null,value: DatabaseService().ods),
           StreamProvider<List<GroupOD>>.value(
+              initialData: null,
               value: DatabaseService().groupods),
         ],
         child: Scaffold(

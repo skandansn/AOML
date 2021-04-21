@@ -1,7 +1,7 @@
 import 'package:aumsodmll/screens/login/forgot_password.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:image_test_utils/image_test_utils.dart';
+// import 'package:image_test_utils/image_test_utils.dart';
 
 void main() {
 //   Widget testWidget = new MediaQuery(

@@ -35,7 +35,7 @@ group("SignIn page testing", (){
     await tester.pumpWidget(createWidgetForTesting(child:new SignIn()));
     // Finder img = find.byKey(new Key("image-field"));
     Finder email = find.byKey(new Key('email-field'));
-    Finder pwd = find.byKey(new Key('password-field'));
+    //Finder pwd = find.byKey(new Key('password-field'));
     // provideMockedNetworkImages(()async{
     //   await tester.pumpWidget(
     //     MaterialApp(
