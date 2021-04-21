@@ -53,39 +53,10 @@ class _AttendanceCalendarState extends State<AttendanceCalendar> {
                 DateFormat format = DateFormat("MM/dd/yyyy");
 
                 dynamic attendance;
-                List absentList = snapshot.data[0];
                 snapshot.data.removeAt(0);
                 attendance = snapshot.data[0];
                 snapshot.data.removeAt(0);
-                var formid = snapshot.data[0];
                 snapshot.data.removeAt(0);
-                var st, end;
-                var days = [];
-                int workingdaysLeave = 0;
-                if (absentList != null)
-                  absentList.forEach((element) {
-                    if (element != "") {
-                      st = (element.split(" - ")[0]);
-                      end = (element.split(" - ")[1]);
-                      st = (format.parse(st));
-                      end = (format.parse(end));
-
-                      for (int i = 0; i <= end.difference(st).inDays; i++) {
-                        if (!days.contains(st.add(Duration(days: i)))) {
-                          if (st.add(Duration(days: i)).weekday < 6) {
-                            workingdaysLeave += 1;
-                          }
-                          days.add(st.add(Duration(days: i)));
-                        }
-                      }
-                    }
-                  });
-                attendance = ((180 - workingdaysLeave) / 180) * 100;
-                attendance = (attendance.toStringAsFixed(2));
-                Firestore.instance
-                    .collection("users")
-                    .document(formid)
-                    .updateData({"attendance": attendance});
 
                 events.addAll(snapshot.data);
                 return SafeArea(
