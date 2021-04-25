@@ -176,11 +176,13 @@ class _FormValState extends State<FormVal> {
   Widget build(BuildContext context) {
     void _showSettingsPanel() {
       showModalBottomSheet(
+          backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
+          elevation: 8,
           context: context,
           builder: (context) {
-            return Container(
-              padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 60.0),
-              child: UpdateForm(),
+            return SingleChildScrollView(
+              padding: EdgeInsets.symmetric(vertical: 20, horizontal: 60),
+              child: UpdateForm(od:od),
             );
           });
     }
@@ -715,13 +717,15 @@ class _FormValState extends State<FormVal> {
                                     }
                                   },
                                 )
-                              : IconButton(
+                              : obj.steps > 0 ? 
+                                IconButton(
                                   icon: Icon(
                                     Icons.edit,
                                     color: Colors.white,
                                   ),
                                   onPressed: () => _showSettingsPanel(),
-                                ),
+                                )
+                                : Container(),
                         ],
                       ),
                     ],

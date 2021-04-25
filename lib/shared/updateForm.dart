@@ -7,8 +7,11 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:provider/provider.dart';
 
 class UpdateForm extends StatefulWidget {
+  final dynamic od;
+  UpdateForm({Key key, @required this.od})
+      : super(key: key);
   @override
-  _UpdateFormState createState() => _UpdateFormState();
+  _UpdateFormState createState() => new _UpdateFormState(od: od);
 }
 
 class _UpdateFormState extends State<UpdateForm> {
@@ -18,9 +21,12 @@ class _UpdateFormState extends State<UpdateForm> {
   TextEditingController _currentDate = new TextEditingController();
   TextEditingController _currentTime = new TextEditingController();
   TextEditingController _currentDescription = new TextEditingController();
-  
+  OD od;
+  _UpdateFormState({this.od});
+  DatabaseService _db = DatabaseService();
   @override
   Widget build(BuildContext context) {
+      print(od);
       final user = Provider.of<User>(context);
       return Form(
         key: _formKey,
@@ -41,7 +47,7 @@ class _UpdateFormState extends State<UpdateForm> {
                 decoration: BoxDecoration(
                     color: Color.fromRGBO(64, 75, 96, .9)),
                 padding: EdgeInsets.symmetric(
-                    horizontal: 20.0, vertical: 10.0),
+                    horizontal: 10.0, vertical: 10.0),
                 child: FormBuilderDateRangePicker(
                     style: TextStyle(
                         color: Colors.white,
@@ -52,7 +58,7 @@ class _UpdateFormState extends State<UpdateForm> {
                     name: "dateform",
                     controller: _currentDate,
                     decoration: textInputDecoration.copyWith(
-                        hintText: "Date"),
+                        hintText: "${od.date}"),
                     validator: (val) {
                       if (_currentDate.text != "" &&
                           _currentDate.text != null) {
@@ -73,7 +79,7 @@ class _UpdateFormState extends State<UpdateForm> {
                 decoration: BoxDecoration(
                     color: Color.fromRGBO(64, 75, 96, .9)),
                 padding: EdgeInsets.symmetric(
-                    horizontal: 20.0, vertical: 10.0),
+                    horizontal: 10.0, vertical: 10.0),
                 child: FormBuilderTextField(
                   style: TextStyle(
                       color: Colors.white,
@@ -84,7 +90,7 @@ class _UpdateFormState extends State<UpdateForm> {
                   ]),
                   controller: _currentTime,
                   decoration: textInputDecoration.copyWith(
-                      labelText: "Time"),
+                      labelText: "${od.time}"),
                 ),
               ),
             ),
@@ -98,7 +104,7 @@ class _UpdateFormState extends State<UpdateForm> {
                 decoration: BoxDecoration(
                     color: Color.fromRGBO(64, 75, 96, .9)),
                 padding: EdgeInsets.symmetric(
-                    horizontal: 20.0, vertical: 10.0),
+                    horizontal: 10.0, vertical: 10.0),
                 child: FormBuilderTextField(
                   style: TextStyle(
                       color: Colors.white,
@@ -109,7 +115,7 @@ class _UpdateFormState extends State<UpdateForm> {
                   ]),
                   controller: _currentDescription,
                   decoration: textInputDecoration.copyWith(
-                      labelText: "Description"),
+                      labelText: "${od.description}"),
                 ),
               ),
             ),
@@ -121,10 +127,12 @@ class _UpdateFormState extends State<UpdateForm> {
               onPressed: () async{
                 _formKey.currentState.save();
                 if (_formKey.currentState.validate()) {
-                  
+                  _db.updateUserData(od, _currentDate.text, _currentTime.text, _currentDescription.text);
+                  Navigator.pop(context);
+                  Navigator.pop(context);
             }
             },
-            child: Text("Update "))
+            child: Text("Update ")),
         ],
         ),
       );
