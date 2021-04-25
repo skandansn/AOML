@@ -55,9 +55,14 @@ class Tile extends StatelessWidget {
     }
     dynamic symbol;
     var pinsymbol;
-
-    if (obj.runtimeType == OD || obj.runtimeType == GroupOD) {
+    if (obj.runtimeType == OD) {
       symbol = obj.steps;
+    } else if (obj.runtimeType == GroupOD) {
+      for (int i = 0; i < obj.stuids.length; i++) {
+        if (obj.stuids[i] == userid) {
+          symbol = obj.steps[i];
+        }
+      }
     } else if (obj.runtimeType is FAQClass) {
       symbol = null;
     }
@@ -197,87 +202,105 @@ class Tile extends StatelessWidget {
     }
 
     if (flag == 2) {
+      print(symbol);
+
       var selectedcolor = Color.fromRGBO(64, 75, 96, .9);
       if (sel == '${obj.formid}') {
         selectedcolor = Colors.teal;
       }
-      return Padding(
-        padding: EdgeInsets.only(top: 8),
-        child: Card(
-          elevation: 8.0,
-          margin: new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
-          child: Container(
-            decoration: BoxDecoration(color: selectedcolor),
-            child: ListTile(
-                contentPadding:
-                    EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-                leading: Container(
-                  padding: EdgeInsets.only(right: 12.0),
-                  decoration: new BoxDecoration(
-                      border: new Border(
-                          right: new BorderSide(
-                              width: 1.0, color: Colors.white24))),
-                  child: Icon(symbol, color: color),
-                ),
-                // tileColor: colour,
-                title: Text(
-                  obj.stuNos.toString(),
-                  style: TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.bold),
-                ),
-                subtitle: Text(
-                  '\nDate: ${obj.date}\nType:  ${obj.type} ',
-                  style: TextStyle(color: Colors.white),
-                ),
-                trailing: Icon(Icons.keyboard_arrow_down,
-                    color: Colors.white, size: 30.0),
-                onTap: () {
-                  _showFormVal(flagType);
-                }),
+      List facSteps = obj.facSteps;
+      bool grpDisplayFlag = false;
+      facSteps.forEach((element) {
+        if (element != 0) {
+          grpDisplayFlag = true;
+        }
+      });
+      if (flagType == false || grpDisplayFlag) {
+        return Padding(
+          padding: EdgeInsets.only(top: 8),
+          child: Card(
+            elevation: 8.0,
+            margin: new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
+            child: Container(
+              decoration: BoxDecoration(color: selectedcolor),
+              child: ListTile(
+                  contentPadding:
+                      EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+                  leading: Container(
+                    padding: EdgeInsets.only(right: 12.0),
+                    decoration: new BoxDecoration(
+                        border: new Border(
+                            right: new BorderSide(
+                                width: 1.0, color: Colors.white24))),
+                    child: Icon(symbol, color: color),
+                  ),
+                  // tileColor: colour,
+                  title: Text(
+                    obj.stuNos.toString(),
+                    style: TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold),
+                  ),
+                  subtitle: Text(
+                    '\nDate: ${obj.date}\nType:  ${obj.type} ',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  trailing: Icon(Icons.keyboard_arrow_down,
+                      color: Colors.white, size: 30.0),
+                  onTap: () {
+                    _showFormVal(flagType);
+                  }),
+            ),
           ),
-        ),
-      );
+        );
+      } else {
+        return Container();
+      }
     } else if (flag == 1) {
       var selectedcolor = Color.fromRGBO(64, 75, 96, .9);
       if (sel == '${obj.formid}') {
         selectedcolor = Colors.teal;
       }
-      return Padding(
-        padding: EdgeInsets.only(top: 8),
-        child: Card(
-          elevation: 8.0,
-          margin: new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
-          child: Container(
-            decoration: BoxDecoration(color: selectedcolor),
-            child: ListTile(
-                contentPadding:
-                    EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-                leading: Container(
-                  padding: EdgeInsets.only(right: 12.0),
-                  decoration: new BoxDecoration(
-                      border: new Border(
-                          right: new BorderSide(
-                              width: 1.0, color: Colors.white24))),
-                  child: Icon(symbol, color: color),
-                ),
-                // tileColor: colour,
-                title: Text(
-                  obj.stuNo.toString(),
-                  style: TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.bold),
-                ),
-                subtitle: Text(
-                  '\nDate: ${obj.date}\nType:  ${obj.type} ',
-                  style: TextStyle(color: Colors.white),
-                ),
-                trailing: Icon(Icons.keyboard_arrow_down,
-                    color: Colors.white, size: 30.0),
-                onTap: () {
-                  _showFormVal(flagType);
-                }),
+
+      if (!(obj.type == "GroupOd") || !(flagType == false)) {
+        return Padding(
+          padding: EdgeInsets.only(top: 8),
+          child: Card(
+            elevation: 8.0,
+            margin: new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
+            child: Container(
+              decoration: BoxDecoration(color: selectedcolor),
+              child: ListTile(
+                  contentPadding:
+                      EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+                  leading: Container(
+                    padding: EdgeInsets.only(right: 12.0),
+                    decoration: new BoxDecoration(
+                        border: new Border(
+                            right: new BorderSide(
+                                width: 1.0, color: Colors.white24))),
+                    child: Icon(symbol, color: color),
+                  ),
+                  // tileColor: colour,
+                  title: Text(
+                    obj.stuNo.toString(),
+                    style: TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold),
+                  ),
+                  subtitle: Text(
+                    '\nDate: ${obj.date}\nType:  ${obj.type} ',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  trailing: Icon(Icons.keyboard_arrow_down,
+                      color: Colors.white, size: 30.0),
+                  onTap: () {
+                    _showFormVal(flagType);
+                  }),
+            ),
           ),
-        ),
-      );
+        );
+      } else {
+        return Container();
+      }
     } else {
       if (obj.pinned == true) {
         pinsymbol =

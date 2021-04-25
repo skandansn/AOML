@@ -39,6 +39,8 @@ class DatabaseService {
       (res.documents.first.data["applyLimiter"]),
       (res.documents.first.data["daysAbsentList"]),
       (res.documents.first.documentID),
+      (res.documents.first.data["branch"]),
+      (res.documents.first.data["advisor"]),
     ];
   }
 
@@ -93,6 +95,8 @@ class DatabaseService {
     list.add(typefunout[4]);
     list.add(typefunout[5]);
     list.add(typefunout[6]);
+    list.add(typefunout[9]);
+    list.add(typefunout[10]);
 
     var r = await userList.getDocuments();
     var data;
@@ -178,21 +182,19 @@ class DatabaseService {
     }).toList();
   }
 
-  Future updateUserData(String date, String time,String description) async{
+  Future updateUserData(String date, String time, String description) async {
     return await odcollection.document(uid).setData({
-      'date' : date,
-      'time' : time,
-      'description' : description,
+      'date': date,
+      'time': time,
+      'description': description,
     });
   }
 
-  Stream<DocumentSnapshot> get userData{
+  Stream<DocumentSnapshot> get userData {
     return odcollection.document(uid).snapshots();
   }
 
-  UserData _userDataFromSnapshot(Document){
-    
-  }
+  UserData _userDataFromSnapshot(Document) {}
 
   Stream<List<GroupOD>> get groupods {
     return groupodcollection.snapshots().map(_groupodsfromsnapshot);
@@ -201,7 +203,6 @@ class DatabaseService {
   List<GroupOD> _groupodsfromsnapshot(QuerySnapshot snapshot) {
     return snapshot.documents.map((doc) {
       return GroupOD(
-          advisor: doc.data['advisor'],
           date: doc.data['date'],
           time: doc.data['time'],
           description: doc.data['description'],
@@ -209,11 +210,10 @@ class DatabaseService {
           steps: doc.data['steps'],
           stuNos: doc.data['stuNos'],
           stuids: doc.data['stuids'],
+          type: doc.data['type'],
           stunames: doc.data['stunames'],
-          head: doc.data['head'],
-          proofreq: doc.data['proofreq'],
           proof: doc.data['proof'],
-          reasons: doc.data['reasons'],
+          facSteps: doc.data['facSteps'],
           formid: doc.documentID);
     }).toList();
   }
@@ -350,7 +350,9 @@ class DatabaseService {
       "type": type,
       "steps": steps
     };
-    odcollection.add(data);
+    dynamic docid;
+    docid = await odcollection.add(data);
+    docid = docid.documentID;
     currentuserid = await FirebaseAuth.instance.currentUser();
     currentuserid = currentuserid.uid;
     QuerySnapshot res = await userList
@@ -361,16 +363,85 @@ class DatabaseService {
     var formid = res.documents.first.documentID;
     var oldLim = res.documents.first.data["applyLimiter"];
     userList.document(formid).updateData({"applyLimiter": oldLim - 1});
+    return docid;
+  }
+
+  Future applyGrpOd(List students, String faculty, String date, String time,
+      String description, File proof) async {
+    var hod;
+    String url = "";
+    List docIds = [];
+    var temp;
+    var faclist = await getUsersList(false);
+    faclist.removeRange(0, 9);
+
+    for (int i = 0; i < students.length; i++) {
+      faclist.forEach((inner) {
+        if (inner['hod'] == students[i]["branch"]) {
+          hod = inner['userid'];
+        }
+      });
+
+      temp = await applyod(
+          students[i]["userid"],
+          students[i]["name"],
+          students[i]["stuNo"],
+          hod,
+          students[i]["advisor"],
+          date,
+          time,
+          description,
+          "GroupOd",
+          proof);
+      docIds.add(temp);
+    }
+
+    if (proof != null) {
+      var hash = proof.hashCode.toString();
+      FirebaseStorage storage = FirebaseStorage.instance;
+      StorageReference reference = storage.ref().child('proofs/$hash');
+      StorageUploadTask uploadTask = reference.putFile(proof);
+      StorageTaskSnapshot taskSnapshot = await uploadTask.onComplete;
+      url = await taskSnapshot.ref.getDownloadURL();
+    }
+    List stuNosList = [];
+    List stunamesList = [];
+    List stuidsList = [];
+    List steps = [];
+    List facSteps = [];
+    students.forEach((element) {
+      stuNosList.add(element["stuNo"]);
+      stuidsList.add(element["userid"]);
+      stunamesList.add(element["name"]);
+      if (element['advisor'] != "" && hod != "" && element['advisor'] != hod) {
+        steps.add(3);
+      } else {
+        steps.add(2);
+      }
+      facSteps.add(1);
+    });
+
+    var data = {
+      "date": date,
+      "description": description,
+      "faculty": faculty,
+      "proof": url,
+      "stuNos": stuNosList,
+      "stuids": stuidsList,
+      "stunames": stunamesList,
+      "time": time,
+      "type": "GroupOd",
+      "steps": steps,
+      "facSteps": facSteps,
+      "docIds": docIds
+    };
+    groupodcollection.add(data);
   }
 
   Future updateOd(
       String person, String id, int steps, bool val, String reasons) async {
-    int flag = 1;
     var x = await odcollection.document(id).get();
-    if (x.data == null) {
-      flag = 2;
-      x = await groupodcollection.document(id).get();
-    }
+
     String msg = x.data["reasons"];
     if (msg != null) {
       msg = msg + "\n" + reasons;
@@ -378,59 +449,115 @@ class DatabaseService {
       msg = reasons;
     }
     var f = (x.data["faculty"]);
-    if (flag == 1) {
-      if (val == true) {
-        if (f == person) {
-          odcollection.document(id).updateData({"faculty": "Approved"});
-        } else {
-          odcollection.document(id).updateData({"advisor": "Approved"});
-        }
-        odcollection.document(id).updateData({"steps": steps - 1});
-        if ((x.data["type"] == "Daypass" || x.data["type"] == "Homepass") &&
-            x.data["steps"] == 1) {
-          var oldList = [];
+    if (val == true) {
+      if (f == person) {
+        odcollection.document(id).updateData({"faculty": "Approved"});
+      } else {
+        odcollection.document(id).updateData({"advisor": "Approved"});
+      }
+      odcollection.document(id).updateData({"steps": steps - 1});
+      if ((x.data["type"] == "Daypass" || x.data["type"] == "Homepass") &&
+          x.data["steps"] == 1) {
+        var oldList = [];
 
-          QuerySnapshot res = await userList
-              .where("userid", isEqualTo: x.data["stuid"])
-              .snapshots()
-              .first;
-          if (res.documents.first.data["daysAbsentList"] != null)
-            oldList.addAll(res.documents.first.data["daysAbsentList"]);
-          oldList.add(x.data["date"]);
-          userList
-              .document(res.documents.first.documentID)
-              .updateData({"daysAbsentList": oldList});
-        }
-      } else {
-        if (f == person) {
-          odcollection.document(id).updateData({"faculty": "Denied"});
-        } else {
-          odcollection.document(id).updateData({"advisor": "Denied"});
-        }
-        odcollection.document(id).updateData({"steps": -1});
+        QuerySnapshot res = await userList
+            .where("userid", isEqualTo: x.data["stuid"])
+            .snapshots()
+            .first;
+        if (res.documents.first.data["daysAbsentList"] != null)
+          oldList.addAll(res.documents.first.data["daysAbsentList"]);
+        oldList.add(x.data["date"]);
+        userList
+            .document(res.documents.first.documentID)
+            .updateData({"daysAbsentList": oldList});
       }
-      odcollection.document(id).updateData({"reasons": msg});
     } else {
-      var h = (x.data["head"]);
-      if (val == true) {
-        print("todo accept group");
-        //   if (f == person) {
-        //     odcollection.document(id).updateData({"faculty": "Approved"});
-        //   } else {
-        //     odcollection.document(id).updateData({"advisor": "Approved"});
-        //   }
-        //   odcollection.document(id).updateData({"steps": steps - 1});
+      if (f == person) {
+        odcollection.document(id).updateData({"faculty": "Denied"});
       } else {
-        if (f == person) {
-          groupodcollection.document(id).updateData({"faculty": "Denied"});
-        } else if (h == person) {
-          groupodcollection.document(id).updateData({"head": "Denied"});
-        } else {
-          groupodcollection.document(id).updateData({"advisor": "Denied"});
-        }
-        groupodcollection.document(id).updateData({"steps": -1});
+        odcollection.document(id).updateData({"advisor": "Denied"});
       }
-      groupodcollection.document(id).updateData({"reasons": msg});
+
+      odcollection.document(id).updateData({"steps": -1});
     }
+
+    if (x.data['type'] == "GroupOd") {
+      dynamic grps = await groupodcollection.getDocuments();
+      var changesteps = [];
+      var facchangesteps = [];
+
+      var templist = [];
+
+      grps = grps.documents;
+      grps.forEach((element) {
+        templist = element['docIds'];
+        for (int i = 0; i < templist.length; i++) {
+          if (templist[i] == id) {
+            if (val == true) {
+              changesteps = element["steps"];
+
+              changesteps[i] -= 1;
+              groupodcollection
+                  .document(element.documentID)
+                  .updateData({"steps": changesteps});
+            }
+            if (val == false) {
+              changesteps = element["steps"];
+              changesteps[i] = -1;
+              facchangesteps = element['facSteps'];
+              facchangesteps[i] = 0;
+              groupodcollection.document(element.documentID).updateData(
+                  {"steps": changesteps, "facSteps": facchangesteps});
+            }
+          }
+        }
+      });
+    }
+
+    odcollection.document(id).updateData({"reasons": msg});
   }
+
+  // Future updateGroupOD(
+  //     String person, String id, int steps, bool val, String reasons) async {
+  //   var x = await odcollection.document(id).get();
+
+  //   String msg = x.data["reasons"];
+  //   if (msg != null) {
+  //     msg = msg + "\n" + reasons;
+  //   } else {
+  //     msg = reasons;
+  //   }
+  //   var f = (x.data["faculty"]);
+  //   if (val == true) {
+  //     if (f == person) {
+  //       odcollection.document(id).updateData({"faculty": "Approved"});
+  //     } else {
+  //       odcollection.document(id).updateData({"advisor": "Approved"});
+  //     }
+  //     odcollection.document(id).updateData({"steps": steps - 1});
+  //     if ((x.data["type"] == "Daypass" || x.data["type"] == "Homepass") &&
+  //         x.data["steps"] == 1) {
+  //       var oldList = [];
+
+  //       QuerySnapshot res = await userList
+  //           .where("userid", isEqualTo: x.data["stuid"])
+  //           .snapshots()
+  //           .first;
+  //       if (res.documents.first.data["daysAbsentList"] != null)
+  //         oldList.addAll(res.documents.first.data["daysAbsentList"]);
+  //       oldList.add(x.data["date"]);
+  //       userList
+  //           .document(res.documents.first.documentID)
+  //           .updateData({"daysAbsentList": oldList});
+  //     }
+  //   } else {
+  //     if (f == person) {
+  //       odcollection.document(id).updateData({"faculty": "Denied"});
+  //     } else {
+  //       odcollection.document(id).updateData({"advisor": "Denied"});
+  //     }
+  //     odcollection.document(id).updateData({"steps": -1});
+  //   }
+  //   odcollection.document(id).updateData({"reasons": msg});
+  // }
 }

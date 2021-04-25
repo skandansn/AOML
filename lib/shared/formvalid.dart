@@ -108,7 +108,7 @@ class _FormValState extends State<FormVal> {
 
   DatabaseService _db = DatabaseService();
   Object od;
-  int steps;
+  dynamic steps;
   var color;
   bool flagType;
 
@@ -174,14 +174,15 @@ class _FormValState extends State<FormVal> {
   }
 
   Widget build(BuildContext context) {
-
-    void _showSettingsPanel(){
-      showModalBottomSheet(context: context, builder: (context){
-        return Container(
-          padding: EdgeInsets.symmetric(vertical:20.0,horizontal:60.0),
-          child: UpdateForm(),
-        );
-      });
+    void _showSettingsPanel() {
+      showModalBottomSheet(
+          context: context,
+          builder: (context) {
+            return Container(
+              padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 60.0),
+              child: UpdateForm(),
+            );
+          });
     }
 
     GroupOD applobjgrp;
@@ -210,7 +211,11 @@ class _FormValState extends State<FormVal> {
               if (snapshot.hasError)
                 return Text('Error: ${snapshot.error}');
               else {
-                steps = obj.steps;
+                for (int i = 0; i < obj.stuids.length; i++) {
+                  if (obj.stuids[i] == '${snapshot.data}') {
+                    steps = obj.steps[i];
+                  }
+                }
                 switch (steps) {
                   case -1:
                     color = Colors.red;
@@ -224,124 +229,153 @@ class _FormValState extends State<FormVal> {
                 }
                 return Container(
                   child: Column(mainAxisSize: MainAxisSize.min, children: [
-                    Text(
-                      "Student Names:",
-                      style: TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.bold),
-                    ),
-                    for (var item in obj.stunames) Text(item),
+                    RichText(
+                        text: TextSpan(children: [
+                      TextSpan(
+                        text: "Student Name:",
+                        style: TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.bold),
+                      ),
+                    ])),
+                    for (var item in obj.stunames)
+                      RichText(
+                          text: TextSpan(children: [
+                        TextSpan(text: " $item", style: TextStyle(color: color))
+                      ])),
                     SizedBox(
                       height: 20,
                     ),
-                    Text(
-                      "Student Roll Nos:",
-                      style: TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.bold),
-                    ),
-                    for (var item in obj.stuNos)
+                    RichText(
+                        text: TextSpan(children: [
+                      TextSpan(
+                        text: "Student Nos:",
+                        style: TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.bold),
+                      ),
+                    ])),
+                    for (int i = 0; i < obj.stuNos.length; i++)
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text(item),
+                          RichText(
+                              text: TextSpan(children: [
+                            TextSpan(
+                                text: obj.stuNos[i],
+                                style: TextStyle(color: color))
+                          ])),
                           flagType
-                              ? IconButton(
-                                  icon: const Icon(
-                                    Icons.check,
-                                    color: Colors.green,
-                                  ),
-                                  onPressed: () async {
-                                    await _addreasonsbox(context);
-                                    reasons =
-                                        "Faculty ID: ${snapshot.data}\nDetails:$reasons";
-                                    _db.updateOd(snapshot.data, obj.formid,
-                                        obj.steps, true, reasons);
-                                  },
-                                )
-                              : Container(),
-                          flagType
-                              ? IconButton(
-                                  icon: const Icon(
-                                    Icons.do_not_disturb_alt,
-                                    color: Colors.red,
-                                  ),
-                                  onPressed: () async {
-                                    await _addreasonsbox(context);
-                                    reasons =
-                                        "Faculty ID: ${snapshot.data}\nDetails:$reasons";
-                                    _db.updateOd(snapshot.data, obj.formid,
-                                        obj.steps, false, reasons);
-                                  },
-                                )
-                              : Container(),
-                          flagType
-                              ? IconButton(
-                                  icon: Icon(
-                                    Icons.send,
-                                    color: Colors.white,
-                                  ),
-                                  onPressed: () async {
-                                    await _getproofbox(context);
+                              ? obj.facSteps[i] == 1 && obj.steps[i] > 0
+                                  ? IconButton(
+                                      icon: const Icon(
+                                        Icons.check,
+                                        color: Colors.green,
+                                      ),
+                                      onPressed: () async {
+                                        var steps = obj.steps;
+                                        var facSteps = obj.facSteps;
+                                        facSteps[i] = 0;
 
-                                    if (done == true) {
-                                      proof =
-                                          "Faculty ID: ${snapshot.data}\nDetails:$proof";
-                                      _db.reasonsandproof(
-                                          snapshot.data, obj.formid, proof);
-                                      Navigator.pop(context);
-                                      done = false;
-                                    }
-                                  },
-                                )
+                                        steps[i] -= 1;
+                                        Firestore.instance
+                                            .collection("groupods")
+                                            .document(obj.formid)
+                                            .updateData({
+                                          "steps": steps,
+                                          "facSteps": facSteps
+                                        });
+                                        Navigator.pop(context);
+                                      },
+                                    )
+                                  : Container()
+                              : Container(),
+                          flagType
+                              ? obj.facSteps[i] == 1 && obj.steps[i] > 0
+                                  ? IconButton(
+                                      icon: const Icon(
+                                        Icons.do_not_disturb_alt,
+                                        color: Colors.red,
+                                      ),
+                                      onPressed: () async {
+                                        var steps = obj.steps;
+                                        var facSteps = obj.facSteps;
+                                        facSteps[i] = 0;
+
+                                        steps[i] = -1;
+                                        Firestore.instance
+                                            .collection("groupods")
+                                            .document(obj.formid)
+                                            .updateData({
+                                          "steps": steps,
+                                          "facSteps": facSteps
+                                        });
+                                        Navigator.pop(context);
+                                      },
+                                    )
+                                  : Container()
                               : Container(),
                         ],
                       ),
                     SizedBox(
                       height: 20,
                     ),
-                    Text("Date: ${obj.date}"),
+                    RichText(
+                        text: TextSpan(children: [
+                      TextSpan(
+                        text: "Date:",
+                        style: TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.bold),
+                      ),
+                      TextSpan(
+                          text: " ${obj.date}", style: TextStyle(color: color))
+                    ])),
                     SizedBox(
                       height: 20,
                     ),
-                    Text("Time: ${obj.time}"),
+                    RichText(
+                        text: TextSpan(children: [
+                      TextSpan(
+                        text: "Time:",
+                        style: TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.bold),
+                      ),
+                      TextSpan(
+                          text: " ${obj.time}", style: TextStyle(color: color))
+                    ])),
                     SizedBox(
                       height: 20,
                     ),
-                    Text("Reason for the application: \n${obj.description}"),
+                    RichText(
+                        text: TextSpan(children: [
+                      TextSpan(
+                        text: "Description:",
+                        style: TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.bold),
+                      ),
+                      TextSpan(
+                          text: " ${obj.description}",
+                          style: TextStyle(color: color))
+                    ])),
                     SizedBox(
-                      height: 40,
+                      height: 20,
                     ),
-                    flagType
-                        ? Container()
-                        : TextButton(
+                    "${obj.proof}" != "null" && "${obj.proof}" != ""
+                        ? ElevatedButton(
+                            style: buttonStyle,
                             child: Text(
                               "View proof",
-                              style: TextStyle(color: Colors.white),
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
                             ),
                             onPressed: () async {
-                              if ("${obj.proof}" != "" &&
-                                  "${obj.proof}" != null) {
-                                _url = "${obj.proof}";
-                                if (await canLaunch(_url))
-                                  await launch(_url);
-                                else
-                                  throw "Could not launch $_url";
-                              }
+                              _url = "${obj.proof}";
+                              if (await canLaunch(_url))
+                                await launch(_url);
+                              else
+                                throw "Could not launch $_url";
                             },
-                          ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    flagType
-                        ? Container()
-                        : Text(
-                            "Reasons given by the faculty: \n${obj.reasons}"),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    flagType
-                        ? Container()
-                        : Text(
-                            "Proof requested by the faculty: \n${obj.proofreq}"),
+                          )
+                        : Container(),
                     SizedBox(
                       height: 20,
                     ),
@@ -686,7 +720,7 @@ class _FormValState extends State<FormVal> {
                                     Icons.edit,
                                     color: Colors.white,
                                   ),
-                                  onPressed: () => _showSettingsPanel(),           
+                                  onPressed: () => _showSettingsPanel(),
                                 ),
                         ],
                       ),

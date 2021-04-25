@@ -3,6 +3,7 @@ import 'package:aumsodmll/shared/constants.dart';
 import 'package:aumsodmll/shared/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:loading_gifs/loading_gifs.dart';
 //import 'package:loading_gifs/loading_gifs.dart';
 
 class SignIn extends StatefulWidget {
@@ -38,9 +39,9 @@ class _SignInState extends State<SignIn> {
                   autovalidateMode: AutovalidateMode.disabled,
                   child: Column(
                     children: [
-                      //FadeInImage.assetNetwork(
-                          //placeholder: cupertinoActivityIndicatorSmall,
-                         // image: 'https://i.imgur.com/pQR0s45.jpg'),
+                      FadeInImage.assetNetwork(
+                          placeholder: cupertinoActivityIndicatorSmall,
+                          image: 'https://i.imgur.com/pQR0s45.jpg'),
                       SizedBox(height: 20),
                       Card(
                         margin: new EdgeInsets.symmetric(

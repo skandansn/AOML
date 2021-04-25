@@ -10,6 +10,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:multi_select_flutter/bottom_sheet/multi_select_bottom_sheet.dart';
+import 'package:multi_select_flutter/multi_select_flutter.dart';
 
 class ApplyGrp extends StatefulWidget {
   @override
@@ -21,13 +23,16 @@ class _ApplyGrpState extends State<ApplyGrp> {
   TextEditingController datecont = new TextEditingController();
   TextEditingController timecont = new TextEditingController();
   TextEditingController descriptioncont = new TextEditingController();
-  var advisordropname = "Select your advisor";
+  // var advisordropname = "Select your advisor";
   var facultydropname = "Select your faculty";
-  var headdropname = "Select your HOD";
-  var clickedidad = "";
-  var clickedidfac = "";
-  var clickedidhead = "";
+  var studentdrop = "Select the student";
+  var clickedstu = "";
+  List<MultiSelectItem> _items;
 
+  // var headdropname = "Select your HOD";
+  // var clickedidad = "";
+  var clickedidfac = "";
+  // var clickedidhead = "";
   String addproofname = "Add proof";
   bool addedimage = false;
   File _imagefinal;
@@ -52,8 +57,35 @@ class _ApplyGrpState extends State<ApplyGrp> {
   }
 
   final _formKey = GlobalKey<FormBuilderState>();
+
+  var selectedStudents;
+  var selectedStudentsIds = [];
   @override
   Widget build(BuildContext context) {
+    var FacultyList;
+    var StudentList;
+    var StudentNameList = [];
+    void _showMultiSelect(BuildContext context) async {
+      await showModalBottomSheet(
+        isScrollControlled: true, // required for min/max child size
+        context: context,
+        builder: (ctx) {
+          return MultiSelectBottomSheet(
+            items: _items,
+            searchable: true,
+            title: Text("Student List"),
+            onConfirm: (values) {
+              setState(() {
+                selectedStudents = values;
+              });
+            },
+            maxChildSize: 0.8,
+            initialValue: [],
+          );
+        },
+      );
+    }
+
     return FutureBuilder<List>(
       future: _db.getUsersList(false), // async work
       builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
@@ -65,404 +97,529 @@ class _ApplyGrpState extends State<ApplyGrp> {
               return Text('Error: ${snapshot.error}');
             else {
               var userid = "${snapshot.data.first}";
-              var list = snapshot.data;
-              List<String> formsList = [];
-              list.removeAt(0);
-              var stuname = list[0];
-              list.removeAt(0);
-              var stuNo = list[0];
-              list.removeAt(0);
-              var grantPermission = list[0];
-              list.removeAt(0);
-              var grantPermissionTime = list[0];
-              list.removeAt(0);
-              list.removeAt(0);
-              list.removeAt(0);
+              FacultyList = snapshot.data;
+              FacultyList.removeAt(0);
+              FacultyList.removeAt(0);
+              FacultyList.removeAt(0);
+              FacultyList.removeAt(0);
+              FacultyList.removeAt(0);
+              FacultyList.removeAt(0);
 
-              var st, end;
-              if (grantPermissionTime != "" && grantPermissionTime != null) {
-                DateFormat format = DateFormat("MM/dd/yyyy");
-                st = (grantPermissionTime.split(" - ")[0]);
-                end = (grantPermissionTime.split(" - ")[1]);
+              // var odLimiter = snapshot.data[0];
+              // snapshot.data.removeAt(0);
+              // var branch = snapshot.data[0];
+              // snapshot.data.removeAt(0);
+              // var adv = snapshot.data[0];
+              // snapshot.data.removeAt(0);
 
-                st = (format.parse(st));
-                end = (format.parse(end));
-              } else {
-                WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-                  final snackBar = SnackBar(
-                      content: Text(
-                          'Sorry, You do not have the permission to apply group ODs'));
-                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                  Navigator.pop(context);
-                });
-              }
-              if (end != null) {
-                if (DateTime.now().isAfter(end)) {
-                  WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-                    final snackBar = SnackBar(
-                        content: Text(
-                            'Sorry, You do not have the permission to apply group ODs'));
-                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                    Navigator.pop(context);
-                  });
-                }
-              }
+              // list.forEach((element) {
+              //   if (element['hod'] == branch) {
+              //     hod = element['userid'];
+              //   }
+              // });
 
-              if (grantPermission == true) {
-                List<String> namelist = [];
-                list.forEach((element) {
-                  formsList.add(element["formid"]);
-                });
-                formsList.forEach((element) {});
+              return FutureBuilder<List>(
+                  future: _db.getUsersList(true), // async work
+                  builder:
+                      (BuildContext context, AsyncSnapshot<List> snapshot) {
+                    switch (snapshot.connectionState) {
+                      case ConnectionState.waiting:
+                        return Loading();
+                      default:
+                        if (snapshot.hasError)
+                          return Text('Error: ${snapshot.error}');
+                        else {
+                          var userid = "${snapshot.data.first}";
+                          StudentList = snapshot.data;
+                          List<String> formsList = [];
+                          StudentList.removeAt(0);
+                          var stuname = StudentList[0];
+                          StudentList.removeAt(0);
+                          var stuNo = StudentList[0];
+                          StudentList.removeAt(0);
+                          var grantPermission = StudentList[0];
+                          StudentList.removeAt(0);
+                          var grantPermissionTime = StudentList[0];
+                          StudentList.removeAt(0);
+                          StudentList.removeAt(0);
+                          StudentList.removeAt(0);
+                          StudentList.removeAt(0);
+                          StudentList.removeAt(0);
+                          // print(FacultyList);
 
-                list.forEach((element) {
-                  namelist.add(element["name"]);
-                });
-                List<String> idlist = [];
-                list.forEach((element) {
-                  idlist.add(element["userid"]);
-                });
-                return Scaffold(
-                  backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
-                  appBar: AppBar(
-                    elevation: 0.1,
-                    backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
-                    title: Text("Applying GroupOD"),
-                  ),
-                  body: SingleChildScrollView(
-                    child: FormBuilder(
-                      key: _formKey,
-                      autovalidateMode: AutovalidateMode.disabled,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          children: [
-                            Card(
-                              key: Key('advisor-field'),
-                              margin: new EdgeInsets.symmetric(
-                                  horizontal: 10.0, vertical: 6.0),
-                              elevation: 8.0,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    color: Color.fromRGBO(64, 75, 96, .9)),
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 20.0, vertical: 10.0),
+                          // print(StudentList);
+                          var st, end;
+                          if (grantPermissionTime != "" &&
+                              grantPermissionTime != null) {
+                            DateFormat format = DateFormat("MM/dd/yyyy");
+                            st = (grantPermissionTime.split(" - ")[0]);
+                            end = (grantPermissionTime.split(" - ")[1]);
 
-                                // color: Color.fromRGBO(64, 75, 96, .9),
-                                child: FormBuilderDropdown(
-                                  iconEnabledColor: Colors.white,
-                                  iconDisabledColor: Colors.white,
-                                  focusColor: Colors.white,
-                                  decoration: textInputDecoration,
-                                  style: TextStyle(color: Colors.white),
-                                  dropdownColor: Color.fromRGBO(64, 75, 96, .9),
-                                  validator: (val) {
-                                    if (clickedidad != "" &&
-                                        clickedidad != null) {
-                                      return null;
-                                    } else {
-                                      return "Please select a advisor";
-                                    }
-                                  },
-                                  hint: Text(
-                                    advisordropname,
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  name: "advisor",
-                                  items: namelist.map((String value) {
-                                    return new DropdownMenuItem<String>(
-                                      value: value,
-                                      child: new Text(
-                                        value,
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      onTap: () {
-                                        clickedidad =
-                                            idlist[namelist.indexOf(value)];
-                                        advisordropname = value;
-                                      },
-                                    );
-                                  }).toList(),
-                                  onChanged: (_) {},
-                                ),
+                            st = (format.parse(st));
+                            end = (format.parse(end));
+                          } else {
+                            WidgetsBinding.instance
+                                .addPostFrameCallback((timeStamp) {
+                              final snackBar = SnackBar(
+                                  content: Text(
+                                      'Sorry, You do not have the permission to apply group ODs'));
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snackBar);
+                              Navigator.pop(context);
+                            });
+                          }
+                          if (end != null) {
+                            if (DateTime.now().isAfter(end)) {
+                              WidgetsBinding.instance
+                                  .addPostFrameCallback((timeStamp) {
+                                final snackBar = SnackBar(
+                                    content: Text(
+                                        'Sorry, You do not have the permission to apply group ODs'));
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(snackBar);
+                                Navigator.pop(context);
+                              });
+                            }
+                          }
+                          if (grantPermission == true) {
+                            FacultyList.removeAt(0);
+
+                            FacultyList.removeAt(0);
+                            FacultyList.removeAt(0);
+
+                            StudentList.forEach((element) {
+                              StudentNameList.add(element["stuNo"]);
+                            });
+                            _items = StudentNameList.map(
+                                (item) => MultiSelectItem(item, item)).toList();
+                            List<String> facultyNameList = [];
+
+                            FacultyList.forEach((element) {
+                              facultyNameList.add(element["name"]);
+                            });
+
+                            return Scaffold(
+                              backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
+                              appBar: AppBar(
+                                elevation: 0.1,
+                                backgroundColor:
+                                    Color.fromRGBO(58, 66, 86, 1.0),
+                                title: Text("Applying GroupOD"),
                               ),
-                            ),
-                            Card(
-                              margin: new EdgeInsets.symmetric(
-                                  horizontal: 10.0, vertical: 6.0),
-                              elevation: 8.0,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    color: Color.fromRGBO(64, 75, 96, .9)),
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 20.0, vertical: 10.0),
-                                child: FormBuilderDropdown(
-                                  iconEnabledColor: Colors.white,
-                                  iconDisabledColor: Colors.white,
-                                  focusColor: Colors.white,
-                                  decoration: textInputDecoration,
-                                  style: TextStyle(color: Colors.white),
-                                  dropdownColor: Color.fromRGBO(64, 75, 96, .9),
-                                  hint: Text(
-                                    facultydropname,
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  name: "faculty",
-                                  key: Key('faculty-field'),
-                                  validator: (val) {
-                                    if (clickedidfac != "" &&
-                                        clickedidfac != null) {
-                                      return null;
-                                    } else {
-                                      return "Please select a faculty";
-                                    }
-                                  },
-                                  items: namelist.map((String value) {
-                                    return new DropdownMenuItem<String>(
-                                      value: value,
-                                      child: new Text(
-                                        value,
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      onTap: () {
-                                        clickedidfac =
-                                            idlist[namelist.indexOf(value)];
-                                        facultydropname = value;
-                                      },
-                                    );
-                                  }).toList(),
-                                  onChanged: (_) {},
-                                ),
-                              ),
-                            ),
-                            Card(
-                              margin: new EdgeInsets.symmetric(
-                                  horizontal: 10.0, vertical: 6.0),
-                              elevation: 8.0,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    color: Color.fromRGBO(64, 75, 96, .9)),
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 20.0, vertical: 10.0),
-                                child: FormBuilderDropdown(
-                                  iconEnabledColor: Colors.white,
-                                  iconDisabledColor: Colors.white,
-                                  focusColor: Colors.white,
-                                  decoration: textInputDecoration,
-                                  style: TextStyle(color: Colors.white),
-                                  dropdownColor: Color.fromRGBO(64, 75, 96, .9),
-                                  hint: Text(
-                                    headdropname,
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  name: "head",
-                                  key: Key('head-field'),
-                                  validator: (val) {
-                                    if (clickedidhead != "" &&
-                                        clickedidhead != null) {
-                                      return null;
-                                    } else {
-                                      return "Please select a HOD";
-                                    }
-                                  },
-                                  items: namelist.map((String value) {
-                                    return new DropdownMenuItem<String>(
-                                      value: value,
-                                      child: new Text(
-                                        value,
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      onTap: () {
-                                        clickedidhead =
-                                            idlist[namelist.indexOf(value)];
-                                        headdropname = value;
-                                      },
-                                    );
-                                  }).toList(),
-                                  onChanged: (_) {},
-                                ),
-                              ),
-                            ),
-                            Card(
-                              key: Key('date-field'),
-                              margin: new EdgeInsets.symmetric(
-                                  horizontal: 10.0, vertical: 6.0),
-                              elevation: 8.0,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    color: Color.fromRGBO(64, 75, 96, .9)),
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 20.0, vertical: 10.0),
-                                child: FormBuilderDateRangePicker(
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold),
-                                    cursorColor: Colors.white,
-                                    firstDate: DateTime(1970),
-                                    lastDate: DateTime(2030),
-                                    name: "dateform",
-                                    controller: datecont,
-                                    decoration: textInputDecoration.copyWith(
-                                        hintText: "Date"),
-                                    validator: (val) {
-                                      if (datecont.text != "" &&
-                                          datecont.text != null) {
-                                        return null;
-                                      } else {
-                                        return "Please enter the date/s";
-                                      }
-                                    }),
-                              ),
-                            ),
-                            Card(
-                              key: Key('time-field'),
-                              margin: new EdgeInsets.symmetric(
-                                  horizontal: 10.0, vertical: 6.0),
-                              elevation: 8.0,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    color: Color.fromRGBO(64, 75, 96, .9)),
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 20.0, vertical: 10.0),
-                                child: FormBuilderTextField(
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold),
-                                  name: "timeform",
-                                  validator: FormBuilderValidators.compose([
-                                    FormBuilderValidators.required(context),
-                                  ]),
-                                  controller: timecont,
-                                  decoration: textInputDecoration.copyWith(
-                                      labelText: "Time"),
-                                ),
-                              ),
-                            ),
-                            Card(
-                              key: Key('decription-field'),
-                              margin: new EdgeInsets.symmetric(
-                                  horizontal: 10.0, vertical: 6.0),
-                              elevation: 8.0,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    color: Color.fromRGBO(64, 75, 96, .9)),
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 20.0, vertical: 10.0),
-                                child: FormBuilderTextField(
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold),
-                                  name: "descform",
-                                  validator: FormBuilderValidators.compose([
-                                    FormBuilderValidators.required(context),
-                                  ]),
-                                  controller: descriptioncont,
-                                  decoration: textInputDecoration.copyWith(
-                                      labelText: "Description"),
-                                ),
-                              ),
-                            ),
-                            addedimage
-                                ? Column(
-                                    children: [
-                                      SizedBox(
-                                        height: 20,
-                                      ),
-                                      Text(
-                                        "Attached proof",
-                                        style: TextStyle(color: Colors.white),
-                                      ),
-                                      SizedBox(
-                                        height: 20,
-                                      ),
-                                      if (_imagefinal != null)
-                                        SizedBox(
-                                          height: 150,
-                                          width: 150,
-                                          child: Column(
-                                            children: [
-                                              filetype
-                                                  ? Expanded(
-                                                      child: Image.file(
-                                                        File(_imagefinal.path),
-                                                        fit: BoxFit.contain,
-                                                      ),
-                                                    )
-                                                  : Text(_imagefinal.path)
-                                            ],
+                              body: SingleChildScrollView(
+                                child: FormBuilder(
+                                  key: _formKey,
+                                  autovalidateMode: AutovalidateMode.disabled,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Column(
+                                      children: [
+                                        Card(
+                                          key: Key('students-field'),
+                                          margin: new EdgeInsets.symmetric(
+                                              horizontal: 10.0, vertical: 6.0),
+                                          elevation: 8.0,
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                                color: Color.fromRGBO(
+                                                    64, 75, 96, .9)),
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 20.0,
+                                                vertical: 10.0),
+                                            child: ElevatedButton(
+                                              onPressed: () {
+                                                _showMultiSelect(context);
+                                              },
+                                              child: Text("Select names"),
+                                            ),
+
+                                            // color: Color.fromRGBO(64, 75, 96, .9),
+                                            // child: FormBuilderDropdown(
+                                            //   iconEnabledColor: Colors.white,
+                                            //   iconDisabledColor: Colors.white,
+                                            //   focusColor: Colors.white,
+                                            //   decoration: textInputDecoration,
+                                            //   style: TextStyle(
+                                            //       color: Colors.white),
+                                            //   dropdownColor: Color.fromRGBO(
+                                            //       64, 75, 96, .9),
+                                            //   validator: (val) {
+                                            //     if (clickedstu != "" &&
+                                            //         clickedstu != null) {
+                                            //       return null;
+                                            //     } else {
+                                            //       return "Please select a student";
+                                            //     }
+                                            //   },
+                                            //   hint: Text(
+                                            //     studentdrop,
+                                            //     style: TextStyle(
+                                            //         color: Colors.white,
+                                            //         fontWeight:
+                                            //             FontWeight.bold),
+                                            //   ),
+                                            //   name: "student",
+                                            //   items: StudentNameList.map(
+                                            //       (String value) {
+                                            //     return new DropdownMenuItem<
+                                            //         String>(
+                                            //       value: value,
+                                            //       child: new Text(
+                                            //         value,
+                                            //         style: TextStyle(
+                                            //             color: Colors.white,
+                                            //             fontWeight:
+                                            //                 FontWeight.bold),
+                                            //       ),
+                                            //       onTap: () {
+                                            //         // studentdrop = idlist[
+                                            //         //     StudentNameList.indexOf(value)];
+                                            //         // studentdrop = value;
+                                            //       },
+                                            //     );
+                                            //   }).toList(),
+                                            //   onChanged: (_) {},
+                                            // ),
                                           ),
                                         ),
-                                    ],
-                                  )
-                                : Container(),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                ElevatedButton(
-                                    style: buttonStyle,
-                                    onPressed: () {
-                                      getImage();
-                                    },
-                                    child: Text(addproofname)),
-                                addedimage
-                                    ? Row(
-                                        children: [
-                                          SizedBox(
-                                            width: 2,
+                                        Card(
+                                          margin: new EdgeInsets.symmetric(
+                                              horizontal: 10.0, vertical: 6.0),
+                                          elevation: 8.0,
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                                color: Color.fromRGBO(
+                                                    64, 75, 96, .9)),
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 20.0,
+                                                vertical: 10.0),
+                                            child: FormBuilderDropdown(
+                                              iconEnabledColor: Colors.white,
+                                              iconDisabledColor: Colors.white,
+                                              focusColor: Colors.white,
+                                              decoration: textInputDecoration,
+                                              style: TextStyle(
+                                                  color: Colors.white),
+                                              dropdownColor: Color.fromRGBO(
+                                                  64, 75, 96, .9),
+                                              hint: Text(
+                                                facultydropname,
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                              name: "faculty",
+                                              key: Key('faculty-field'),
+                                              validator: (val) {
+                                                if (clickedidfac != "" &&
+                                                    clickedidfac != null) {
+                                                  return null;
+                                                } else {
+                                                  return "Please select a faculty";
+                                                }
+                                              },
+                                              items: facultyNameList
+                                                  .map((String value) {
+                                                return new DropdownMenuItem<
+                                                    String>(
+                                                  value: value,
+                                                  child: new Text(
+                                                    value,
+                                                    style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                  onTap: () {
+                                                    FacultyList.forEach(
+                                                        (element) {
+                                                      if (element["name"] ==
+                                                          value) {
+                                                        clickedidfac =
+                                                            element["userid"];
+                                                        facultydropname =
+                                                            element['name'];
+                                                      }
+                                                    }); // clickedidfac = idlist[
+                                                    //     namelist
+                                                    //         .indexOf(value)];
+                                                    // facultydropname = value;
+                                                  },
+                                                );
+                                              }).toList(),
+                                              onChanged: (_) {},
+                                            ),
                                           ),
-                                          ElevatedButton(
-                                            key: Key('addproof-field'),
+                                        ),
+                                        // Card(
+                                        //   margin: new EdgeInsets.symmetric(
+                                        //       horizontal: 10.0, vertical: 6.0),
+                                        //   elevation: 8.0,
+                                        //   child: Container(
+                                        //     decoration: BoxDecoration(
+                                        //         color: Color.fromRGBO(64, 75, 96, .9)),
+                                        //     padding: EdgeInsets.symmetric(
+                                        //         horizontal: 20.0, vertical: 10.0),
+                                        //     child: FormBuilderDropdown(
+                                        //       iconEnabledColor: Colors.white,
+                                        //       iconDisabledColor: Colors.white,
+                                        //       focusColor: Colors.white,
+                                        //       decoration: textInputDecoration,
+                                        //       style: TextStyle(color: Colors.white),
+                                        //       dropdownColor: Color.fromRGBO(64, 75, 96, .9),
+                                        //       hint: Text(
+                                        //         headdropname,
+                                        //         style: TextStyle(
+                                        //             color: Colors.white,
+                                        //             fontWeight: FontWeight.bold),
+                                        //       ),
+                                        //       name: "head",
+                                        //       key: Key('head-field'),
+                                        //       validator: (val) {
+                                        //         if (clickedidhead != "" &&
+                                        //             clickedidhead != null) {
+                                        //           return null;
+                                        //         } else {
+                                        //           return "Please select a HOD";
+                                        //         }
+                                        //       },
+                                        //       items: namelist.map((String value) {
+                                        //         return new DropdownMenuItem<String>(
+                                        //           value: value,
+                                        //           child: new Text(
+                                        //             value,
+                                        //             style: TextStyle(
+                                        //                 color: Colors.white,
+                                        //                 fontWeight: FontWeight.bold),
+                                        //           ),
+                                        //           onTap: () {
+                                        //             clickedidhead =
+                                        //                 idlist[namelist.indexOf(value)];
+                                        //             headdropname = value;
+                                        //           },
+                                        //         );
+                                        //       }).toList(),
+                                        //       onChanged: (_) {},
+                                        //     ),
+                                        //   ),
+                                        // ),
+                                        Card(
+                                          key: Key('date-field'),
+                                          margin: new EdgeInsets.symmetric(
+                                              horizontal: 10.0, vertical: 6.0),
+                                          elevation: 8.0,
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                                color: Color.fromRGBO(
+                                                    64, 75, 96, .9)),
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 20.0,
+                                                vertical: 10.0),
+                                            child: FormBuilderDateRangePicker(
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                                cursorColor: Colors.white,
+                                                firstDate: DateTime(1970),
+                                                lastDate: DateTime(2030),
+                                                name: "dateform",
+                                                controller: datecont,
+                                                decoration: textInputDecoration
+                                                    .copyWith(hintText: "Date"),
+                                                validator: (val) {
+                                                  if (datecont.text != "" &&
+                                                      datecont.text != null) {
+                                                    return null;
+                                                  } else {
+                                                    return "Please enter the date/s";
+                                                  }
+                                                }),
+                                          ),
+                                        ),
+                                        Card(
+                                          key: Key('time-field'),
+                                          margin: new EdgeInsets.symmetric(
+                                              horizontal: 10.0, vertical: 6.0),
+                                          elevation: 8.0,
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                                color: Color.fromRGBO(
+                                                    64, 75, 96, .9)),
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 20.0,
+                                                vertical: 10.0),
+                                            child: FormBuilderTextField(
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.bold),
+                                              name: "timeform",
+                                              validator: FormBuilderValidators
+                                                  .compose([
+                                                FormBuilderValidators.required(
+                                                    context),
+                                              ]),
+                                              controller: timecont,
+                                              decoration: textInputDecoration
+                                                  .copyWith(labelText: "Time"),
+                                            ),
+                                          ),
+                                        ),
+                                        Card(
+                                          key: Key('decription-field'),
+                                          margin: new EdgeInsets.symmetric(
+                                              horizontal: 10.0, vertical: 6.0),
+                                          elevation: 8.0,
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                                color: Color.fromRGBO(
+                                                    64, 75, 96, .9)),
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 20.0,
+                                                vertical: 10.0),
+                                            child: FormBuilderTextField(
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.bold),
+                                              name: "descform",
+                                              validator: FormBuilderValidators
+                                                  .compose([
+                                                FormBuilderValidators.required(
+                                                    context),
+                                              ]),
+                                              controller: descriptioncont,
+                                              decoration:
+                                                  textInputDecoration.copyWith(
+                                                      labelText: "Description"),
+                                            ),
+                                          ),
+                                        ),
+                                        addedimage
+                                            ? Column(
+                                                children: [
+                                                  SizedBox(
+                                                    height: 20,
+                                                  ),
+                                                  Text(
+                                                    "Attached proof",
+                                                    style: TextStyle(
+                                                        color: Colors.white),
+                                                  ),
+                                                  SizedBox(
+                                                    height: 20,
+                                                  ),
+                                                  if (_imagefinal != null)
+                                                    SizedBox(
+                                                      height: 150,
+                                                      width: 150,
+                                                      child: Column(
+                                                        children: [
+                                                          filetype
+                                                              ? Expanded(
+                                                                  child: Image
+                                                                      .file(
+                                                                    File(_imagefinal
+                                                                        .path),
+                                                                    fit: BoxFit
+                                                                        .contain,
+                                                                  ),
+                                                                )
+                                                              : Text(_imagefinal
+                                                                  .path)
+                                                        ],
+                                                      ),
+                                                    ),
+                                                ],
+                                              )
+                                            : Container(),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            ElevatedButton(
+                                                style: buttonStyle,
+                                                onPressed: () {
+                                                  getImage();
+                                                },
+                                                child: Text(addproofname)),
+                                            addedimage
+                                                ? Row(
+                                                    children: [
+                                                      SizedBox(
+                                                        width: 2,
+                                                      ),
+                                                      ElevatedButton(
+                                                        key: Key(
+                                                            'addproof-field'),
+                                                        style: buttonStyle,
+                                                        child: Text(
+                                                            "Remove proof"),
+                                                        onPressed: () {
+                                                          setState(() {
+                                                            _imagefinal = null;
+                                                            addproofname =
+                                                                "Add proof";
+                                                            addedimage = false;
+                                                          });
+                                                        },
+                                                      ),
+                                                    ],
+                                                  )
+                                                : Container(),
+                                          ],
+                                        ),
+                                        ElevatedButton(
+                                            key: Key('submit-field'),
                                             style: buttonStyle,
-                                            child: Text("Remove proof"),
                                             onPressed: () {
-                                              setState(() {
-                                                _imagefinal = null;
-                                                addproofname = "Add proof";
-                                                addedimage = false;
+                                              selectedStudents
+                                                  .forEach((element) {
+                                                StudentList.forEach((element2) {
+                                                  if (element ==
+                                                      element2['stuNo']) {
+                                                    selectedStudentsIds
+                                                        .add(element2);
+                                                  }
+                                                });
                                               });
+
+                                              selectedStudentsIds =
+                                                  selectedStudentsIds
+                                                      .toSet()
+                                                      .toList();
+                                              _formKey.currentState.save();
+                                              if (_formKey.currentState
+                                                  .validate()) {
+                                                // _db.applyGrpOd(selectedStudentsIds, fac, date, time, description, proof)
+                                                final snackBar = SnackBar(
+                                                    content: Text(
+                                                        'Group OD application has been submitted.'));
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(snackBar);
+                                                _db.applyGrpOd(
+                                                    selectedStudentsIds,
+                                                    clickedidfac,
+                                                    datecont.text,
+                                                    timecont.text,
+                                                    descriptioncont.text,
+                                                    _imagefinal);
+                                                Navigator.pop(context);
+                                              }
                                             },
-                                          ),
-                                        ],
-                                      )
-                                    : Container(),
-                              ],
-                            ),
-                            ElevatedButton(
-                                key: Key('submit-field'),
-                                style: buttonStyle,
-                                onPressed: () {
-                                  _formKey.currentState.save();
-                                  if (_formKey.currentState.validate()) {
-                                    final snackBar = SnackBar(
-                                        content: Text(
-                                            'Group OD application has been submitted.'));
-                                    ScaffoldMessenger.of(context)
-                                        .showSnackBar(snackBar);
-                                    Navigator.pop(context);
-                                  }
-                                },
-                                child: Text("Submit "))
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                );
-              } else {
-                return Container();
-              }
+                                            child: Text("Submit "))
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            );
+                          } else {
+                            return Container();
+                          }
+                        }
+                    }
+                  });
             }
         }
       },

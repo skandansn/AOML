@@ -18,10 +18,10 @@ class _ODState extends State<OD> {
   TextEditingController datecont = new TextEditingController();
   TextEditingController timecont = new TextEditingController();
   TextEditingController descriptioncont = new TextEditingController();
-  var advisordropname = "Select your advisor";
-  var facultydropname = "Select your faculty";
+  // var advisordropname = "Select your advisor";
+  // var facultydropname = "Select your faculty";
   var dropdowntype = "Select type";
-
+  var hod;
   var clickedidad = "";
   var clickedidfac = "";
   var typesel = "";
@@ -39,7 +39,6 @@ class _ODState extends State<OD> {
         addedimage = true;
         _imagefinal = File(result.files.single.path);
         filetype = mime(_imagefinal.path);
-        print(filetype);
         if (filetype.contains("image")) {
           filetype = true;
         } else {
@@ -79,6 +78,10 @@ class _ODState extends State<OD> {
               list.removeAt(0);
               var odLimiter = snapshot.data[0];
               snapshot.data.removeAt(0);
+              var branch = snapshot.data[0];
+              snapshot.data.removeAt(0);
+              var adv = snapshot.data[0];
+              snapshot.data.removeAt(0);
 
               if (odLimiter < 1) {
                 WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
@@ -89,15 +92,12 @@ class _ODState extends State<OD> {
                   Navigator.pop(context);
                 });
               }
+              list.forEach((element) {
+                if (element['hod'] == branch) {
+                  hod = element['userid'];
+                }
+              });
 
-              List<String> namelist = [];
-              list.forEach((element) {
-                namelist.add(element["name"]);
-              });
-              List<String> idlist = [];
-              list.forEach((element) {
-                idlist.add(element["userid"]);
-              });
               return Scaffold(
                 backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
                 appBar: AppBar(
@@ -113,112 +113,112 @@ class _ODState extends State<OD> {
                       padding: const EdgeInsets.all(8.0),
                       child: Column(
                         children: [
-                          Card(
-                            key: Key('advisor-field'),
-                            margin: new EdgeInsets.symmetric(
-                                horizontal: 10.0, vertical: 6.0),
-                            elevation: 8.0,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  color: Color.fromRGBO(64, 75, 96, .9)),
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 20.0, vertical: 10.0),
+                          // Card(
+                          //   key: Key('advisor-field'),
+                          //   margin: new EdgeInsets.symmetric(
+                          //       horizontal: 10.0, vertical: 6.0),
+                          //   elevation: 8.0,
+                          //   child: Container(
+                          //     decoration: BoxDecoration(
+                          //         color: Color.fromRGBO(64, 75, 96, .9)),
+                          //     padding: EdgeInsets.symmetric(
+                          //         horizontal: 20.0, vertical: 10.0),
 
-                              // color: Color.fromRGBO(64, 75, 96, .9),
-                              child: FormBuilderDropdown(
-                                iconEnabledColor: Colors.white,
-                                iconDisabledColor: Colors.white,
-                                focusColor: Colors.white,
-                                decoration: textInputDecoration,
-                                style: TextStyle(color: Colors.white),
-                                dropdownColor: Color.fromRGBO(64, 75, 96, .9),
-                                validator: (val) {
-                                  if (clickedidad != "" &&
-                                      clickedidad != null) {
-                                    return null;
-                                  } else {
-                                    return "Please select a advisor";
-                                  }
-                                },
-                                hint: Text(
-                                  advisordropname,
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                name: "advisor",
-                                items: namelist.map((String value) {
-                                  return new DropdownMenuItem<String>(
-                                    value: value,
-                                    child: new Text(
-                                      value,
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    onTap: () {
-                                      clickedidad =
-                                          idlist[namelist.indexOf(value)];
-                                      advisordropname = value;
-                                    },
-                                  );
-                                }).toList(),
-                                onChanged: (_) {},
-                              ),
-                            ),
-                          ),
-                          Card(
-                            margin: new EdgeInsets.symmetric(
-                                horizontal: 10.0, vertical: 6.0),
-                            elevation: 8.0,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  color: Color.fromRGBO(64, 75, 96, .9)),
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 20.0, vertical: 10.0),
-                              child: FormBuilderDropdown(
-                                iconEnabledColor: Colors.white,
-                                iconDisabledColor: Colors.white,
-                                focusColor: Colors.white,
-                                decoration: textInputDecoration,
-                                style: TextStyle(color: Colors.white),
-                                dropdownColor: Color.fromRGBO(64, 75, 96, .9),
-                                hint: Text(
-                                  facultydropname,
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                name: "faculty",
-                                key: Key('faculty-field'),
-                                validator: (val) {
-                                  if (clickedidfac != "" &&
-                                      clickedidfac != null) {
-                                    return null;
-                                  } else {
-                                    return "Please select a faculty";
-                                  }
-                                },
-                                items: namelist.map((String value) {
-                                  return new DropdownMenuItem<String>(
-                                    value: value,
-                                    child: new Text(
-                                      value,
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    onTap: () {
-                                      clickedidfac =
-                                          idlist[namelist.indexOf(value)];
-                                      facultydropname = value;
-                                    },
-                                  );
-                                }).toList(),
-                                onChanged: (_) {},
-                              ),
-                            ),
-                          ),
+                          //     // color: Color.fromRGBO(64, 75, 96, .9),
+                          //     child: FormBuilderDropdown(
+                          //       iconEnabledColor: Colors.white,
+                          //       iconDisabledColor: Colors.white,
+                          //       focusColor: Colors.white,
+                          //       decoration: textInputDecoration,
+                          //       style: TextStyle(color: Colors.white),
+                          //       dropdownColor: Color.fromRGBO(64, 75, 96, .9),
+                          //       validator: (val) {
+                          //         if (clickedidad != "" &&
+                          //             clickedidad != null) {
+                          //           return null;
+                          //         } else {
+                          //           return "Please select a advisor";
+                          //         }
+                          //       },
+                          //       hint: Text(
+                          //         advisordropname,
+                          //         style: TextStyle(
+                          //             color: Colors.white,
+                          //             fontWeight: FontWeight.bold),
+                          //       ),
+                          //       name: "advisor",
+                          //       items: namelist.map((String value) {
+                          //         return new DropdownMenuItem<String>(
+                          //           value: value,
+                          //           child: new Text(
+                          //             value,
+                          //             style: TextStyle(
+                          //                 color: Colors.white,
+                          //                 fontWeight: FontWeight.bold),
+                          //           ),
+                          //           onTap: () {
+                          //             clickedidad =
+                          //                 idlist[namelist.indexOf(value)];
+                          //             advisordropname = value;
+                          //           },
+                          //         );
+                          //       }).toList(),
+                          //       onChanged: (_) {},
+                          //     ),
+                          //   ),
+                          // ),
+                          // Card(
+                          //   margin: new EdgeInsets.symmetric(
+                          //       horizontal: 10.0, vertical: 6.0),
+                          //   elevation: 8.0,
+                          //   child: Container(
+                          //     decoration: BoxDecoration(
+                          //         color: Color.fromRGBO(64, 75, 96, .9)),
+                          //     padding: EdgeInsets.symmetric(
+                          //         horizontal: 20.0, vertical: 10.0),
+                          //     child: FormBuilderDropdown(
+                          //       iconEnabledColor: Colors.white,
+                          //       iconDisabledColor: Colors.white,
+                          //       focusColor: Colors.white,
+                          //       decoration: textInputDecoration,
+                          //       style: TextStyle(color: Colors.white),
+                          //       dropdownColor: Color.fromRGBO(64, 75, 96, .9),
+                          //       hint: Text(
+                          //         facultydropname,
+                          //         style: TextStyle(
+                          //             color: Colors.white,
+                          //             fontWeight: FontWeight.bold),
+                          //       ),
+                          //       name: "faculty",
+                          //       key: Key('faculty-field'),
+                          //       validator: (val) {
+                          //         if (clickedidfac != "" &&
+                          //             clickedidfac != null) {
+                          //           return null;
+                          //         } else {
+                          //           return "Please select a faculty";
+                          //         }
+                          //       },
+                          //       items: namelist.map((String value) {
+                          //         return new DropdownMenuItem<String>(
+                          //           value: value,
+                          //           child: new Text(
+                          //             value,
+                          //             style: TextStyle(
+                          //                 color: Colors.white,
+                          //                 fontWeight: FontWeight.bold),
+                          //           ),
+                          //           onTap: () {
+                          //             clickedidfac =
+                          //                 idlist[namelist.indexOf(value)];
+                          //             facultydropname = value;
+                          //           },
+                          //         );
+                          //       }).toList(),
+                          //       onChanged: (_) {},
+                          //     ),
+                          //   ),
+                          // ),
                           // DropdownButton<String>(
                           //   hint: Text(advisordropname),
                           //   items: namelist.map((String value) {
@@ -454,8 +454,8 @@ class _ODState extends State<OD> {
                                       userid,
                                       stuname,
                                       stuNo,
-                                      clickedidfac,
-                                      clickedidad,
+                                      adv,
+                                      hod,
                                       datecont.text,
                                       timecont.text,
                                       descriptioncont.text,
@@ -468,11 +468,6 @@ class _ODState extends State<OD> {
                                       .showSnackBar(snackBar);
                                   Navigator.pop(context);
                                 } else {
-                                  print(clickedidad);
-                                  print(clickedidfac);
-                                  print(typesel);
-                                  print(datecont);
-
                                   print("validation failed");
                                 }
                               },
