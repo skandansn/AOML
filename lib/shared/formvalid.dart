@@ -151,12 +151,15 @@ class _FormValState extends State<FormVal> {
         } else {
           return <pw.Widget>[
             pw.Header(level: 0, child: pw.Text('Group')),
-            pw.Paragraph(text: "Student Number : ${objP.stuNo}"),
+            pw.Paragraph(text: "Student Names :"),
+            for (int i = 0; i < objP.stuNos.length; i++)
+              pw.Paragraph(text: "${objP.stunames[i]}"),
+              pw.Paragraph(text: "Student Numbers :"),
+            for (int i = 0; i < objP.stuNos.length; i++)
+              pw.Paragraph(text: "${objP.stuNos[i]}"),
             pw.Paragraph(text: "Date : ${objP.date}"),
             pw.Paragraph(text: "Time : ${objP.time}"),
             pw.Paragraph(text: "Description : ${objP.description}"),
-            pw.Paragraph(text: "Reasons : ${objP.reasons}"),
-            pw.Paragraph(text: "Proof Requested : ${objP.proofreq}"),
           ];
         }
       },
@@ -389,28 +392,33 @@ class _FormValState extends State<FormVal> {
                             },
                             child: Text("Confirm the approvals/denials"))
                         : IconButton(
-                            icon: const Icon(
-                              Icons.arrow_downward,
-                            ),
-                            onPressed: () async {
-                              writeOnPdf(flag);
-                              await savePdf(obj.formid);
+                                  icon: const Icon(
+                                    Icons.arrow_downward,
+                                    color: Colors.white,
+                                  ),
+                                  onPressed: () async {
+                                    print(obj.formid);
+                                    writeOnPdf(flag);
+                                    await savePdf(obj.formid);
 
-                              Directory documentDirectory =
-                                  await getExternalStorageDirectory();
-                              String pathId = obj.formid;
-                              String documentPath = documentDirectory.path;
+                                    Directory documentDirectory =
+                                        await getExternalStorageDirectory();
+                                    String pathId = obj.formid;
+                                    String documentPath =
+                                        documentDirectory.path;
 
-                              String fullPath = "$documentPath/$pathId.pdf";
+                                    String fullPath =
+                                        "$documentPath/$pathId.pdf";
 
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => PdfPreviewScreen(
-                                            path: fullPath,
-                                          )));
-                            },
-                          ),
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                PdfPreviewScreen(
+                                                  path: fullPath,
+                                                )));
+                                  },
+                                ),
                   ]),
                 );
               }
@@ -609,7 +617,8 @@ class _FormValState extends State<FormVal> {
                                     }
                                   },
                                 )
-                              : IconButton(
+                              : obj.steps > 0 ? 
+                              IconButton(
                                   icon: const Icon(
                                     Icons.delete,
                                     color: Colors.red,
@@ -642,7 +651,8 @@ class _FormValState extends State<FormVal> {
                                         ],
                                       ),
                                     );
-                                  }),
+                                  })
+                                  : Container(),
                           flagType
                               ? IconButton(
                                   icon: const Icon(
