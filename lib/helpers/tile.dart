@@ -202,7 +202,6 @@ class Tile extends StatelessWidget {
     }
 
     if (flag == 2) {
-      print(symbol);
 
       var selectedcolor = Color.fromRGBO(64, 75, 96, .9);
       if (sel == '${obj.formid}') {

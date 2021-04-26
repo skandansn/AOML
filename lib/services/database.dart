@@ -184,12 +184,10 @@ class DatabaseService {
     }).toList();
   }
 
-  Future updateUserData(String date, String time, String description) async {
-    return await odcollection.doc(uid).set({
-      'date': date,
-      'time': time,
-      'description': description,
-    });
+  Future updateUserData(OD od, String date, String time, String description) {
+    odcollection
+        .doc(od.formid)
+        .update({"date": date, "time": time, "description": description});
   }
 
   Stream<DocumentSnapshot> get userData {
