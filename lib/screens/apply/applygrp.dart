@@ -152,12 +152,24 @@ class _ApplyGrpState extends State<ApplyGrp> {
                           var grantPermissionTime = StudentList[0];
                           StudentList.removeAt(0);
                           StudentList.removeAt(0);
+                          int odLimiter = (StudentList[0]);
                           StudentList.removeAt(0);
                           StudentList.removeAt(0);
                           StudentList.removeAt(0);
                           // print(FacultyList);
 
                           // print(StudentList);
+                          if (odLimiter < 1) {
+                            WidgetsBinding.instance
+                                .addPostFrameCallback((timeStamp) {
+                              final snackBar = SnackBar(
+                                  content: Text(
+                                      'Sorry, You do have used all of your application forms.'));
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snackBar);
+                              Navigator.pop(context);
+                            });
+                          }
                           var st, end;
                           if (grantPermissionTime != "" &&
                               grantPermissionTime != null) {
