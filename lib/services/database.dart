@@ -245,7 +245,7 @@ class DatabaseService {
       flag = 2;
       x = await groupodcollection.doc(id).get();
     }
-    oldmsg = (x["proofreq"]);
+    oldmsg = (x.data()["proofreq"]);
     if (oldmsg != null) {
       oldmsg = oldmsg + "\n";
       oldmsg = oldmsg + details;
@@ -261,9 +261,9 @@ class DatabaseService {
 
   Future upvoteFaq(String formid, String userid) async {
     var faqitem = await faqcollection.doc(formid).get();
-    int oldUpvoteValue = faqitem['upvotes'];
+    int oldUpvoteValue = faqitem.data()['upvotes'];
     var oldPeopleUpvoted = [];
-    oldPeopleUpvoted.addAll(faqitem['upvotedPeople']);
+    oldPeopleUpvoted.addAll(faqitem.data()['upvotedPeople']);
     if (oldPeopleUpvoted.contains(userid)) {
       oldPeopleUpvoted.remove(userid);
       faqcollection.doc(formid).update(
@@ -277,7 +277,7 @@ class DatabaseService {
 
   Future pinOrUnpinFaq(String formid) async {
     var faqitem = await faqcollection.doc(formid).get();
-    bool pinstatus = faqitem['pinned'];
+    bool pinstatus = faqitem.data()['pinned'];
     pinstatus = !pinstatus;
 
     faqcollection.doc(formid).update({"pinned": pinstatus});
@@ -286,7 +286,7 @@ class DatabaseService {
   Future addAnswerFaq(String formid, String userid, Map newAnswer) async {
     var faqitem = await faqcollection.doc(formid).get();
     var answers = [];
-    answers.addAll(faqitem['answers']);
+    answers.addAll(faqitem.data()['answers']);
     answers.add(newAnswer);
     faqcollection.doc(formid).update({"answers": answers});
   }
@@ -325,6 +325,7 @@ class DatabaseService {
     String url = "";
     String proofreq;
     int steps = 1;
+    UploadTask uploadTask;
     if (faculty != "" && advisor != "" && faculty != advisor) {
       steps = 2;
     }
@@ -332,7 +333,11 @@ class DatabaseService {
       var hash = proof.hashCode.toString();
       FirebaseStorage storage = FirebaseStorage.instance;
       Reference reference = storage.ref().child('proofs/$hash');
-      UploadTask uploadTask = reference.putData(proof);
+      if (proof is File) {
+        uploadTask = reference.putFile(proof);
+      } else {
+        uploadTask = reference.putData(proof);
+      }
       await Future.value(uploadTask);
       // TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() => null);
       url = await reference.getDownloadURL();
@@ -444,13 +449,13 @@ class DatabaseService {
       String person, String id, int steps, bool val, String reasons) async {
     var x = await odcollection.doc(id).get();
 
-    String msg = x["reasons"];
+    String msg = x.data()["reasons"];
     if (msg != null) {
       msg = msg + "\n" + reasons;
     } else {
       msg = reasons;
     }
-    var f = (x["faculty"]);
+    var f = (x.data()["faculty"]);
     if (val == true) {
       if (f == person) {
         odcollection.doc(id).update({"faculty": "Approved"});
@@ -458,17 +463,17 @@ class DatabaseService {
         odcollection.doc(id).update({"advisor": "Approved"});
       }
       odcollection.doc(id).update({"steps": steps - 1});
-      if ((x["type"] == "Daypass" || x["type"] == "Homepass") &&
-          x["steps"] == 1) {
+      if ((x.data()["type"] == "Daypass" || x.data()["type"] == "Homepass") &&
+          x.data()["steps"] == 1) {
         var oldList = [];
 
         QuerySnapshot res = await userList
             .where("userid", isEqualTo: x["stuid"])
             .snapshots()
             .first;
-        if (res.docs.first["daysAbsentList"] != null)
-          oldList.addAll(res.docs.first["daysAbsentList"]);
-        oldList.add(x["date"]);
+        if (res.docs.first.data()["daysAbsentList"] != null)
+          oldList.addAll(res.docs.first.data()["daysAbsentList"]);
+        oldList.add(x.data()["date"]);
         userList.doc(res.docs.first.id).update({"daysAbsentList": oldList});
       }
     } else {

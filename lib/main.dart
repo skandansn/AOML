@@ -9,13 +9,16 @@ import 'package:aumsodmll/screens/grantGrpOd.dart';
 import 'package:aumsodmll/screens/login/forgot_password.dart';
 import 'package:aumsodmll/helpers/wrapper.dart';
 import 'package:aumsodmll/screens/pinnedFaqs.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:aumsodmll/services/auth.dart';
 import 'package:flutter/services.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((_) {
     runApp(new MyApp());

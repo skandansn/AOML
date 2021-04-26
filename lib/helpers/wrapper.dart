@@ -39,7 +39,6 @@ class _WrapperState extends State<Wrapper> {
             if (data[0] == true) {
               return HomeStudent(data[1]);
             } else {
-              print("fac");
               return HomeFaculty(data[1]);
             }
           }

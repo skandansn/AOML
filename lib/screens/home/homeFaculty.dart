@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 class HomeFaculty extends StatelessWidget {
   String name = "";
   HomeFaculty(String names) {
-    print("dsff");
     this.name = names;
   }
 
