@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:mime_type/mime_type.dart';
 import 'package:aumsodmll/services/database.dart';
 import 'package:aumsodmll/shared/constants.dart';
@@ -29,6 +30,8 @@ class _ODState extends State<OD> {
   bool addedimage = false;
   File _imagefinal;
   dynamic filetype;
+  Uint8List _uploadfile;
+  dynamic _finalfile;
   Future<void> getImage() async {
     FilePickerResult result = await FilePicker.platform.pickFiles();
 
@@ -37,12 +40,19 @@ class _ODState extends State<OD> {
       setState(() {
         addproofname = "Change proof";
         addedimage = true;
-        _imagefinal = File(result.files.single.path);
-        filetype = mime(_imagefinal.path);
-        if (filetype.contains("image")) {
-          filetype = true;
-        } else {
+        try {
+          _imagefinal = File(result.files.single.path);
+          filetype = mime(_imagefinal.path);
+          if (filetype.contains("image")) {
+            filetype = true;
+          } else {
+            filetype = false;
+          }
+          _finalfile = _imagefinal;
+        } catch (e) {
+          _uploadfile = result.files.single.bytes;
           filetype = false;
+          _finalfile = _uploadfile;
         }
       });
     }
@@ -113,145 +123,6 @@ class _ODState extends State<OD> {
                       padding: const EdgeInsets.all(8.0),
                       child: Column(
                         children: [
-                          // Card(
-                          //   key: Key('advisor-field'),
-                          //   margin: new EdgeInsets.symmetric(
-                          //       horizontal: 10.0, vertical: 6.0),
-                          //   elevation: 8.0,
-                          //   child: Container(
-                          //     decoration: BoxDecoration(
-                          //         color: Color.fromRGBO(64, 75, 96, .9)),
-                          //     padding: EdgeInsets.symmetric(
-                          //         horizontal: 20.0, vertical: 10.0),
-
-                          //     // color: Color.fromRGBO(64, 75, 96, .9),
-                          //     child: FormBuilderDropdown(
-                          //       iconEnabledColor: Colors.white,
-                          //       iconDisabledColor: Colors.white,
-                          //       focusColor: Colors.white,
-                          //       decoration: textInputDecoration,
-                          //       style: TextStyle(color: Colors.white),
-                          //       dropdownColor: Color.fromRGBO(64, 75, 96, .9),
-                          //       validator: (val) {
-                          //         if (clickedidad != "" &&
-                          //             clickedidad != null) {
-                          //           return null;
-                          //         } else {
-                          //           return "Please select a advisor";
-                          //         }
-                          //       },
-                          //       hint: Text(
-                          //         advisordropname,
-                          //         style: TextStyle(
-                          //             color: Colors.white,
-                          //             fontWeight: FontWeight.bold),
-                          //       ),
-                          //       name: "advisor",
-                          //       items: namelist.map((String value) {
-                          //         return new DropdownMenuItem<String>(
-                          //           value: value,
-                          //           child: new Text(
-                          //             value,
-                          //             style: TextStyle(
-                          //                 color: Colors.white,
-                          //                 fontWeight: FontWeight.bold),
-                          //           ),
-                          //           onTap: () {
-                          //             clickedidad =
-                          //                 idlist[namelist.indexOf(value)];
-                          //             advisordropname = value;
-                          //           },
-                          //         );
-                          //       }).toList(),
-                          //       onChanged: (_) {},
-                          //     ),
-                          //   ),
-                          // ),
-                          // Card(
-                          //   margin: new EdgeInsets.symmetric(
-                          //       horizontal: 10.0, vertical: 6.0),
-                          //   elevation: 8.0,
-                          //   child: Container(
-                          //     decoration: BoxDecoration(
-                          //         color: Color.fromRGBO(64, 75, 96, .9)),
-                          //     padding: EdgeInsets.symmetric(
-                          //         horizontal: 20.0, vertical: 10.0),
-                          //     child: FormBuilderDropdown(
-                          //       iconEnabledColor: Colors.white,
-                          //       iconDisabledColor: Colors.white,
-                          //       focusColor: Colors.white,
-                          //       decoration: textInputDecoration,
-                          //       style: TextStyle(color: Colors.white),
-                          //       dropdownColor: Color.fromRGBO(64, 75, 96, .9),
-                          //       hint: Text(
-                          //         facultydropname,
-                          //         style: TextStyle(
-                          //             color: Colors.white,
-                          //             fontWeight: FontWeight.bold),
-                          //       ),
-                          //       name: "faculty",
-                          //       key: Key('faculty-field'),
-                          //       validator: (val) {
-                          //         if (clickedidfac != "" &&
-                          //             clickedidfac != null) {
-                          //           return null;
-                          //         } else {
-                          //           return "Please select a faculty";
-                          //         }
-                          //       },
-                          //       items: namelist.map((String value) {
-                          //         return new DropdownMenuItem<String>(
-                          //           value: value,
-                          //           child: new Text(
-                          //             value,
-                          //             style: TextStyle(
-                          //                 color: Colors.white,
-                          //                 fontWeight: FontWeight.bold),
-                          //           ),
-                          //           onTap: () {
-                          //             clickedidfac =
-                          //                 idlist[namelist.indexOf(value)];
-                          //             facultydropname = value;
-                          //           },
-                          //         );
-                          //       }).toList(),
-                          //       onChanged: (_) {},
-                          //     ),
-                          //   ),
-                          // ),
-                          // DropdownButton<String>(
-                          //   hint: Text(advisordropname),
-                          //   items: namelist.map((String value) {
-                          //     return new DropdownMenuItem<String>(
-                          //       value: value,
-                          //       child: new Text(value),
-                          //       onTap: () {
-                          //         setState(() {
-                          //           clickedidad = idlist[namelist.indexOf(value)];
-                          //           advisordropname = value;
-                          //         });
-                          //       },
-                          //     );
-                          //   }).toList(),
-                          //   onChanged: (_) {},
-                          // ),
-                          // DropdownButton<String>(
-                          //   hint: Text(facultydropname),
-                          //   items: namelist.map((String value) {
-                          //     return new DropdownMenuItem<String>(
-                          //       value: value,
-                          //       child: new Text(value),
-                          //       onTap: () {
-                          //         setState(() {
-                          //           clickedidfac =
-                          //               idlist[namelist.indexOf(value)];
-                          //           facultydropname = value;
-                          //         });
-                          //       },
-                          //     );
-                          //   }).toList(),
-                          //   onChanged: (_) {},
-                          // ),
                           Card(
                             key: Key('date-field'),
                             margin: new EdgeInsets.symmetric(
@@ -283,7 +154,6 @@ class _ODState extends State<OD> {
                                   }),
                             ),
                           ),
-
                           Card(
                             key: Key('time-field'),
                             margin: new EdgeInsets.symmetric(
@@ -332,7 +202,6 @@ class _ODState extends State<OD> {
                               ),
                             ),
                           ),
-
                           Card(
                             key: Key('type-field'),
                             margin: new EdgeInsets.symmetric(
@@ -443,7 +312,6 @@ class _ODState extends State<OD> {
                                   : Container(),
                             ],
                           ),
-
                           ElevatedButton(
                               key: Key('submit-field'),
                               style: buttonStyle,
@@ -460,7 +328,7 @@ class _ODState extends State<OD> {
                                       timecont.text,
                                       descriptioncont.text,
                                       typesel,
-                                      _imagefinal);
+                                      _finalfile);
                                   final snackBar = SnackBar(
                                       content: Text(
                                           'Application has been submitted.'));

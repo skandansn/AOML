@@ -179,10 +179,10 @@ class GrantGrpOD extends StatelessWidget {
                               onPressed: () {
                                 _formKey.currentState.save();
                                 if (_formKey.currentState.validate()) {
-                                  Firestore.instance
+                                  FirebaseFirestore.instance
                                       .collection("users")
-                                      .document(clickedform)
-                                      .updateData({
+                                      .doc(clickedform)
+                                      .update({
                                     "grantOD": true,
                                     "timeGrantOD": datecont.text,
                                     "limiter": numcont.text

@@ -18,7 +18,7 @@ class _WrapperState extends State<Wrapper> {
   @override
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<User>(context);
+    final user = Provider.of<Userx>(context);
     // final type = await _db.fun();
     // print(type);
     if (user == null) {
@@ -39,6 +39,7 @@ class _WrapperState extends State<Wrapper> {
             if (data[0] == true) {
               return HomeStudent(data[1]);
             } else {
+              print("fac");
               return HomeFaculty(data[1]);
             }
           }

@@ -276,10 +276,10 @@ class _FormValState extends State<FormVal> {
                                         facSteps[i] = 0;
 
                                         steps[i] -= 1;
-                                        Firestore.instance
+                                        FirebaseFirestore.instance
                                             .collection("groupods")
-                                            .document(obj.formid)
-                                            .updateData({
+                                            .doc(obj.formid)
+                                            .update({
                                           "steps": steps,
                                           "facSteps": facSteps
                                         });
@@ -301,10 +301,10 @@ class _FormValState extends State<FormVal> {
                                         facSteps[i] = 0;
 
                                         steps[i] = -1;
-                                        Firestore.instance
+                                        FirebaseFirestore.instance
                                             .collection("groupods")
-                                            .document(obj.formid)
-                                            .updateData({
+                                            .doc(obj.formid)
+                                            .update({
                                           "steps": steps,
                                           "facSteps": facSteps
                                         });
@@ -622,9 +622,9 @@ class _FormValState extends State<FormVal> {
                                         actions: <Widget>[
                                           TextButton(
                                             onPressed: () {
-                                              Firestore.instance
+                                              FirebaseFirestore.instance
                                                   .collection('ods')
-                                                  .document(obj.formid)
+                                                  .doc(obj.formid)
                                                   .delete();
                                               Navigator.of(ctx).pop();
                                               Navigator.pop(context);

@@ -8,83 +8,86 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:intl/intl.dart';
 
 class DatabaseService {
-  final CollectionReference odcollection = Firestore.instance.collection('ods');
+  final CollectionReference odcollection =
+      FirebaseFirestore.instance.collection('ods');
   final CollectionReference groupodcollection =
-      Firestore.instance.collection('groupods');
+      FirebaseFirestore.instance.collection('groupods');
   final CollectionReference faqcollection =
-      Firestore.instance.collection('faqs');
+      FirebaseFirestore.instance.collection('faqs');
 
   final String uid;
   DatabaseService({this.uid});
 
   var currentuserid;
   Future<String> getUserid() async {
-    currentuserid = await FirebaseAuth.instance.currentUser();
-    currentuserid = currentuserid.uid;
+    currentuserid = FirebaseAuth.instance.currentUser.uid;
     return currentuserid;
   }
 
-  CollectionReference userList = Firestore.instance.collection("users");
+  CollectionReference userList = FirebaseFirestore.instance.collection("users");
 
   Future<List> typefun(useridx) async {
     QuerySnapshot res =
         await userList.where("userid", isEqualTo: useridx).snapshots().first;
     return [
-      (res.documents.first.data["userType"]),
-      (res.documents.first.data["name"]),
-      (res.documents.first.data["stuNo"]),
-      (res.documents.first.data["grantOD"]),
-      (res.documents.first.data["timeGrantOD"]),
-      (res.documents.first.data["attendance"]),
-      (res.documents.first.data["applyLimiter"]),
-      (res.documents.first.data["daysAbsentList"]),
-      (res.documents.first.documentID),
-      (res.documents.first.data["branch"]),
-      (res.documents.first.data["advisor"]),
+      (res.docs.first.data()["userType"]),
+      (res.docs.first.data()["name"]),
+      (res.docs.first.data()["stuNo"]),
+      (res.docs.first.data()["grantOD"]),
+      (res.docs.first.data()["timeGrantOD"]),
+      (res.docs.first.data()["attendance"]),
+      (res.docs.first.data()["applyLimiter"]),
+      (res.docs.first.data()["daysAbsentList"]),
+      (res.docs.first.id),
+      (res.docs.first.data()["branch"]),
+      (res.docs.first.data()["advisor"]),
     ];
   }
 
   Future<List> fun() async {
-    var userid = await FirebaseAuth.instance.currentUser();
-    var res = await typefun(userid.uid);
-    var absentList = (res[7]);
-    var st, end;
-    DateFormat format = DateFormat("MM/dd/yyyy");
+    var userid = FirebaseAuth.instance.currentUser.uid;
+    var res = await typefun(userid);
+    var type = res[0];
+    if (type == true) {
+      var absentList = (res[7]);
+      var st, end;
+      DateFormat format = DateFormat("MM/dd/yyyy");
 
-    dynamic attendance;
-    var days = [];
-    int workingdaysLeave = 0;
-    if (absentList != null)
-      absentList.forEach((element) {
-        if (element != "") {
-          st = (element.split(" - ")[0]);
-          end = (element.split(" - ")[1]);
-          st = (format.parse(st));
-          end = (format.parse(end));
+      dynamic attendance;
+      var days = [];
+      int workingdaysLeave = 0;
+      if (absentList != null)
+        absentList.forEach((element) {
+          if (element != "") {
+            st = (element.split(" - ")[0]);
+            end = (element.split(" - ")[1]);
+            st = (format.parse(st));
+            end = (format.parse(end));
 
-          for (int i = 0; i <= end.difference(st).inDays; i++) {
-            if (!days.contains(st.add(Duration(days: i)))) {
-              if (st.add(Duration(days: i)).weekday < 6) {
-                workingdaysLeave += 1;
+            for (int i = 0; i <= end.difference(st).inDays; i++) {
+              if (!days.contains(st.add(Duration(days: i)))) {
+                if (st.add(Duration(days: i)).weekday < 6) {
+                  workingdaysLeave += 1;
+                }
+                days.add(st.add(Duration(days: i)));
               }
-              days.add(st.add(Duration(days: i)));
             }
           }
-        }
-      });
-    attendance = ((180 - workingdaysLeave) / 180) * 100;
-    attendance = (attendance.toStringAsFixed(2));
-    Firestore.instance
-        .collection("users")
-        .document(res[8])
-        .updateData({"attendance": attendance});
+        });
+      attendance = ((180 - workingdaysLeave) / 180) * 100;
+      attendance = (attendance.toStringAsFixed(2));
+      FirebaseFirestore.instance
+          .collection("users")
+          .doc(res[8])
+          .update({"attendance": attendance});
 
-    return res;
+      return res;
+    } else
+      return res;
   }
 
   Future<List> getUsersList(bool typeFromPage) async {
-    currentuserid = await FirebaseAuth.instance.currentUser();
-    currentuserid = currentuserid.uid;
+    currentuserid = FirebaseAuth.instance.currentUser.uid;
     var list = [];
     var type;
     var typefunout = await typefun(currentuserid);
@@ -98,14 +101,14 @@ class DatabaseService {
     list.add(typefunout[9]);
     list.add(typefunout[10]);
 
-    var r = await userList.getDocuments();
+    var r = await userList.get();
     var data;
-    for (int i = 0; i < r.documents.length; i++) {
-      type = r.documents.elementAt(i).data["userType"];
+    for (int i = 0; i < r.docs.length; i++) {
+      type = r.docs.elementAt(i).data()["userType"];
 
       if (type == typeFromPage) {
-        data = r.documents.elementAt(i).data;
-        data["formid"] = r.documents.elementAt(i).documentID;
+        data = r.docs.elementAt(i).data();
+        data["formid"] = r.docs.elementAt(i).id;
         list.add(data);
       }
     }
@@ -113,33 +116,32 @@ class DatabaseService {
   }
 
   Future<List> odList() async {
-    currentuserid = await FirebaseAuth.instance.currentUser();
-    currentuserid = currentuserid.uid;
+    currentuserid = FirebaseAuth.instance.currentUser.uid;
     var item;
     var list = [];
     QuerySnapshot user = await userList
         .where("userid", isEqualTo: currentuserid)
         .snapshots()
         .first;
-    var absentList = (user.documents.first.data["daysAbsentList"]);
-    var attendance = (user.documents.first.data["attendance"]);
-    var formid = (user.documents.first.documentID);
+    var absentList = (user.docs.first.data()["daysAbsentList"]);
+    var attendance = (user.docs.first.data()["attendance"]);
+    var formid = (user.docs.first.id);
 
-    var r = await odcollection.getDocuments();
-    var r2 = await groupodcollection.getDocuments();
+    var r = await odcollection.get();
+    var r2 = await groupodcollection.get();
     list.add(absentList);
     list.add(attendance);
     list.add(formid);
 
-    for (int i = 0; i < r.documents.length; i++) {
-      item = r.documents.elementAt(i);
-      if (item.data["stuid"] == currentuserid) {
+    for (int i = 0; i < r.docs.length; i++) {
+      item = r.docs.elementAt(i);
+      if (item.data()["stuid"] == currentuserid) {
         list.add(item);
       }
     }
-    for (int i = 0; i < r2.documents.length; i++) {
-      item = r2.documents.elementAt(i);
-      if (item.data["stuids"].contains(currentuserid)) {
+    for (int i = 0; i < r2.docs.length; i++) {
+      item = r2.docs.elementAt(i);
+      if (item.data()["stuids"].contains(currentuserid)) {
         list.add(item);
       }
     }
@@ -147,14 +149,14 @@ class DatabaseService {
   }
 
   Future<List> getUserDetails() async {
-    var userid = await FirebaseAuth.instance.currentUser();
+    var userid = FirebaseAuth.instance.currentUser.uid;
     QuerySnapshot res =
-        await userList.where("userid", isEqualTo: userid.uid).snapshots().first;
+        await userList.where("userid", isEqualTo: userid).snapshots().first;
     return [
-      (res.documents.first.data["name"]),
-      (res.documents.first.data["stuNo"]),
-      (res.documents.first.data["userid"]),
-      (res.documents.first.data["userType"]),
+      (res.docs.first.data()["name"]),
+      (res.docs.first.data()["stuNo"]),
+      (res.docs.first.data()["userid"]),
+      (res.docs.first.data()["userType"]),
     ];
   }
 
@@ -163,27 +165,27 @@ class DatabaseService {
   }
 
   List<OD> _odsfromsnapshot(QuerySnapshot snapshot) {
-    return snapshot.documents.map((doc) {
+    return snapshot.docs.map((doc) {
       return OD(
-          advisor: doc.data['advisor'],
-          date: doc.data['date'],
-          time: doc.data['time'],
-          description: doc.data['description'],
-          faculty: doc.data['faculty'],
-          steps: doc.data['steps'],
-          stuNo: doc.data['stuNo'],
-          stuid: doc.data['stuid'],
-          stuname: doc.data['stuname'],
-          type: doc.data['type'],
-          proof: doc.data['proof'],
-          proofreq: doc.data['proofreq'],
-          reasons: doc.data['reasons'],
-          formid: doc.documentID);
+          advisor: doc.data()['advisor'],
+          date: doc.data()['date'],
+          time: doc.data()['time'],
+          description: doc.data()['description'],
+          faculty: doc.data()['faculty'],
+          steps: doc.data()['steps'],
+          stuNo: doc.data()['stuNo'],
+          stuid: doc.data()['stuid'],
+          stuname: doc.data()['stuname'],
+          type: doc.data()['type'],
+          proof: doc.data()['proof'],
+          proofreq: doc.data()['proofreq'],
+          reasons: doc.data()['reasons'],
+          formid: doc.id);
     }).toList();
   }
 
   Future updateUserData(String date, String time, String description) async {
-    return await odcollection.document(uid).setData({
+    return await odcollection.doc(uid).set({
       'date': date,
       'time': time,
       'description': description,
@@ -191,7 +193,7 @@ class DatabaseService {
   }
 
   Stream<DocumentSnapshot> get userData {
-    return odcollection.document(uid).snapshots();
+    return odcollection.doc(uid).snapshots();
   }
 
   UserData _userDataFromSnapshot(Document) {}
@@ -201,20 +203,20 @@ class DatabaseService {
   }
 
   List<GroupOD> _groupodsfromsnapshot(QuerySnapshot snapshot) {
-    return snapshot.documents.map((doc) {
+    return snapshot.docs.map((doc) {
       return GroupOD(
-          date: doc.data['date'],
-          time: doc.data['time'],
-          description: doc.data['description'],
-          faculty: doc.data['faculty'],
-          steps: doc.data['steps'],
-          stuNos: doc.data['stuNos'],
-          stuids: doc.data['stuids'],
-          type: doc.data['type'],
-          stunames: doc.data['stunames'],
-          proof: doc.data['proof'],
-          facSteps: doc.data['facSteps'],
-          formid: doc.documentID);
+          date: doc.data()['date'],
+          time: doc.data()['time'],
+          description: doc.data()['description'],
+          faculty: doc.data()['faculty'],
+          steps: doc.data()['steps'],
+          stuNos: doc.data()['stuNos'],
+          stuids: doc.data()['stuids'],
+          type: doc.data()['type'],
+          stunames: doc.data()['stunames'],
+          proof: doc.data()['proof'],
+          facSteps: doc.data()['facSteps'],
+          formid: doc.id);
     }).toList();
   }
 
@@ -223,29 +225,29 @@ class DatabaseService {
   }
 
   List<FAQClass> _faqsfromsnapshot(QuerySnapshot snapshot) {
-    return snapshot.documents.map((doc) {
+    return snapshot.docs.map((doc) {
       return FAQClass(
-          time: doc.data['time'],
-          question: doc.data['question'],
-          answers: doc.data['answers'],
-          upvotes: doc.data['upvotes'],
-          stuNo: doc.data['stuNo'],
-          stuid: doc.data['stuid'],
-          stuname: doc.data['stuname'],
-          pinned: doc.data['pinned'],
-          formid: doc.documentID);
+          time: doc.data()['time'],
+          question: doc.data()['question'],
+          answers: doc.data()['answers'],
+          upvotes: doc.data()['upvotes'],
+          stuNo: doc.data()['stuNo'],
+          stuid: doc.data()['stuid'],
+          stuname: doc.data()['stuname'],
+          pinned: doc.data()['pinned'],
+          formid: doc.id);
     }).toList();
   }
 
   Future reasonsandproof(String person, String id, String details) async {
     int flag = 1;
     String oldmsg;
-    var x = await odcollection.document(id).get();
-    if (x.data == null) {
+    var x = await odcollection.doc(id).get();
+    if (x.data() == null) {
       flag = 2;
-      x = await groupodcollection.document(id).get();
+      x = await groupodcollection.doc(id).get();
     }
-    oldmsg = (x.data["proofreq"]);
+    oldmsg = (x["proofreq"]);
     if (oldmsg != null) {
       oldmsg = oldmsg + "\n";
       oldmsg = oldmsg + details;
@@ -253,42 +255,42 @@ class DatabaseService {
       oldmsg = details;
     }
     if (flag == 1) {
-      odcollection.document(id).updateData({"proofreq": oldmsg});
+      odcollection.doc(id).update({"proofreq": oldmsg});
     } else {
-      groupodcollection.document(id).updateData({"proofreq": oldmsg});
+      groupodcollection.doc(id).update({"proofreq": oldmsg});
     }
   }
 
   Future upvoteFaq(String formid, String userid) async {
-    var faqitem = await faqcollection.document(formid).get();
+    var faqitem = await faqcollection.doc(formid).get();
     int oldUpvoteValue = faqitem['upvotes'];
     var oldPeopleUpvoted = [];
     oldPeopleUpvoted.addAll(faqitem['upvotedPeople']);
     if (oldPeopleUpvoted.contains(userid)) {
       oldPeopleUpvoted.remove(userid);
-      faqcollection.document(formid).updateData(
+      faqcollection.doc(formid).update(
           {"upvotes": oldUpvoteValue - 1, "upvotedPeople": oldPeopleUpvoted});
     } else {
       oldPeopleUpvoted.add(userid);
-      faqcollection.document(formid).updateData(
+      faqcollection.doc(formid).update(
           {"upvotes": oldUpvoteValue + 1, "upvotedPeople": oldPeopleUpvoted});
     }
   }
 
   Future pinOrUnpinFaq(String formid) async {
-    var faqitem = await faqcollection.document(formid).get();
+    var faqitem = await faqcollection.doc(formid).get();
     bool pinstatus = faqitem['pinned'];
     pinstatus = !pinstatus;
 
-    faqcollection.document(formid).updateData({"pinned": pinstatus});
+    faqcollection.doc(formid).update({"pinned": pinstatus});
   }
 
   Future addAnswerFaq(String formid, String userid, Map newAnswer) async {
-    var faqitem = await faqcollection.document(formid).get();
+    var faqitem = await faqcollection.doc(formid).get();
     var answers = [];
     answers.addAll(faqitem['answers']);
     answers.add(newAnswer);
-    faqcollection.document(formid).updateData({"answers": answers});
+    faqcollection.doc(formid).update({"answers": answers});
   }
 
   Future addFaq(
@@ -321,7 +323,7 @@ class DatabaseService {
       String time,
       String description,
       String type,
-      File proof) async {
+      dynamic proof) async {
     String url = "";
     String proofreq;
     int steps = 1;
@@ -331,10 +333,12 @@ class DatabaseService {
     if (proof != null) {
       var hash = proof.hashCode.toString();
       FirebaseStorage storage = FirebaseStorage.instance;
-      StorageReference reference = storage.ref().child('proofs/$hash');
-      StorageUploadTask uploadTask = reference.putFile(proof);
-      StorageTaskSnapshot taskSnapshot = await uploadTask.onComplete;
-      url = await taskSnapshot.ref.getDownloadURL();
+      Reference reference = storage.ref().child('proofs/$hash');
+      UploadTask uploadTask = reference.putData(proof);
+      await Future.value(uploadTask);
+      // TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() => null);
+      url = await reference.getDownloadURL();
+      print(url);
     }
     var data = {
       "advisor": advisor,
@@ -352,22 +356,21 @@ class DatabaseService {
     };
     dynamic docid;
     docid = await odcollection.add(data);
-    docid = docid.documentID;
-    currentuserid = await FirebaseAuth.instance.currentUser();
-    currentuserid = currentuserid.uid;
+    docid = docid.id;
+    currentuserid = FirebaseAuth.instance.currentUser.uid;
     QuerySnapshot res = await userList
         .where("userid", isEqualTo: currentuserid)
         .snapshots()
         .first;
 
-    var formid = res.documents.first.documentID;
-    var oldLim = res.documents.first.data["applyLimiter"];
-    userList.document(formid).updateData({"applyLimiter": oldLim - 1});
+    var formid = res.docs.first.id;
+    var oldLim = res.docs.first["applyLimiter"];
+    userList.doc(formid).update({"applyLimiter": oldLim - 1});
     return docid;
   }
 
   Future applyGrpOd(List students, String faculty, String date, String time,
-      String description, File proof) async {
+      String description, dynamic proof) async {
     var hod;
     String url = "";
     List docIds = [];
@@ -399,10 +402,11 @@ class DatabaseService {
     if (proof != null) {
       var hash = proof.hashCode.toString();
       FirebaseStorage storage = FirebaseStorage.instance;
-      StorageReference reference = storage.ref().child('proofs/$hash');
-      StorageUploadTask uploadTask = reference.putFile(proof);
-      StorageTaskSnapshot taskSnapshot = await uploadTask.onComplete;
-      url = await taskSnapshot.ref.getDownloadURL();
+      Reference reference = storage.ref().child('proofs/$hash');
+      UploadTask uploadTask = reference.putData(proof);
+      await Future.value(uploadTask);
+      // TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() => null);
+      url = await reference.getDownloadURL();
     }
     List stuNosList = [];
     List stunamesList = [];
@@ -440,49 +444,47 @@ class DatabaseService {
 
   Future updateOd(
       String person, String id, int steps, bool val, String reasons) async {
-    var x = await odcollection.document(id).get();
+    var x = await odcollection.doc(id).get();
 
-    String msg = x.data["reasons"];
+    String msg = x["reasons"];
     if (msg != null) {
       msg = msg + "\n" + reasons;
     } else {
       msg = reasons;
     }
-    var f = (x.data["faculty"]);
+    var f = (x["faculty"]);
     if (val == true) {
       if (f == person) {
-        odcollection.document(id).updateData({"faculty": "Approved"});
+        odcollection.doc(id).update({"faculty": "Approved"});
       } else {
-        odcollection.document(id).updateData({"advisor": "Approved"});
+        odcollection.doc(id).update({"advisor": "Approved"});
       }
-      odcollection.document(id).updateData({"steps": steps - 1});
-      if ((x.data["type"] == "Daypass" || x.data["type"] == "Homepass") &&
-          x.data["steps"] == 1) {
+      odcollection.doc(id).update({"steps": steps - 1});
+      if ((x["type"] == "Daypass" || x["type"] == "Homepass") &&
+          x["steps"] == 1) {
         var oldList = [];
 
         QuerySnapshot res = await userList
-            .where("userid", isEqualTo: x.data["stuid"])
+            .where("userid", isEqualTo: x["stuid"])
             .snapshots()
             .first;
-        if (res.documents.first.data["daysAbsentList"] != null)
-          oldList.addAll(res.documents.first.data["daysAbsentList"]);
-        oldList.add(x.data["date"]);
-        userList
-            .document(res.documents.first.documentID)
-            .updateData({"daysAbsentList": oldList});
+        if (res.docs.first["daysAbsentList"] != null)
+          oldList.addAll(res.docs.first["daysAbsentList"]);
+        oldList.add(x["date"]);
+        userList.doc(res.docs.first.id).update({"daysAbsentList": oldList});
       }
     } else {
       if (f == person) {
-        odcollection.document(id).updateData({"faculty": "Denied"});
+        odcollection.doc(id).update({"faculty": "Denied"});
       } else {
-        odcollection.document(id).updateData({"advisor": "Denied"});
+        odcollection.doc(id).update({"advisor": "Denied"});
       }
 
-      odcollection.document(id).updateData({"steps": -1});
+      odcollection.doc(id).update({"steps": -1});
     }
 
-    if (x.data['type'] == "GroupOd") {
-      dynamic grps = await groupodcollection.getDocuments();
+    if (x['type'] == "GroupOd") {
+      dynamic grps = await groupodcollection.get();
       var changesteps = [];
       var facchangesteps = [];
 
@@ -497,67 +499,22 @@ class DatabaseService {
               changesteps = element["steps"];
 
               changesteps[i] -= 1;
-              groupodcollection
-                  .document(element.documentID)
-                  .updateData({"steps": changesteps});
+              groupodcollection.doc(element.id).update({"steps": changesteps});
             }
             if (val == false) {
               changesteps = element["steps"];
               changesteps[i] = -1;
               facchangesteps = element['facSteps'];
               facchangesteps[i] = 0;
-              groupodcollection.document(element.documentID).updateData(
-                  {"steps": changesteps, "facSteps": facchangesteps});
+              groupodcollection
+                  .doc(element.id)
+                  .update({"steps": changesteps, "facSteps": facchangesteps});
             }
           }
         }
       });
     }
 
-    odcollection.document(id).updateData({"reasons": msg});
+    odcollection.doc(id).update({"reasons": msg});
   }
-
-  // Future updateGroupOD(
-  //     String person, String id, int steps, bool val, String reasons) async {
-  //   var x = await odcollection.document(id).get();
-
-  //   String msg = x.data["reasons"];
-  //   if (msg != null) {
-  //     msg = msg + "\n" + reasons;
-  //   } else {
-  //     msg = reasons;
-  //   }
-  //   var f = (x.data["faculty"]);
-  //   if (val == true) {
-  //     if (f == person) {
-  //       odcollection.document(id).updateData({"faculty": "Approved"});
-  //     } else {
-  //       odcollection.document(id).updateData({"advisor": "Approved"});
-  //     }
-  //     odcollection.document(id).updateData({"steps": steps - 1});
-  //     if ((x.data["type"] == "Daypass" || x.data["type"] == "Homepass") &&
-  //         x.data["steps"] == 1) {
-  //       var oldList = [];
-
-  //       QuerySnapshot res = await userList
-  //           .where("userid", isEqualTo: x.data["stuid"])
-  //           .snapshots()
-  //           .first;
-  //       if (res.documents.first.data["daysAbsentList"] != null)
-  //         oldList.addAll(res.documents.first.data["daysAbsentList"]);
-  //       oldList.add(x.data["date"]);
-  //       userList
-  //           .document(res.documents.first.documentID)
-  //           .updateData({"daysAbsentList": oldList});
-  //     }
-  //   } else {
-  //     if (f == person) {
-  //       odcollection.document(id).updateData({"faculty": "Denied"});
-  //     } else {
-  //       odcollection.document(id).updateData({"advisor": "Denied"});
-  //     }
-  //     odcollection.document(id).updateData({"steps": -1});
-  //   }
-  //   odcollection.document(id).updateData({"reasons": msg});
-  // }
 }

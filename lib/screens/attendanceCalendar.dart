@@ -145,7 +145,7 @@ List<CustomAppointment> getAppointments(List<dynamic> events) {
     end = (format.parse(end));
 
     meetings.add(CustomAppointment(
-        formid: element.documentID,
+        formid: element.id,
         startTime: st,
         endTime: end,
         subject: "${element['description']} | $status",

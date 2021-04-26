@@ -21,7 +21,7 @@ class _UpdateFormState extends State<UpdateForm> {
   
   @override
   Widget build(BuildContext context) {
-      final user = Provider.of<User>(context);
+      final user = Provider.of<Userx>(context);
       return Form(
         key: _formKey,
         autovalidateMode: AutovalidateMode.disabled,

@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:intl/intl.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -37,6 +38,8 @@ class _ApplyGrpState extends State<ApplyGrp> {
   bool addedimage = false;
   File _imagefinal;
   dynamic filetype;
+  dynamic _uploadfile;
+  dynamic _finalfile;
   Future<void> getImage() async {
     FilePickerResult result = await FilePicker.platform.pickFiles();
 
@@ -45,12 +48,19 @@ class _ApplyGrpState extends State<ApplyGrp> {
       setState(() {
         addproofname = "Change proof";
         addedimage = true;
-        _imagefinal = File(result.files.single.path);
-        filetype = mime(_imagefinal.path);
-        if (filetype.contains("image")) {
-          filetype = true;
-        } else {
+        try {
+          _imagefinal = File(result.files.single.path);
+          filetype = mime(_imagefinal.path);
+          if (filetype.contains("image")) {
+            filetype = true;
+          } else {
+            filetype = false;
+          }
+          _finalfile = _imagefinal;
+        } catch (e) {
+          _uploadfile = result.files.single.bytes;
           filetype = false;
+          _finalfile = _uploadfile;
         }
       });
     }
@@ -227,59 +237,13 @@ class _ApplyGrpState extends State<ApplyGrp> {
                                                 horizontal: 20.0,
                                                 vertical: 10.0),
                                             child: ElevatedButton(
+                                              style: buttonStyle,
                                               onPressed: () {
                                                 _showMultiSelect(context);
                                               },
-                                              child: Text("Select names"),
+                                              child:
+                                                  Text("Select the students"),
                                             ),
-
-                                            // color: Color.fromRGBO(64, 75, 96, .9),
-                                            // child: FormBuilderDropdown(
-                                            //   iconEnabledColor: Colors.white,
-                                            //   iconDisabledColor: Colors.white,
-                                            //   focusColor: Colors.white,
-                                            //   decoration: textInputDecoration,
-                                            //   style: TextStyle(
-                                            //       color: Colors.white),
-                                            //   dropdownColor: Color.fromRGBO(
-                                            //       64, 75, 96, .9),
-                                            //   validator: (val) {
-                                            //     if (clickedstu != "" &&
-                                            //         clickedstu != null) {
-                                            //       return null;
-                                            //     } else {
-                                            //       return "Please select a student";
-                                            //     }
-                                            //   },
-                                            //   hint: Text(
-                                            //     studentdrop,
-                                            //     style: TextStyle(
-                                            //         color: Colors.white,
-                                            //         fontWeight:
-                                            //             FontWeight.bold),
-                                            //   ),
-                                            //   name: "student",
-                                            //   items: StudentNameList.map(
-                                            //       (String value) {
-                                            //     return new DropdownMenuItem<
-                                            //         String>(
-                                            //       value: value,
-                                            //       child: new Text(
-                                            //         value,
-                                            //         style: TextStyle(
-                                            //             color: Colors.white,
-                                            //             fontWeight:
-                                            //                 FontWeight.bold),
-                                            //       ),
-                                            //       onTap: () {
-                                            //         // studentdrop = idlist[
-                                            //         //     StudentNameList.indexOf(value)];
-                                            //         // studentdrop = value;
-                                            //       },
-                                            //     );
-                                            //   }).toList(),
-                                            //   onChanged: (_) {},
-                                            // ),
                                           ),
                                         ),
                                         Card(
@@ -352,58 +316,6 @@ class _ApplyGrpState extends State<ApplyGrp> {
                                             ),
                                           ),
                                         ),
-                                        // Card(
-                                        //   margin: new EdgeInsets.symmetric(
-                                        //       horizontal: 10.0, vertical: 6.0),
-                                        //   elevation: 8.0,
-                                        //   child: Container(
-                                        //     decoration: BoxDecoration(
-                                        //         color: Color.fromRGBO(64, 75, 96, .9)),
-                                        //     padding: EdgeInsets.symmetric(
-                                        //         horizontal: 20.0, vertical: 10.0),
-                                        //     child: FormBuilderDropdown(
-                                        //       iconEnabledColor: Colors.white,
-                                        //       iconDisabledColor: Colors.white,
-                                        //       focusColor: Colors.white,
-                                        //       decoration: textInputDecoration,
-                                        //       style: TextStyle(color: Colors.white),
-                                        //       dropdownColor: Color.fromRGBO(64, 75, 96, .9),
-                                        //       hint: Text(
-                                        //         headdropname,
-                                        //         style: TextStyle(
-                                        //             color: Colors.white,
-                                        //             fontWeight: FontWeight.bold),
-                                        //       ),
-                                        //       name: "head",
-                                        //       key: Key('head-field'),
-                                        //       validator: (val) {
-                                        //         if (clickedidhead != "" &&
-                                        //             clickedidhead != null) {
-                                        //           return null;
-                                        //         } else {
-                                        //           return "Please select a HOD";
-                                        //         }
-                                        //       },
-                                        //       items: namelist.map((String value) {
-                                        //         return new DropdownMenuItem<String>(
-                                        //           value: value,
-                                        //           child: new Text(
-                                        //             value,
-                                        //             style: TextStyle(
-                                        //                 color: Colors.white,
-                                        //                 fontWeight: FontWeight.bold),
-                                        //           ),
-                                        //           onTap: () {
-                                        //             clickedidhead =
-                                        //                 idlist[namelist.indexOf(value)];
-                                        //             headdropname = value;
-                                        //           },
-                                        //         );
-                                        //       }).toList(),
-                                        //       onChanged: (_) {},
-                                        //     ),
-                                        //   ),
-                                        // ),
                                         Card(
                                           key: Key('date-field'),
                                           margin: new EdgeInsets.symmetric(
@@ -573,24 +485,26 @@ class _ApplyGrpState extends State<ApplyGrp> {
                                             key: Key('submit-field'),
                                             style: buttonStyle,
                                             onPressed: () {
-                                              selectedStudents
-                                                  .forEach((element) {
-                                                StudentList.forEach((element2) {
-                                                  if (element ==
-                                                      element2['stuNo']) {
-                                                    selectedStudentsIds
-                                                        .add(element2);
-                                                  }
-                                                });
-                                              });
-
-                                              selectedStudentsIds =
-                                                  selectedStudentsIds
-                                                      .toSet()
-                                                      .toList();
                                               _formKey.currentState.save();
+
                                               if (_formKey.currentState
                                                   .validate()) {
+                                                selectedStudents
+                                                    .forEach((element) {
+                                                  StudentList.forEach(
+                                                      (element2) {
+                                                    if (element ==
+                                                        element2['stuNo']) {
+                                                      selectedStudentsIds
+                                                          .add(element2);
+                                                    }
+                                                  });
+                                                });
+
+                                                selectedStudentsIds =
+                                                    selectedStudentsIds
+                                                        .toSet()
+                                                        .toList();
                                                 // _db.applyGrpOd(selectedStudentsIds, fac, date, time, description, proof)
                                                 final snackBar = SnackBar(
                                                     content: Text(
@@ -605,6 +519,8 @@ class _ApplyGrpState extends State<ApplyGrp> {
                                                     descriptioncont.text,
                                                     _imagefinal);
                                                 Navigator.pop(context);
+                                              } else {
+                                                print("val failed");
                                               }
                                             },
                                             child: Text("Submit "))
