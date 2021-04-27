@@ -34,7 +34,7 @@ class _FaqState extends State<Faq> {
           return AlertDialog(
             backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
             elevation: 8,
-            title: Text('Add a question ',
+            title: Text('Add a question',
                 style: TextStyle(
                     color: Colors.white, fontWeight: FontWeight.bold)),
             content: Column(
