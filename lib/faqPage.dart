@@ -77,9 +77,10 @@ class _FaqState extends State<Faq> {
                 name = list[0];
                 stuNo = list[1];
                 userid = list[2];
+                bool type = list[3];
 
                 return StreamProvider<List<FAQClass>>.value(
-                  initialData: [],
+                    initialData: [],
                     value: DatabaseService().faqs,
                     child: Scaffold(
                       resizeToAvoidBottomInset: false,

@@ -238,28 +238,6 @@ class _ApplyGrpState extends State<ApplyGrp> {
                                     child: Column(
                                       children: [
                                         Card(
-                                          key: Key('students-field'),
-                                          margin: new EdgeInsets.symmetric(
-                                              horizontal: 10.0, vertical: 6.0),
-                                          elevation: 8.0,
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                                color: Color.fromRGBO(
-                                                    64, 75, 96, .9)),
-                                            padding: EdgeInsets.symmetric(
-                                                horizontal: 20.0,
-                                                vertical: 10.0),
-                                            child: ElevatedButton(
-                                              style: buttonStyle,
-                                              onPressed: () {
-                                                _showMultiSelect(context);
-                                              },
-                                              child:
-                                                  Text("Select the students"),
-                                            ),
-                                          ),
-                                        ),
-                                        Card(
                                           margin: new EdgeInsets.symmetric(
                                               horizontal: 10.0, vertical: 6.0),
                                           elevation: 8.0,
@@ -420,6 +398,31 @@ class _ApplyGrpState extends State<ApplyGrp> {
                                             ),
                                           ),
                                         ),
+                                        Card(
+                                          key: Key('students-field'),
+                                          margin: new EdgeInsets.symmetric(
+                                              horizontal: 10.0, vertical: 6.0),
+                                          elevation: 8.0,
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                                color: Color.fromRGBO(
+                                                    64, 75, 96, .9)),
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 20.0,
+                                                vertical: 10.0),
+                                            child: ElevatedButton(
+                                              style: buttonStyle,
+                                              onPressed: () {
+                                                _showMultiSelect(context);
+                                              },
+                                              child:
+                                                  Text("Select the students"),
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 20,
+                                        ),
                                         addedimage
                                             ? Column(
                                                 children: [
@@ -493,6 +496,9 @@ class _ApplyGrpState extends State<ApplyGrp> {
                                                   )
                                                 : Container(),
                                           ],
+                                        ),
+                                        SizedBox(
+                                          height: 20,
                                         ),
                                         ElevatedButton(
                                             key: Key('submit-field'),

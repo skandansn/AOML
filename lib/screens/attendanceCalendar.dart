@@ -1,6 +1,7 @@
 import 'package:aumsodmll/services/database.dart';
 import 'package:aumsodmll/shared/loading.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 //import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
@@ -58,7 +59,6 @@ class _AttendanceCalendarState extends State<AttendanceCalendar> {
                 attendance = snapshot.data[0];
                 snapshot.data.removeAt(0);
                 snapshot.data.removeAt(0);
-
                 events.addAll(snapshot.data);
                 return SafeArea(
                   child: Scaffold(
@@ -126,30 +126,61 @@ List<CustomAppointment> getAppointments(List<dynamic> events) {
   var color;
   var status = "Pending";
   events.forEach((element) {
-    color = Colors.redAccent;
-    if (element["steps"] == -1) {
-      status = "Rejected";
-    } else if (element["steps"] == 0) {
-      status = "Approved";
+    if (element["type"] != "GroupOd") {
+      color = Colors.redAccent;
+      if (element["steps"] == -1) {
+        status = "Rejected";
+      } else if (element["steps"] == 0) {
+        status = "Approved";
+      } else {
+        status = "Pending";
+      }
+
+      if (element['type'] == "OD" || element['type'] == "ML") {
+        color = Colors.orange;
+      }
+      var st = (element['date'].split(" - ")[0]);
+      var end = (element['date'].split(" - ")[1]);
+
+      st = (format.parse(st));
+      end = (format.parse(end));
+
+      meetings.add(CustomAppointment(
+          formid: element.id,
+          startTime: st,
+          endTime: end,
+          subject: "${element['description']} | $status",
+          color: color));
     } else {
-      status = "Pending";
+      var currentUser = FirebaseAuth.instance.currentUser.uid;
+      var index = 0;
+      if (element.data()["stuids"] != null) {
+        index = element.data()["stuids"].indexOf(currentUser);
+        color = Colors.redAccent;
+        if (element.data()["steps"][index] == -1) {
+          status = "Rejected";
+        } else if (element.data()["steps"][index] == 0) {
+          status = "Approved";
+        } else {
+          status = "Pending";
+        }
+
+        color = Colors.green;
+
+        var st = (element['date'].split(" - ")[0]);
+        var end = (element['date'].split(" - ")[1]);
+
+        st = (format.parse(st));
+        end = (format.parse(end));
+
+        meetings.add(CustomAppointment(
+            formid: element.id,
+            startTime: st,
+            endTime: end,
+            subject: "${element['description']} | $status",
+            color: color));
+      }
     }
-
-    if (element['type'] == "OD" || element['type'] == "ML") {
-      color = Colors.orange;
-    }
-    var st = (element['date'].split(" - ")[0]);
-    var end = (element['date'].split(" - ")[1]);
-
-    st = (format.parse(st));
-    end = (format.parse(end));
-
-    meetings.add(CustomAppointment(
-        formid: element.id,
-        startTime: st,
-        endTime: end,
-        subject: "${element['description']} | $status",
-        color: color));
   });
 
   for (int i = 1; i < 14; i++) {
