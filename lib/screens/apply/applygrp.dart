@@ -159,20 +159,21 @@ class _ApplyGrpState extends State<ApplyGrp> {
                           // print(FacultyList);
 
                           // print(StudentList);
-                          if (odLimiter < 1) {
-                            WidgetsBinding.instance
-                                .addPostFrameCallback((timeStamp) {
-                              final snackBar = SnackBar(
-                                  content: Text(
-                                      'Sorry, You do have used all of your application forms.'));
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(snackBar);
-                              Navigator.pop(context);
-                            });
-                          }
+                          // if (odLimiter < 1) {
+                          //   WidgetsBinding.instance
+                          //       .addPostFrameCallback((timeStamp) {
+                          //     final snackBar = SnackBar(
+                          //         content: Text(
+                          //             'Sorry, You do have used all of your application forms.'));
+                          //     ScaffoldMessenger.of(context)
+                          //         .showSnackBar(snackBar);
+                          //     Navigator.pop(context);
+                          //   });
+                          // }
                           var st, end;
                           if (grantPermissionTime != "" &&
-                              grantPermissionTime != null) {
+                              grantPermissionTime != null &&
+                              odLimiter > 0) {
                             DateFormat format = DateFormat("MM/dd/yyyy");
                             st = (grantPermissionTime.split(" - ")[0]);
                             end = (grantPermissionTime.split(" - ")[1]);
