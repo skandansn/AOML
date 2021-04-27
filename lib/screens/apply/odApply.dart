@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:path/path.dart';
 import 'package:mime_type/mime_type.dart';
 import 'package:aumsodmll/services/database.dart';
 import 'package:aumsodmll/shared/constants.dart';
@@ -50,6 +51,8 @@ class _ODState extends State<OD> {
           }
           _finalfile = _imagefinal;
         } catch (e) {
+          // String fileName = basename(result.files.single.path);
+          // print(fileName);
           _uploadfile = result.files.single.bytes;
           filetype = false;
           _finalfile = _uploadfile;
