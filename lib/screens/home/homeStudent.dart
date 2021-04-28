@@ -2,7 +2,7 @@ import 'package:aumsodmll/shared/functions.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
+// ignore: must_be_immutable
 class HomeStudent extends StatelessWidget {
   String name="";
   HomeStudent(String names) {

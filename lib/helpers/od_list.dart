@@ -4,7 +4,7 @@ import 'package:aumsodmll/shared/loading.dart';
 import 'package:aumsodmll/helpers/tile.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
+// ignore: must_be_immutable
 class ODList extends StatefulWidget {
   var arg;
   final bool flag;
@@ -14,10 +14,11 @@ class ODList extends StatefulWidget {
 }
 
 class _ODListState extends State<ODList> {
-  @override
   bool flag = true;
   var arg;
   _ODListState({this.flag, this.arg});
+
+  @override
   Widget build(BuildContext context) {
     DatabaseService _db = DatabaseService();
     final ScrollController _scrollcontroller = ScrollController();

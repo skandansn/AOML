@@ -112,10 +112,10 @@ class _FormValState extends State<FormVal> {
   bool flagType;
 
   _FormValState({this.od, this.flagType});
-  @override
+
   final pdf = pw.Document();
 
-  writeOnPdf(int flagpdf) {
+  writeOnPdf(Object od,int flagpdf) {
     GroupOD applobjgrp;
     int flag = 1;
     OD applobjind;
@@ -172,6 +172,7 @@ class _FormValState extends State<FormVal> {
     file.writeAsBytesSync(pdf.save());
   }
 
+  @override
   Widget build(BuildContext context) {
     GroupOD applobjgrp;
     int flag = 1;
@@ -346,7 +347,7 @@ class _FormValState extends State<FormVal> {
                               Icons.arrow_downward,
                             ),
                             onPressed: () async {
-                              writeOnPdf(flag);
+                              writeOnPdf(od,flag);
                               await savePdf(obj.formid);
 
                               Directory documentDirectory =
@@ -625,7 +626,7 @@ class _FormValState extends State<FormVal> {
                                     color: Colors.white,
                                   ),
                                   onPressed: () async {
-                                    writeOnPdf(flag);
+                                    writeOnPdf(od,flag);
                                     await savePdf(obj.formid);
 
                                     Directory documentDirectory =

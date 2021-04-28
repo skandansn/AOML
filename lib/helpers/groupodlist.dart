@@ -4,7 +4,7 @@ import 'package:aumsodmll/shared/loading.dart';
 import 'package:aumsodmll/helpers/tile.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
+// ignore: must_be_immutable
 class GroupODList extends StatefulWidget {
   final bool flag;
   var arg;
