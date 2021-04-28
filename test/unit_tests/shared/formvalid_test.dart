@@ -11,7 +11,7 @@ void main()
     FormVal wid = new FormVal(od: grpOD, flagType: false);
 
     //flagpdf: 1->Individual and (not 1)->Group
-    wid.createState().writeOnPdf(grpOD, 2);
+    //wid.writeOnPdf(grpOD, 2);
 
   });
 

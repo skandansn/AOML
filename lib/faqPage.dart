@@ -34,7 +34,7 @@ class _FaqState extends State<Faq> {
           return AlertDialog(
             backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
             elevation: 8,
-            title: Text('Add a question ',
+            title: Text('Add a question',
                 style: TextStyle(
                     color: Colors.white, fontWeight: FontWeight.bold)),
             content: Column(
@@ -77,9 +77,10 @@ class _FaqState extends State<Faq> {
                 name = list[0];
                 stuNo = list[1];
                 userid = list[2];
+                bool type = list[3];
 
                 return StreamProvider<List<FAQClass>>.value(
-                  initialData: [],
+                    initialData: [],
                     value: DatabaseService().faqs,
                     child: Scaffold(
                       resizeToAvoidBottomInset: false,

@@ -1,4 +1,6 @@
 import 'dart:io';
+import 'dart:typed_data';
+import 'package:path/path.dart';
 import 'package:mime_type/mime_type.dart';
 import 'package:aumsodmll/services/database.dart';
 import 'package:aumsodmll/shared/constants.dart';
@@ -18,10 +20,10 @@ class _ODState extends State<OD> {
   TextEditingController datecont = new TextEditingController();
   TextEditingController timecont = new TextEditingController();
   TextEditingController descriptioncont = new TextEditingController();
-  var advisordropname = "Select your advisor";
-  var facultydropname = "Select your faculty";
+  // var advisordropname = "Select your advisor";
+  // var facultydropname = "Select your faculty";
   var dropdowntype = "Select type";
-
+  var hod;
   var clickedidad = "";
   var clickedidfac = "";
   var typesel = "";
@@ -29,6 +31,8 @@ class _ODState extends State<OD> {
   bool addedimage = false;
   File _imagefinal;
   dynamic filetype;
+  Uint8List _uploadfile;
+  dynamic _finalfile;
   Future<void> getImage() async {
     FilePickerResult result = await FilePicker.platform.pickFiles();
 
@@ -37,13 +41,21 @@ class _ODState extends State<OD> {
       setState(() {
         addproofname = "Change proof";
         addedimage = true;
-        _imagefinal = File(result.files.single.path);
-        filetype = mime(_imagefinal.path);
-        print(filetype);
-        if (filetype.contains("image")) {
-          filetype = true;
-        } else {
+        try {
+          _imagefinal = File(result.files.single.path);
+          filetype = mime(_imagefinal.path);
+          if (filetype.contains("image")) {
+            filetype = true;
+          } else {
+            filetype = false;
+          }
+          _finalfile = _imagefinal;
+        } catch (e) {
+          // String fileName = basename(result.files.single.path);
+          // print(fileName);
+          _uploadfile = result.files.single.bytes;
           filetype = false;
+          _finalfile = _uploadfile;
         }
       });
     }
@@ -53,8 +65,12 @@ class _ODState extends State<OD> {
   var types = ["OD", "ML", "Daypass", "Homepass"];
   @override
   Widget build(BuildContext context) {
+    var arguements = ModalRoute.of(context).settings.arguments;
+    if (arguements.toString() != "" && arguements != null) {
+      datecont.text = arguements.toString();
+    }
     return FutureBuilder<List>(
-      future: _db.facultyList(), // async work
+      future: _db.getUsersList(false), // async work
       builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.waiting:
@@ -70,14 +86,31 @@ class _ODState extends State<OD> {
               list.removeAt(0);
               var stuNo = list[0];
               list.removeAt(0);
-              List<String> namelist = [];
+              list.removeAt(0);
+              list.removeAt(0);
+              list.removeAt(0);
+              var odLimiter = snapshot.data[0];
+              snapshot.data.removeAt(0);
+              var branch = snapshot.data[0];
+              snapshot.data.removeAt(0);
+              var adv = snapshot.data[0];
+              snapshot.data.removeAt(0);
+
+              if (odLimiter < 1) {
+                WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                  final snackBar = SnackBar(
+                      content: Text(
+                          'Sorry, You do have used all of your application forms.'));
+                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  Navigator.pop(context);
+                });
+              }
               list.forEach((element) {
-                namelist.add(element["name"]);
+                if (element['hod'] == branch) {
+                  hod = element['userid'];
+                }
               });
-              List<String> idlist = [];
-              list.forEach((element) {
-                idlist.add(element["userid"]);
-              });
+
               return Scaffold(
                 backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
                 appBar: AppBar(
@@ -94,146 +127,7 @@ class _ODState extends State<OD> {
                       child: Column(
                         children: [
                           Card(
-                            key:Key('advisor-field'),
-                            margin: new EdgeInsets.symmetric(
-                                horizontal: 10.0, vertical: 6.0),
-                            elevation: 8.0,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  color: Color.fromRGBO(64, 75, 96, .9)),
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 20.0, vertical: 10.0),
-
-                              // color: Color.fromRGBO(64, 75, 96, .9),
-                              child: FormBuilderDropdown(
-                                iconEnabledColor: Colors.white,
-                                iconDisabledColor: Colors.white,
-                                focusColor: Colors.white,
-                                decoration: textInputDecoration,
-                                style: TextStyle(color: Colors.white),
-                                dropdownColor: Color.fromRGBO(64, 75, 96, .9),
-                                validator: (val) {
-                                  if (clickedidad != "" &&
-                                      clickedidad != null) {
-                                    return null;
-                                  } else {
-                                    return "Please select a advisor";
-                                  }
-                                },
-                                hint: Text(
-                                  advisordropname,
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                name: "advisor",
-                                items: namelist.map((String value) {
-                                  return new DropdownMenuItem<String>(
-                                    value: value,
-                                    child: new Text(
-                                      value,
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    onTap: () {
-                                      clickedidad =
-                                          idlist[namelist.indexOf(value)];
-                                      advisordropname = value;
-                                    },
-                                  );
-                                }).toList(),
-                                onChanged: (_) {},
-                              ),
-                            ),
-                          ),
-                          Card(
-                            margin: new EdgeInsets.symmetric(
-                                horizontal: 10.0, vertical: 6.0),
-                            elevation: 8.0,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  color: Color.fromRGBO(64, 75, 96, .9)),
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 20.0, vertical: 10.0),
-                              child: FormBuilderDropdown(
-                                iconEnabledColor: Colors.white,
-                                iconDisabledColor: Colors.white,
-                                focusColor: Colors.white,
-                                decoration: textInputDecoration,
-                                style: TextStyle(color: Colors.white),
-                                dropdownColor: Color.fromRGBO(64, 75, 96, .9),
-                                hint: Text(
-                                  facultydropname,
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                name: "faculty",
-                                key:Key('faculty-field'),
-                                validator: (val) {
-                                  if (clickedidfac != "" &&
-                                      clickedidfac != null) {
-                                    return null;
-                                  } else {
-                                    return "Please select a faculty";
-                                  }
-                                },
-                                items: namelist.map((String value) {
-                                  return new DropdownMenuItem<String>(
-                                    value: value,
-                                    child: new Text(
-                                      value,
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    onTap: () {
-                                      clickedidfac =
-                                          idlist[namelist.indexOf(value)];
-                                      facultydropname = value;
-                                    },
-                                  );
-                                }).toList(),
-                                onChanged: (_) {},
-                              ),
-                            ),
-                          ),
-                          // DropdownButton<String>(
-                          //   hint: Text(advisordropname),
-                          //   items: namelist.map((String value) {
-                          //     return new DropdownMenuItem<String>(
-                          //       value: value,
-                          //       child: new Text(value),
-                          //       onTap: () {
-                          //         setState(() {
-                          //           clickedidad = idlist[namelist.indexOf(value)];
-                          //           advisordropname = value;
-                          //         });
-                          //       },
-                          //     );
-                          //   }).toList(),
-                          //   onChanged: (_) {},
-                          // ),
-                          // DropdownButton<String>(
-                          //   hint: Text(facultydropname),
-                          //   items: namelist.map((String value) {
-                          //     return new DropdownMenuItem<String>(
-                          //       value: value,
-                          //       child: new Text(value),
-                          //       onTap: () {
-                          //         setState(() {
-                          //           clickedidfac =
-                          //               idlist[namelist.indexOf(value)];
-                          //           facultydropname = value;
-                          //         });
-                          //       },
-                          //     );
-                          //   }).toList(),
-                          //   onChanged: (_) {},
-                          // ),
-                          Card(
-                            key:Key('date-field'),
+                            key: Key('date-field'),
                             margin: new EdgeInsets.symmetric(
                                 horizontal: 10.0, vertical: 6.0),
                             elevation: 8.0,
@@ -263,9 +157,8 @@ class _ODState extends State<OD> {
                                   }),
                             ),
                           ),
-
                           Card(
-                            key:Key('time-field'),
+                            key: Key('time-field'),
                             margin: new EdgeInsets.symmetric(
                                 horizontal: 10.0, vertical: 6.0),
                             elevation: 8.0,
@@ -289,7 +182,7 @@ class _ODState extends State<OD> {
                             ),
                           ),
                           Card(
-                            key:Key('decription-field'),
+                            key: Key('decription-field'),
                             margin: new EdgeInsets.symmetric(
                                 horizontal: 10.0, vertical: 6.0),
                             elevation: 8.0,
@@ -312,9 +205,8 @@ class _ODState extends State<OD> {
                               ),
                             ),
                           ),
-
                           Card(
-                            key:Key('type-field'),
+                            key: Key('type-field'),
                             margin: new EdgeInsets.symmetric(
                                 horizontal: 10.0, vertical: 6.0),
                             elevation: 8.0,
@@ -407,7 +299,7 @@ class _ODState extends State<OD> {
                                           width: 2,
                                         ),
                                         ElevatedButton(
-                                          key:Key('addproof-field'),
+                                          key: Key('addproof-field'),
                                           style: buttonStyle,
                                           child: Text("Remove proof"),
                                           onPressed: () {
@@ -423,9 +315,11 @@ class _ODState extends State<OD> {
                                   : Container(),
                             ],
                           ),
-
+                          SizedBox(
+                            height: 20,
+                          ),
                           ElevatedButton(
-                              key:Key('submit-field'),
+                              key: Key('submit-field'),
                               style: buttonStyle,
                               onPressed: () {
                                 _formKey.currentState.save();
@@ -434,13 +328,13 @@ class _ODState extends State<OD> {
                                       userid,
                                       stuname,
                                       stuNo,
-                                      clickedidfac,
-                                      clickedidad,
+                                      adv,
+                                      hod,
                                       datecont.text,
                                       timecont.text,
                                       descriptioncont.text,
                                       typesel,
-                                      _imagefinal);
+                                      _finalfile);
                                   final snackBar = SnackBar(
                                       content: Text(
                                           'Application has been submitted.'));
@@ -448,11 +342,6 @@ class _ODState extends State<OD> {
                                       .showSnackBar(snackBar);
                                   Navigator.pop(context);
                                 } else {
-                                  print(clickedidad);
-                                  print(clickedidfac);
-                                  print(typesel);
-                                  print(datecont);
-
                                   print("validation failed");
                                 }
                               },

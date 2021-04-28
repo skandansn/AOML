@@ -4,6 +4,7 @@ import 'package:aumsodmll/shared/loading.dart';
 import 'package:aumsodmll/helpers/tile.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 // ignore: must_be_immutable
 class GroupODList extends StatefulWidget {
   final bool flag;
@@ -40,17 +41,15 @@ class _GroupODListState extends State<GroupODList> {
               if (ods != null) {
                 ods.forEach((element) {
                   if (flag == true) {
-                    if ((element.head == userid.toString() ||
-                            element.faculty == userid.toString() ||
-                            element.advisor == userid.toString()) &&
-                        element.steps > 0) {
+                    if (userid.toString() == element.faculty) {
                       arr.add(element);
                     }
                   } else {
-                    for (var item in element.stuids)
+                    for (var item in element.stuids) {
                       if (item == userid.toString()) {
                         arr.add(element);
                       }
+                    }
                   }
                 });
               }
@@ -64,7 +63,12 @@ class _GroupODListState extends State<GroupODList> {
                   shrinkWrap: true,
                   itemCount: arr.length,
                   itemBuilder: (context, index) {
-                    return Tile(appl: arr[index], flagType: flag, sel: arg);
+                    return Tile(
+                      appl: arr[index],
+                      flagType: flag,
+                      sel: arg,
+                      userid: '${snapshot.data}',
+                    );
                   },
                 ),
               );

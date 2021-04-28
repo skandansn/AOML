@@ -17,7 +17,6 @@ class _ODListState extends State<ODList> {
   bool flag = true;
   var arg;
   _ODListState({this.flag, this.arg});
-
   @override
   Widget build(BuildContext context) {
     DatabaseService _db = DatabaseService();

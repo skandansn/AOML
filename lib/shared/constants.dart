@@ -16,7 +16,8 @@ var textInputDecoration = InputDecoration(
         borderSide: BorderSide(color: Colors.white, width: 2)));
 
 var buttonStyle = ButtonStyle(
-    backgroundColor: MaterialStateProperty.all(Color.fromRGBO(64, 75, 96, .9)));
+    backgroundColor:
+        MaterialStateProperty.all(Color.fromRGBO(191, 57, 101, .9)));
 
 class CommonFieldValidator {
   static String validate(String value) {

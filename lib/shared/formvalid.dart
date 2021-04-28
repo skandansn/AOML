@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:aumsodmll/models/od.dart';
 import 'package:aumsodmll/services/database.dart';
 import 'package:aumsodmll/shared/constants.dart';
+import 'package:aumsodmll/shared/updateForm.dart';
 import 'package:aumsodmll/shared/PdfPreviewScreen.dart';
 import 'package:aumsodmll/shared/loading.dart';
 import 'package:flutter/material.dart';
@@ -107,7 +108,7 @@ class _FormValState extends State<FormVal> {
 
   DatabaseService _db = DatabaseService();
   Object od;
-  int steps;
+  dynamic steps;
   var color;
   bool flagType;
 
@@ -115,7 +116,7 @@ class _FormValState extends State<FormVal> {
 
   final pdf = pw.Document();
 
-  writeOnPdf(Object od,int flagpdf) {
+  writeOnPdf(int flagpdf) {
     GroupOD applobjgrp;
     int flag = 1;
     OD applobjind;
@@ -150,12 +151,15 @@ class _FormValState extends State<FormVal> {
         } else {
           return <pw.Widget>[
             pw.Header(level: 0, child: pw.Text('Group')),
-            pw.Paragraph(text: "Student Number : ${objP.stuNo}"),
+            pw.Paragraph(text: "Student Names :"),
+            for (int i = 0; i < objP.stuNos.length; i++)
+              pw.Paragraph(text: "${objP.stunames[i]}"),
+              pw.Paragraph(text: "Student Numbers :"),
+            for (int i = 0; i < objP.stuNos.length; i++)
+              pw.Paragraph(text: "${objP.stuNos[i]}"),
             pw.Paragraph(text: "Date : ${objP.date}"),
             pw.Paragraph(text: "Time : ${objP.time}"),
             pw.Paragraph(text: "Description : ${objP.description}"),
-            pw.Paragraph(text: "Reasons : ${objP.reasons}"),
-            pw.Paragraph(text: "Proof Requested : ${objP.proofreq}"),
           ];
         }
       },
@@ -174,6 +178,19 @@ class _FormValState extends State<FormVal> {
 
   @override
   Widget build(BuildContext context) {
+    void _showSettingsPanel() {
+      showModalBottomSheet(
+          backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
+          elevation: 8,
+          context: context,
+          builder: (context) {
+            return SingleChildScrollView(
+              padding: EdgeInsets.symmetric(vertical: 20, horizontal: 60),
+              child: UpdateForm(od:od),
+            );
+          });
+    }
+
     GroupOD applobjgrp;
     int flag = 1;
     OD applobjind;
@@ -200,7 +217,11 @@ class _FormValState extends State<FormVal> {
               if (snapshot.hasError)
                 return Text('Error: ${snapshot.error}');
               else {
-                steps = obj.steps;
+                for (int i = 0; i < obj.stuids.length; i++) {
+                  if (obj.stuids[i] == '${snapshot.data}') {
+                    steps = obj.steps[i];
+                  }
+                }
                 switch (steps) {
                   case -1:
                     color = Colors.red;
@@ -214,124 +235,153 @@ class _FormValState extends State<FormVal> {
                 }
                 return Container(
                   child: Column(mainAxisSize: MainAxisSize.min, children: [
-                    Text(
-                      "Student Names:",
-                      style: TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.bold),
-                    ),
-                    for (var item in obj.stunames) Text(item),
+                    RichText(
+                        text: TextSpan(children: [
+                      TextSpan(
+                        text: "Student Name:",
+                        style: TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.bold),
+                      ),
+                    ])),
+                    for (var item in obj.stunames)
+                      RichText(
+                          text: TextSpan(children: [
+                        TextSpan(text: " $item", style: TextStyle(color: color))
+                      ])),
                     SizedBox(
                       height: 20,
                     ),
-                    Text(
-                      "Student Roll Nos:",
-                      style: TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.bold),
-                    ),
-                    for (var item in obj.stuNos)
+                    RichText(
+                        text: TextSpan(children: [
+                      TextSpan(
+                        text: "Student Nos:",
+                        style: TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.bold),
+                      ),
+                    ])),
+                    for (int i = 0; i < obj.stuNos.length; i++)
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text(item),
+                          RichText(
+                              text: TextSpan(children: [
+                            TextSpan(
+                                text: obj.stuNos[i],
+                                style: TextStyle(color: color))
+                          ])),
                           flagType
-                              ? IconButton(
-                                  icon: const Icon(
-                                    Icons.check,
-                                    color: Colors.green,
-                                  ),
-                                  onPressed: () async {
-                                    await _addreasonsbox(context);
-                                    reasons =
-                                        "Faculty ID: ${snapshot.data}\nDetails:$reasons";
-                                    _db.updateOd(snapshot.data, obj.formid,
-                                        obj.steps, true, reasons);
-                                  },
-                                )
-                              : Container(),
-                          flagType
-                              ? IconButton(
-                                  icon: const Icon(
-                                    Icons.do_not_disturb_alt,
-                                    color: Colors.red,
-                                  ),
-                                  onPressed: () async {
-                                    await _addreasonsbox(context);
-                                    reasons =
-                                        "Faculty ID: ${snapshot.data}\nDetails:$reasons";
-                                    _db.updateOd(snapshot.data, obj.formid,
-                                        obj.steps, false, reasons);
-                                  },
-                                )
-                              : Container(),
-                          flagType
-                              ? IconButton(
-                                  icon: Icon(
-                                    Icons.send,
-                                    color: Colors.white,
-                                  ),
-                                  onPressed: () async {
-                                    await _getproofbox(context);
+                              ? obj.facSteps[i] == 1 && obj.steps[i] > 0
+                                  ? IconButton(
+                                      icon: const Icon(
+                                        Icons.check,
+                                        color: Colors.green,
+                                      ),
+                                      onPressed: () async {
+                                        var steps = obj.steps;
+                                        var facSteps = obj.facSteps;
+                                        facSteps[i] = 0;
 
-                                    if (done == true) {
-                                      proof =
-                                          "Faculty ID: ${snapshot.data}\nDetails:$proof";
-                                      _db.reasonsandproof(
-                                          snapshot.data, obj.formid, proof);
-                                      Navigator.pop(context);
-                                      done = false;
-                                    }
-                                  },
-                                )
+                                        steps[i] -= 1;
+                                        FirebaseFirestore.instance
+                                            .collection("groupods")
+                                            .doc(obj.formid)
+                                            .update({
+                                          "steps": steps,
+                                          "facSteps": facSteps
+                                        });
+                                        Navigator.pop(context);
+                                      },
+                                    )
+                                  : Container()
+                              : Container(),
+                          flagType
+                              ? obj.facSteps[i] == 1 && obj.steps[i] > 0
+                                  ? IconButton(
+                                      icon: const Icon(
+                                        Icons.do_not_disturb_alt,
+                                        color: Colors.red,
+                                      ),
+                                      onPressed: () async {
+                                        var steps = obj.steps;
+                                        var facSteps = obj.facSteps;
+                                        facSteps[i] = 0;
+
+                                        steps[i] = -1;
+                                        FirebaseFirestore.instance
+                                            .collection("groupods")
+                                            .doc(obj.formid)
+                                            .update({
+                                          "steps": steps,
+                                          "facSteps": facSteps
+                                        });
+                                        Navigator.pop(context);
+                                      },
+                                    )
+                                  : Container()
                               : Container(),
                         ],
                       ),
                     SizedBox(
                       height: 20,
                     ),
-                    Text("Date: ${obj.date}"),
+                    RichText(
+                        text: TextSpan(children: [
+                      TextSpan(
+                        text: "Date:",
+                        style: TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.bold),
+                      ),
+                      TextSpan(
+                          text: " ${obj.date}", style: TextStyle(color: color))
+                    ])),
                     SizedBox(
                       height: 20,
                     ),
-                    Text("Time: ${obj.time}"),
+                    RichText(
+                        text: TextSpan(children: [
+                      TextSpan(
+                        text: "Time:",
+                        style: TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.bold),
+                      ),
+                      TextSpan(
+                          text: " ${obj.time}", style: TextStyle(color: color))
+                    ])),
                     SizedBox(
                       height: 20,
                     ),
-                    Text("Reason for the application: \n${obj.description}"),
+                    RichText(
+                        text: TextSpan(children: [
+                      TextSpan(
+                        text: "Description:",
+                        style: TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.bold),
+                      ),
+                      TextSpan(
+                          text: " ${obj.description}",
+                          style: TextStyle(color: color))
+                    ])),
                     SizedBox(
-                      height: 40,
+                      height: 20,
                     ),
-                    flagType
-                        ? Container()
-                        : TextButton(
+                    "${obj.proof}" != "null" && "${obj.proof}" != ""
+                        ? ElevatedButton(
+                            style: buttonStyle,
                             child: Text(
                               "View proof",
-                              style: TextStyle(color: Colors.white),
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
                             ),
                             onPressed: () async {
-                              if ("${obj.proof}" != "" &&
-                                  "${obj.proof}" != null) {
-                                _url = "${obj.proof}";
-                                if (await canLaunch(_url))
-                                  await launch(_url);
-                                else
-                                  throw "Could not launch $_url";
-                              }
+                              _url = "${obj.proof}";
+                              if (await canLaunch(_url))
+                                await launch(_url);
+                              else
+                                throw "Could not launch $_url";
                             },
-                          ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    flagType
-                        ? Container()
-                        : Text(
-                            "Reasons given by the faculty: \n${obj.reasons}"),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    flagType
-                        ? Container()
-                        : Text(
-                            "Proof requested by the faculty: \n${obj.proofreq}"),
+                          )
+                        : Container(),
                     SizedBox(
                       height: 20,
                     ),
@@ -343,28 +393,32 @@ class _FormValState extends State<FormVal> {
                             },
                             child: Text("Confirm the approvals/denials"))
                         : IconButton(
-                            icon: const Icon(
-                              Icons.arrow_downward,
-                            ),
-                            onPressed: () async {
-                              writeOnPdf(od,flag);
-                              await savePdf(obj.formid);
+                                  icon: const Icon(
+                                    Icons.arrow_downward,
+                                    color: Colors.white,
+                                  ),
+                                  onPressed: () async {
+                                    print(obj.formid);
+                                    writeOnPdf(flag);
+                                    await savePdf(obj.formid);
+                                    Directory documentDirectory =
+                                        await getExternalStorageDirectory();
+                                    String pathId = obj.formid;
+                                    String documentPath =
+                                        documentDirectory.path;
 
-                              Directory documentDirectory =
-                                  await getExternalStorageDirectory();
-                              String pathId = obj.formid;
-                              String documentPath = documentDirectory.path;
+                                    String fullPath =
+                                        "$documentPath/$pathId.pdf";
 
-                              String fullPath = "$documentPath/$pathId.pdf";
-
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => PdfPreviewScreen(
-                                            path: fullPath,
-                                          )));
-                            },
-                          ),
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                PdfPreviewScreen(
+                                                  path: fullPath,
+                                                )));
+                                  },
+                                ),
                   ]),
                 );
               }
@@ -563,7 +617,8 @@ class _FormValState extends State<FormVal> {
                                     }
                                   },
                                 )
-                              : IconButton(
+                              : obj.steps > 0 ? 
+                              IconButton(
                                   icon: const Icon(
                                     Icons.delete,
                                     color: Colors.red,
@@ -578,9 +633,9 @@ class _FormValState extends State<FormVal> {
                                         actions: <Widget>[
                                           TextButton(
                                             onPressed: () {
-                                              Firestore.instance
+                                              FirebaseFirestore.instance
                                                   .collection('ods')
-                                                  .document(obj.formid)
+                                                  .doc(obj.formid)
                                                   .delete();
                                               Navigator.of(ctx).pop();
                                               Navigator.pop(context);
@@ -596,7 +651,8 @@ class _FormValState extends State<FormVal> {
                                         ],
                                       ),
                                     );
-                                  }),
+                                  })
+                                  : Container(),
                           flagType
                               ? IconButton(
                                   icon: const Icon(
@@ -626,7 +682,7 @@ class _FormValState extends State<FormVal> {
                                     color: Colors.white,
                                   ),
                                   onPressed: () async {
-                                    writeOnPdf(od,flag);
+                                    writeOnPdf(flag);
                                     await savePdf(obj.formid);
 
                                     Directory documentDirectory =
@@ -671,7 +727,15 @@ class _FormValState extends State<FormVal> {
                                     }
                                   },
                                 )
-                              : Container(),
+                              : obj.steps > 0 ? 
+                                IconButton(
+                                  icon: Icon(
+                                    Icons.edit,
+                                    color: Colors.white,
+                                  ),
+                                  onPressed: () => _showSettingsPanel(),
+                                )
+                                : Container(),
                         ],
                       ),
                     ],
