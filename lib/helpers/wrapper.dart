@@ -4,6 +4,7 @@ import 'package:aumsodmll/screens/home/homeFaculty.dart';
 import 'package:aumsodmll/screens/home/homeStudent.dart';
 import 'package:aumsodmll/services/database.dart';
 import 'package:aumsodmll/shared/loading.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -18,7 +19,7 @@ class _WrapperState extends State<Wrapper> {
   @override
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<Userx>(context);
+    final user = Provider.of<User>(context);
     // final type = await _db.fun();
     // print(type);
     if (user == null) {
