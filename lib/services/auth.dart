@@ -8,8 +8,11 @@ class AuthService {
     return user != null ? Userx(uid: user.uid) : null;
   }
 
-  Stream<Userx> get user {
-    return _auth.authStateChanges().map(_userFromFirebaseUser);
+  // Stream<Userx> get user {
+  //   return _auth.authStateChanges().map(_userFromFirebaseUser);
+  // }
+  Stream<User> get user {
+    return _auth.authStateChanges();
   }
 
   Future signOut() async {
