@@ -6,6 +6,10 @@ import 'package:aumsodmll/screens/login/signin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 // import 'package:mockito/mockito.dart';
+import 'package:aumsodmll/mock.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:aumsodmll/services/auth.dart';
 
 
 // class MockNavigatorObserver extends Mock implements NavigatorObserver {}
@@ -89,6 +93,10 @@ class DummyTestRoute extends StatelessWidget {
 }
 
 void main() {
+  setupFirebaseAuthMocks();
+  setUpAll(() async {
+    await Firebase.initializeApp();
+  });
   TestNavigatorObserver _navObserver;
 
   Widget _testHomePage() {

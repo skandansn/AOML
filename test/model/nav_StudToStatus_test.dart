@@ -2,6 +2,10 @@ import 'package:aumsodmll/screens/apply/track.dart';
 import 'package:aumsodmll/screens/home/homeStudent.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:aumsodmll/mock.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:aumsodmll/services/auth.dart';
 
 class Routes {
   static const STUDENT_HOME_ROUTE = '/';
@@ -77,6 +81,10 @@ class DummyTestRoute extends StatelessWidget {
 }
 
 void main() {
+  setupFirebaseAuthMocks();
+  setUpAll(() async {
+    await Firebase.initializeApp();
+  });
 
   HomeStudent homePage;
   TestNavigatorObserver _navObserver;
