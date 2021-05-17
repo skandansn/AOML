@@ -33,6 +33,10 @@ class _ForgotPasswordState extends State<ForgotPassword> {
             padding: EdgeInsets.symmetric(vertical: 20, horizontal: 50),
             child: Column(
               children: [
+                 Image.network(
+                        'https://i.imgur.com/pBHz39v.jpg',
+                        errorBuilder: (BuildContext context, Object exception, StackTrace stackTrace) {return Text('Your error widget...');
+                        }),
                 //FadeInImage.assetNetwork(
                     //placeholder: cupertinoActivityIndicatorSmall,
                     //image: 'https://i.imgur.com/pQR0s45.jpg'),

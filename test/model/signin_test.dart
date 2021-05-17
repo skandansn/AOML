@@ -1,13 +1,19 @@
 import 'package:aumsodmll/screens/login/signin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:aumsodmll/mock.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:aumsodmll/services/auth.dart';
 // import 'package:image_test_utils/image_test_utils.dart';
 
 void main() {
-//   Widget testWidget = new MediaQuery(
-//       data: new MediaQueryData(),
-//       child: new MaterialApp(home: new SignIn())
-// );
+  // TestWidgetsFlutterBinding.ensureInitialized(); Gets called in setupFirebaseAuthMocks()
+  setupFirebaseAuthMocks();
+  setUpAll(() async {
+    await Firebase.initializeApp();
+  });
+
 Widget createWidgetForTesting({Widget child}){
 return MaterialApp(
   home: child,
@@ -15,6 +21,7 @@ return MaterialApp(
 }
 group("SignIn page testing", (){
   testWidgets('Check for necessary components in the Login page', (WidgetTester tester)async{
+    final AuthService auth = AuthService();
      await tester.pumpWidget(createWidgetForTesting(child:new SignIn()));
     // Finder img = find.byKey(new Key("image-field"));
     final email = Key('email-field');

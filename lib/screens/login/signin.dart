@@ -39,9 +39,13 @@ class _SignInState extends State<SignIn> {
                   autovalidateMode: AutovalidateMode.disabled,
                   child: Column(
                     children: [
-                      FadeInImage.assetNetwork(
-                          placeholder: cupertinoActivityIndicatorSmall,
-                          image: 'https://i.imgur.com/pQR0s45.jpg'),
+                      Image.network(
+                        'https://i.imgur.com/pBHz39v.jpg',
+                        errorBuilder: (BuildContext context, Object exception, StackTrace stackTrace) {return Text('Your error widget...');
+                        }),
+                      // FadeInImage.assetNetwork(
+                      //     placeholder: cupertinoActivityIndicatorSmall,
+                      //     image: 'https://i.imgur.com/pQR0s45.jpg'),
                       SizedBox(height: 20),
                       Card(
                         margin: new EdgeInsets.symmetric(
