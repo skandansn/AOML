@@ -3,6 +3,10 @@ import 'package:aumsodmll/screens/home/homeStudent.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
+import 'package:aumsodmll/mock.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:aumsodmll/services/auth.dart';
 
 class MockNavigatorObserver extends Mock implements NavigatorObserver {}
 void main() {
@@ -10,6 +14,10 @@ void main() {
 //       data: new MediaQueryData(),
 //       child: new MaterialApp(home: new SignIn())
 // );
+  setupFirebaseAuthMocks();
+  setUpAll(() async {
+    await Firebase.initializeApp();
+  });
 Widget createWidgetForTesting({Widget child}){
 return MaterialApp(
   home: child,
@@ -17,6 +25,7 @@ return MaterialApp(
 }
 group("Student home page testing", (){
   testWidgets("Test for necessary OD page components" ,(WidgetTester tester)async{
+    final AuthService auth = AuthService();
   await tester.pumpWidget(createWidgetForTesting(child:new HomeStudent("Shakthi Saravanan S")));
   final logout = Key("logout-button");
   final applyOd = Key("apply-od");

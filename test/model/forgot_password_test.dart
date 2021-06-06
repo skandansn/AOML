@@ -1,6 +1,10 @@
 import 'package:aumsodmll/screens/login/forgot_password.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:aumsodmll/mock.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:aumsodmll/services/auth.dart';
 // import 'package:image_test_utils/image_test_utils.dart';
 
 void main() {
@@ -8,6 +12,10 @@ void main() {
 //       data: new MediaQueryData(),
 //       child: new MaterialApp(home: new SignIn())
 // );
+  setupFirebaseAuthMocks();
+  setUpAll(() async {
+    await Firebase.initializeApp();
+  });
 Widget createWidgetForTesting({Widget child}){
 return MaterialApp(
   home: child,
@@ -18,6 +26,7 @@ group("Password Reset Page Testing", (){
     // provideMockedNetworkImages(()async{
     //   await tester.pumpWidget(createWidgetForTesting(child:new ForgotPassword()));
     // });
+    final AuthService auth = AuthService();
     await tester.pumpWidget(createWidgetForTesting(child:new ForgotPassword()));
     final forgotemail = Key('forgotemail-field');
     final emailsend = Key('sendemail-button');
