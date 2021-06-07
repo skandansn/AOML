@@ -2,6 +2,7 @@ import 'package:aumsodmll/services/auth.dart';
 import 'package:aumsodmll/shared/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:loading_gifs/loading_gifs.dart';
 //import 'package:loading_gifs/loading_gifs.dart';
 
 class ForgotPassword extends StatefulWidget {
@@ -33,13 +34,13 @@ class _ForgotPasswordState extends State<ForgotPassword> {
             padding: EdgeInsets.symmetric(vertical: 20, horizontal: 50),
             child: Column(
               children: [
-                 Image.network(
-                        'https://i.imgur.com/pBHz39v.jpg',
-                        errorBuilder: (BuildContext context, Object exception, StackTrace stackTrace) {return Text('Your error widget...');
-                        }),
-                //FadeInImage.assetNetwork(
-                    //placeholder: cupertinoActivityIndicatorSmall,
-                    //image: 'https://i.imgur.com/pQR0s45.jpg'),
+                //  Image.network(
+                //         'https://i.imgur.com/pBHz39v.jpg',
+                //         errorBuilder: (BuildContext context, Object exception, StackTrace stackTrace) {return Text('Your error widget...');
+                //         }),
+                FadeInImage.assetNetwork(
+                    placeholder: cupertinoActivityIndicatorSmall,
+                    image: 'https://i.imgur.com/pQR0s45.jpg'),
                 SizedBox(height: 20),
                 Card(
                   margin:
@@ -51,7 +52,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                     padding:
                         EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
                     child: FormBuilderTextField(
-                        key:Key('forgotemail-field'),
+                        key: Key('forgotemail-field'),
                         style: TextStyle(
                             color: Colors.white, fontWeight: FontWeight.bold),
                         validator: FormBuilderValidators.compose([
@@ -70,7 +71,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                 ),
                 SizedBox(height: 20),
                 ElevatedButton(
-                  key:Key("sendemail-button"),
+                  key: Key("sendemail-button"),
                   style: buttonStyle,
                   child: Text('Send Email'),
                   onPressed: () async {
@@ -91,8 +92,8 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                 SizedBox(height: 20),
                 Text(
                   msg,
-                  key:Key("text-message"),
-                  ),
+                  key: Key("text-message"),
+                ),
                 TextButton(
                   style: ButtonStyle(
                       foregroundColor:

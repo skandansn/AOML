@@ -7,7 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class HomeStudent extends StatelessWidget {
-  String name="";
+  String name = "";
   HomeStudent(String names) {
     this.name = names;
   }
@@ -45,16 +45,19 @@ class HomeStudent extends StatelessWidget {
                     elevation: 0.1,
                     title: (Text("Welcome $name !")),
                     actions: [
-                      TextButton.icon(
-                          key: Key("logout-button"),
-                          style: ButtonStyle(
-                              foregroundColor:
-                                  MaterialStateProperty.all(Colors.white)),
-                          onPressed: () async {
-                            confirmLogoutBox(context);
-                          },
-                          icon: Icon(Icons.logout),
-                          label: Text("Logout"))
+                      Padding(
+                        padding: const EdgeInsets.only(right: 20),
+                        child: TextButton.icon(
+                            key: Key("logout-button"),
+                            style: ButtonStyle(
+                                foregroundColor:
+                                    MaterialStateProperty.all(Colors.white)),
+                            onPressed: () async {
+                              confirmLogoutBox(context);
+                            },
+                            icon: Icon(Icons.logout),
+                            label: Text("Logout")),
+                      )
                     ],
                   ),
                   body: Padding(
