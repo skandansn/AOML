@@ -154,7 +154,7 @@ class _FormValState extends State<FormVal> {
             pw.Paragraph(text: "Student Names :"),
             for (int i = 0; i < objP.stuNos.length; i++)
               pw.Paragraph(text: "${objP.stunames[i]}"),
-              pw.Paragraph(text: "Student Numbers :"),
+            pw.Paragraph(text: "Student Numbers :"),
             for (int i = 0; i < objP.stuNos.length; i++)
               pw.Paragraph(text: "${objP.stuNos[i]}"),
             pw.Paragraph(text: "Date : ${objP.date}"),
@@ -185,7 +185,7 @@ class _FormValState extends State<FormVal> {
           builder: (context) {
             return SingleChildScrollView(
               padding: EdgeInsets.symmetric(vertical: 20, horizontal: 60),
-              child: UpdateForm(od:od),
+              child: UpdateForm(od: od),
             );
           });
     }
@@ -392,33 +392,30 @@ class _FormValState extends State<FormVal> {
                             },
                             child: Text("Confirm the approvals/denials"))
                         : IconButton(
-                                  icon: const Icon(
-                                    Icons.arrow_downward,
-                                    color: Colors.white,
-                                  ),
-                                  onPressed: () async {
-                                    print(obj.formid);
-                                    writeOnPdf(flag);
-                                    await savePdf(obj.formid);
+                            icon: const Icon(
+                              Icons.arrow_downward,
+                              color: Colors.white,
+                            ),
+                            onPressed: () async {
+                              print(obj.formid);
+                              writeOnPdf(flag);
+                              await savePdf(obj.formid);
 
-                                    Directory documentDirectory =
-                                        await getExternalStorageDirectory();
-                                    String pathId = obj.formid;
-                                    String documentPath =
-                                        documentDirectory.path;
+                              Directory documentDirectory =
+                                  await getExternalStorageDirectory();
+                              String pathId = obj.formid;
+                              String documentPath = documentDirectory.path;
 
-                                    String fullPath =
-                                        "$documentPath/$pathId.pdf";
+                              String fullPath = "$documentPath/$pathId.pdf";
 
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                PdfPreviewScreen(
-                                                  path: fullPath,
-                                                )));
-                                  },
-                                ),
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => PdfPreviewScreen(
+                                            path: fullPath,
+                                          )));
+                            },
+                          ),
                   ]),
                 );
               }
@@ -617,41 +614,41 @@ class _FormValState extends State<FormVal> {
                                     }
                                   },
                                 )
-                              : obj.steps > 0 ? 
-                              IconButton(
-                                  icon: const Icon(
-                                    Icons.delete,
-                                    color: Colors.red,
-                                  ),
-                                  onPressed: () {
-                                    return showDialog(
-                                      context: context,
-                                      builder: (ctx) => AlertDialog(
-                                        title: Text("Cancel OD/Leave/ML"),
-                                        content: Text(
-                                            "Are you sure you want to cancel your OD/Leave/ML"),
-                                        actions: <Widget>[
-                                          TextButton(
-                                            onPressed: () {
-                                              FirebaseFirestore.instance
-                                                  .collection('ods')
-                                                  .doc(obj.formid)
-                                                  .delete();
-                                              Navigator.of(ctx).pop();
-                                              Navigator.pop(context);
-                                            },
-                                            child: Text("Yes"),
-                                          ),
-                                          TextButton(
-                                            onPressed: () {
-                                              Navigator.of(ctx).pop();
-                                            },
-                                            child: Text("No"),
-                                          ),
-                                        ],
+                              : obj.steps > 0
+                                  ? IconButton(
+                                      icon: const Icon(
+                                        Icons.delete,
+                                        color: Colors.red,
                                       ),
-                                    );
-                                  })
+                                      onPressed: () {
+                                        return showDialog(
+                                          context: context,
+                                          builder: (ctx) => AlertDialog(
+                                            title: Text("Cancel OD/Leave/ML"),
+                                            content: Text(
+                                                "Are you sure you want to cancel your OD/Leave/ML"),
+                                            actions: <Widget>[
+                                              TextButton(
+                                                onPressed: () {
+                                                  FirebaseFirestore.instance
+                                                      .collection('ods')
+                                                      .doc(obj.formid)
+                                                      .delete();
+                                                  Navigator.of(ctx).pop();
+                                                  Navigator.pop(context);
+                                                },
+                                                child: Text("Yes"),
+                                              ),
+                                              TextButton(
+                                                onPressed: () {
+                                                  Navigator.of(ctx).pop();
+                                                },
+                                                child: Text("No"),
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      })
                                   : Container(),
                           flagType
                               ? IconButton(
@@ -727,15 +724,15 @@ class _FormValState extends State<FormVal> {
                                     }
                                   },
                                 )
-                              : obj.steps > 0 ? 
-                                IconButton(
-                                  icon: Icon(
-                                    Icons.edit,
-                                    color: Colors.white,
-                                  ),
-                                  onPressed: () => _showSettingsPanel(),
-                                )
-                                : Container(),
+                              : obj.steps > 0
+                                  ? IconButton(
+                                      icon: Icon(
+                                        Icons.edit,
+                                        color: Colors.white,
+                                      ),
+                                      onPressed: () => _showSettingsPanel(),
+                                    )
+                                  : Container(),
                         ],
                       ),
                     ],
