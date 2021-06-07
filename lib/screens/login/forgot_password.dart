@@ -22,11 +22,11 @@ class _ForgotPasswordState extends State<ForgotPassword> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        backgroundColor: Color.fromRGBO(64, 75, 96, .9),
+        backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
         elevation: 0.1,
         title: Text("Forgot password"),
       ),
-      backgroundColor: Color.fromRGBO(64, 75, 96, .9),
+      backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
       body: SingleChildScrollView(
         child: FormBuilder(
           key: _formKey,
