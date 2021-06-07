@@ -32,7 +32,7 @@ class _UpdateFormState extends State<UpdateForm> {
         children: [
           Text(
             'Update your OD/ML/Leave Form.',
-            style: TextStyle(fontSize: 18.0),
+            style: TextStyle(fontSize: 18.0,color: Colors.white),
           ),
           SizedBox(height: 20.0),
           Card(
