@@ -38,9 +38,12 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                 //         'https://i.imgur.com/pBHz39v.jpg',
                 //         errorBuilder: (BuildContext context, Object exception, StackTrace stackTrace) {return Text('Your error widget...');
                 //         }),
-                FadeInImage.assetNetwork(
-                    placeholder: cupertinoActivityIndicatorSmall,
-                    image: 'https://i.imgur.com/pQR0s45.jpg'),
+                // FadeInImage.assetNetwork(
+                //     placeholder: cupertinoActivityIndicatorSmall,
+                //     image: 'https://i.imgur.com/pQR0s45.jpg'),
+                Image.asset("assets/images/emblem.png",
+                      key: Key('emblem-image'),
+                      ),
                 SizedBox(height: 20),
                 Card(
                   margin:
