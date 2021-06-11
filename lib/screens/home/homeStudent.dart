@@ -14,7 +14,9 @@ class HomeStudent extends StatelessWidget {
   DatabaseService _db = DatabaseService();
   final FirebaseAuth auth = FirebaseAuth.instance;
   @override
+  
   Widget build(BuildContext context) {
+    
     return FutureBuilder<List>(
         future: _db.fun(), // async work
         builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
@@ -39,6 +41,7 @@ class HomeStudent extends StatelessWidget {
                 snapshot.data.removeAt(0);
 
                 return Scaffold(
+                  key: Key("scaf"),
                   backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
                   appBar: AppBar(
                     backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
@@ -66,6 +69,7 @@ class HomeStudent extends StatelessWidget {
                       child: ListView(
                         children: <Widget>[
                           Card(
+                            key: Key("apply-od"),
                             margin: new EdgeInsets.symmetric(
                                 horizontal: 10.0, vertical: 6.0),
                             elevation: 8.0,
@@ -75,7 +79,7 @@ class HomeStudent extends StatelessWidget {
                               decoration: BoxDecoration(
                                   color: Color.fromRGBO(64, 75, 96, .9)),
                               child: ListTile(
-                                key: Key("apply-od"),
+                                
                                 contentPadding: EdgeInsets.symmetric(
                                     horizontal: 20.0, vertical: 10.0),
                                 leading: Container(
@@ -111,6 +115,7 @@ class HomeStudent extends StatelessWidget {
                             ),
                           ),
                           Card(
+                            key: Key("group-od"),
                             margin: new EdgeInsets.symmetric(
                                 horizontal: 10.0, vertical: 6.0),
                             elevation: 8.0,
@@ -118,7 +123,7 @@ class HomeStudent extends StatelessWidget {
                               decoration: BoxDecoration(
                                   color: Color.fromRGBO(64, 75, 96, .9)),
                               child: ListTile(
-                                key: Key("group-od"),
+                                
                                 contentPadding: EdgeInsets.symmetric(
                                     horizontal: 20.0, vertical: 10.0),
                                 leading: Container(
@@ -154,6 +159,7 @@ class HomeStudent extends StatelessWidget {
                             ),
                           ),
                           Card(
+                             key: Key("track-status"),
                             margin: new EdgeInsets.symmetric(
                                 horizontal: 10.0, vertical: 6.0),
                             elevation: 8.0,
@@ -161,7 +167,7 @@ class HomeStudent extends StatelessWidget {
                               decoration: BoxDecoration(
                                   color: Color.fromRGBO(64, 75, 96, .9)),
                               child: ListTile(
-                                key: Key("track-status"),
+                               
                                 contentPadding: EdgeInsets.symmetric(
                                     horizontal: 20.0, vertical: 10.0),
                                 leading: Container(
@@ -189,6 +195,7 @@ class HomeStudent extends StatelessWidget {
                             ),
                           ),
                           Card(
+                            key: Key("cal"),
                             margin: new EdgeInsets.symmetric(
                                 horizontal: 10.0, vertical: 6.0),
                             elevation: 8.0,
@@ -196,7 +203,7 @@ class HomeStudent extends StatelessWidget {
                               decoration: BoxDecoration(
                                   color: Color.fromRGBO(64, 75, 96, .9)),
                               child: ListTile(
-                                key: Key("cal"),
+                                
                                 contentPadding: EdgeInsets.symmetric(
                                     horizontal: 20.0, vertical: 10.0),
                                 leading: Container(
@@ -224,6 +231,7 @@ class HomeStudent extends StatelessWidget {
                             ),
                           ),
                           Card(
+                            key: Key("faqs"),
                             margin: new EdgeInsets.symmetric(
                                 horizontal: 10.0, vertical: 6.0),
                             elevation: 8.0,
@@ -231,7 +239,7 @@ class HomeStudent extends StatelessWidget {
                               decoration: BoxDecoration(
                                   color: Color.fromRGBO(64, 75, 96, .9)),
                               child: ListTile(
-                                key: Key("faqs"),
+                                
                                 contentPadding: EdgeInsets.symmetric(
                                     horizontal: 20.0, vertical: 10.0),
                                 leading: Container(

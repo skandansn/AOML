@@ -15,6 +15,7 @@ class HomeFaculty extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: Key("scaf"),
       backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
       appBar: AppBar(
         backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
@@ -36,22 +37,30 @@ class HomeFaculty extends StatelessWidget {
         ],
       ),
       body: Padding(
+        key:Key("Padding"),
         padding: const EdgeInsets.all(8.0),
         child: Scrollbar(
+          key: Key("list"),
           child: Center(
             child: ListView(
+              key: Key("listView"),
               children: <Widget>[
+                
                 Card(
+                  key:Key("approve-od"),
+                  // key: Key("approve-od"),
+                  // key: ObjectKey("approve-od"),
+                  // key: GlobalKey("approve-od");
                   margin:
                       new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
                   elevation: 8.0,
                   child: Container(
+                    key:Key("apod-Container"),
                     // margin:
                     //     new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
                     decoration:
                         BoxDecoration(color: Color.fromRGBO(64, 75, 96, .9)),
                     child: ListTile(
-                      key: Key("approve-od"),
                       contentPadding: EdgeInsets.symmetric(
                           horizontal: 20.0, vertical: 10.0),
                       leading: Container(
@@ -67,6 +76,7 @@ class HomeFaculty extends StatelessWidget {
                       ),
                       title: Text(
                         'Approve/deny application',
+                        key: Key("apod-text"),
                         style: TextStyle(
                             color: Colors.white, fontWeight: FontWeight.bold),
                       ),
@@ -77,6 +87,7 @@ class HomeFaculty extends StatelessWidget {
                   ),
                 ),
                 Card(
+                  key: Key("grantgrp"),
                   margin:
                       new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
                   elevation: 8.0,
@@ -84,7 +95,7 @@ class HomeFaculty extends StatelessWidget {
                     decoration:
                         BoxDecoration(color: Color.fromRGBO(64, 75, 96, .9)),
                     child: ListTile(
-                      key: Key("grantgrp"),
+                    
                       contentPadding: EdgeInsets.symmetric(
                           horizontal: 20.0, vertical: 10.0),
                       leading: Container(
@@ -110,6 +121,7 @@ class HomeFaculty extends StatelessWidget {
                   ),
                 ),
                 Card(
+                  key: Key("faq"),
                   margin:
                       new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
                   elevation: 8.0,
@@ -117,7 +129,7 @@ class HomeFaculty extends StatelessWidget {
                     decoration:
                         BoxDecoration(color: Color.fromRGBO(64, 75, 96, .9)),
                     child: ListTile(
-                      key: Key("faq"),
+                      
                       contentPadding: EdgeInsets.symmetric(
                           horizontal: 20.0, vertical: 10.0),
                       leading: Container(

@@ -26,6 +26,17 @@ return MaterialApp(
 
 group("Student home page testing", (){
 
+//   testWidgets("Test Scaffold" ,(WidgetTester tester)async{
+//     final AuthService auth = AuthService();
+//   await tester.pumpWidget(createWidgetForTesting(child:new HomeStudent("Shakthi Saravanan S")));
+//   // final logout = Key("logout-button");
+//   final scaf = Key("scaf");
+//   // await tester.pumpAndSettle();
+//   // await tester.pump(Duration.zero);
+//   expect(find.byKey(scaf),findsOneWidget);
+//   print("Found Scaffold in Student Faculty");
+// });
+
  testWidgets("Test for logout button" ,(WidgetTester tester)async{
     final AuthService auth = AuthService();
   await tester.pumpWidget(createWidgetForTesting(child:new HomeStudent("Shakthi Saravanan S")));
