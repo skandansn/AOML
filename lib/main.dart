@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
         // theme:
         //     ThemeData(primarySwatch: Colors.blue, brightness: Brightness.light),
         // themeMode: ThemeMode.light,
-        // debugShowCheckedModeBanner: false,
+        debugShowCheckedModeBanner: false,
         initialRoute: '/',
         routes: {
           '/forgotPass': (context) => ForgotPassword(),

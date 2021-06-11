@@ -26,7 +26,7 @@ group("Password Reset Page Testing", (){
     // provideMockedNetworkImages(()async{
     //   await tester.pumpWidget(createWidgetForTesting(child:new ForgotPassword()));
     // });
-    final AuthService auth = AuthService();
+    // final AuthService auth = AuthService();
     await tester.pumpWidget(createWidgetForTesting(child:new ForgotPassword()));
     final forgotemail = Key('forgotemail-field');
     final emailsend = Key('sendemail-button');

@@ -39,10 +39,13 @@ class _SignInState extends State<SignIn> {
                   autovalidateMode: AutovalidateMode.disabled,
                   child: Column(
                     children: [
-                      Image.network(
-                        'https://i.imgur.com/pBHz39v.jpg',
-                        errorBuilder: (BuildContext context, Object exception, StackTrace stackTrace) {return Text('Your error widget...');
-                        }),
+                      // Image.network(
+                      //   'https://i.imgur.com/pBHz39v.jpg',
+                      //   errorBuilder: (BuildContext context, Object exception, StackTrace stackTrace) {return Text('Your error widget...');
+                      //   }),
+                      Image.asset("assets/images/emblem.png",
+                      key: Key('emblem-image'),
+                      ),
                       // FadeInImage.assetNetwork(
                       //     placeholder: cupertinoActivityIndicatorSmall,
                       //     image: 'https://i.imgur.com/pQR0s45.jpg'),

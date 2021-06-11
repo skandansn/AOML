@@ -88,12 +88,14 @@ class _FaqState extends State<Faq> {
                       appBar: AppBar(
                         actions: [
                           IconButton(
-                              icon: Icon(Icons.push_pin_rounded),
+                              icon: Icon(Icons.push_pin_rounded,
+                              key: Key("pinned"),),
                               onPressed: () {
                                 Navigator.pushNamed(context, '/pinnedfaq');
                               }),
                           IconButton(
-                              icon: Icon(Icons.sort),
+                              icon: Icon(Icons.sort,
+                              key: Key("sort-button"),),
                               onPressed: () {
                                 setState(() {
                                   sorted = !sorted;
@@ -131,7 +133,8 @@ class _FaqState extends State<Faq> {
                         onPressed: () {
                           _addFaqItem();
                         },
-                        child: const Icon(Icons.add),
+                        child: const Icon(Icons.add,
+                        key: Key("add-button")),
                         backgroundColor: Color.fromRGBO(64, 75, 96, .9),
                       ),
                     ));
