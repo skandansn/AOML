@@ -28,4 +28,18 @@ void main() {
     expect(testsuccesful,true);
   });
 
+  test("When snapshot has error print TestWidget with 'Error' ",(){
+
+    ODList od_list = new ODList(flag: true,arg: null);
+    bool testsuccesful = false;
+    AsyncSnapshot<String> snapshot = AsyncSnapshot.withError(ConnectionState.none, StateError("state error"));
+    
+    if(od_list.createState().showScreen_with_resp_to_ConnectionState(snapshot) is Text)
+      testsuccesful = true;
+    else
+      testsuccesful = false;
+
+    expect(testsuccesful,true);
+  });
+
 }
