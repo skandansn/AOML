@@ -45,17 +45,7 @@ class _ODListState extends State<ODList> {
           var arr = [];
           if (ods != null) {
             ods.forEach((element) {
-              if (flag == true) {
-                if (((element.faculty == userid.toString()) ||
-                    (element.advisor == userid.toString())) &&
-                    element.steps > 0) {
-                  arr.add(element);
-                }
-              } else {
-                if (element.stuid == userid.toString()) {
-                  arr.add(element);
-                }
-              }
+              arr = add_with_resp_to_ODType(element,userid,arr);
             });
           }
 
@@ -79,5 +69,21 @@ class _ODListState extends State<ODList> {
     }
   }
 
+  add_with_resp_to_ODType(OD element,String userid,List<dynamic> arr)
+  {
+    if (flag == true) {
+      if (((element.faculty == userid.toString()) ||
+          (element.advisor == userid.toString())) &&
+          element.steps > 0) {
+        arr.add(element);
+      }
+    } else {
+      if (element.stuid == userid.toString()) {
+        arr.add(element);
+      }
+    }
+
+    return arr;
+  }
 
 }
