@@ -35,4 +35,28 @@ void main() {
     }
     expect(testsuccesful, true);
   });
+
+  test("When date is not picked then display 'Please enter the date/s' string", () {
+    bool testsuccesful = false;
+    String date = "";
+    if (check_If_Date_isClicked(date) == "Please enter the date/s") {
+      testsuccesful = true;
+    }
+    else {
+      testsuccesful = false;
+    }
+    expect(testsuccesful, true);
+  });
+
+  test("If date field is picked then return null", () {
+    bool testsuccesful = false;
+    String date = "6/19/2021 - 6/30/2021";
+    if (check_If_Date_isClicked(date) == null) {
+      testsuccesful = true;
+    }
+    else {
+      testsuccesful = false;
+    }
+    expect(testsuccesful, true);
+  });
 }

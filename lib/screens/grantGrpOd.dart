@@ -146,12 +146,7 @@ class GrantGrpOD extends StatelessWidget {
                               decoration: textInputDecoration.copyWith(
                                   hintText: "Date"),
                               validator: (val) {
-                                if (datecont.text != "" &&
-                                    datecont.text != null) {
-                                  return null;
-                                } else {
-                                  return "Please enter the date/s";
-                                }
+                                return check_If_Date_isClicked(datecont.text);
                               }),
                         ),
                       ),
@@ -217,5 +212,14 @@ check_If_StudentID_isClicked(dynamic clickedstuid) {
     return null;
   } else {
     return "Please select a student";
+  }
+}
+
+check_If_Date_isClicked(String date) {
+  if (date != "" &&
+      date != null) {
+    return null;
+  } else {
+    return "Please enter the date/s";
   }
 }
