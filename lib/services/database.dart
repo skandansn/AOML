@@ -10,6 +10,7 @@ import 'package:intl/intl.dart';
 class DatabaseService {
   final CollectionReference odcollection =
       FirebaseFirestore.instance.collection('ods');
+  //List of all instances individual ODs
   final CollectionReference groupodcollection =
       FirebaseFirestore.instance.collection('groupods');
   final CollectionReference faqcollection =
@@ -325,14 +326,19 @@ class DatabaseService {
     String url = "";
     String proofreq;
     int steps = 1;
+    //If steps = 1 means HOD and Faculty Advisor are the same person -> one approval enough
+    //steps - How many faculties signs we require.
     UploadTask uploadTask;
     if (faculty != "" && advisor != "" && faculty != advisor) {
       steps = 2;
     }
     if (proof != null) {
       var hash = proof.hashCode.toString();
+      //hash is a unique code for identifying file (proof)
       FirebaseStorage storage = FirebaseStorage.instance;
       Reference reference = storage.ref().child('proofs/$hash');
+      //In Android: when we add file format of it is 'File' object
+      //In Web: proof file is read only in bytes so needs .putData() func
       if (proof is File) {
         uploadTask = reference.putFile(proof);
       } else {
@@ -341,7 +347,8 @@ class DatabaseService {
       await Future.value(uploadTask);
       // TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() => null);
       url = await reference.getDownloadURL();
-      print(url);
+      //url of the photo on the frebase platform
+      print(url);//For debugging purposes
     }
     var data = {
       "advisor": advisor,
@@ -358,6 +365,7 @@ class DatabaseService {
       "steps": steps
     };
     dynamic docid;
+    //docid - unique id for Application OD for firebase
     docid = await odcollection.add(data);
     docid = docid.id;
     currentuserid = FirebaseAuth.instance.currentUser.uid;
