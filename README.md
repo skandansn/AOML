@@ -7,5 +7,6 @@ Made using Flutter and Firebase.
 https://aoml-2d49e.web.app/
 
 Demo accounts:
+
 Student: frozencandyx@gmail.com
 Faculty: faculty1@cb.amrita.edu
