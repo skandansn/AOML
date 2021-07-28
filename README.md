@@ -8,6 +8,6 @@ https://aoml-2d49e.web.app/
 
 Demo accounts:
 
-Student: frozencandyx@gmail.com
+Student: LoginID: frozencandyx@gmail.com Password: aaaaaa
 
-Faculty: faculty1@cb.amrita.edu
+Faculty: LoginID: faculty1@cb.amrita.edu Password: aaaaaa
